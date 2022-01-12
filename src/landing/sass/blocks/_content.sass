@@ -1,0 +1,33 @@
+.content
+  display: grid
+  grid-template-columns: repeat(6, 1fr)
+  grid-column-gap: 30px
+  &__card
+    cursor: pointer
+    width: 100%
+    height: auto
+    border-radius: 10px
+    margin-bottom: 30px
+    transition: 0.5s
+    &__show
+      display: block
+      animation: show 1s 1
+      animation-fill-mode: forwards
+    &__hide
+      display: none
+    &:hover
+      transform: scale(1.05)
+  &__loading-point
+    width: 1px
+    height: 1px
+  &__not-found
+    text-align: center
+    display: block
+    width: 100%
+    color: white
+
+@keyframes show
+  0%
+    opacity: 0
+  100%
+    opacity: 1
