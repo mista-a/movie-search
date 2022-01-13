@@ -1,7 +1,7 @@
 import user__avatar from '../../assets/img/user-avatar.png'
 import { memo } from 'react'
 
-const User = (props) => {
+const User = () => {
   return (
     <section className='user'>
       <img src={user__avatar} alt='user avatar' className='user__avatar' />

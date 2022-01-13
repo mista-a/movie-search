@@ -2,6 +2,7 @@ import logo from '../../assets/img/logo.svg'
 import user_avatar__image from '../../assets/img/user-avatar.png'
 import logout__image from '../../assets/img/logout.png'
 import { memo } from 'react'
+import { Link } from 'react-router-dom'
 
 const Header = (props) => {
   return (
@@ -10,13 +11,13 @@ const Header = (props) => {
         <img src={logo} alt='logo' className='logo__image' />
       </a>
       <div className='user-controller'>
-        <a href='#' className='user-avatar'>
+        <Link to='/profile' className='user-avatar'>
           <img
             src={user_avatar__image}
             alt='user avatar'
             className='user_avatar__image'
           />
-        </a>
+        </Link>
         <button href='#' className='logout'>
           <img
             src={logout__image}
