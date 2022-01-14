@@ -12,10 +12,13 @@
       display: block
       animation: show 1s 1
       animation-fill-mode: forwards
-    &__hide
-      display: none
+    &__show
+      animation: show 1s 1
+      animation-fill-mode: forwards
     &:hover
       transform: scale(1.05)
+    &__hide
+      display: none
   &__loading-point
     width: 1px
     height: 1px

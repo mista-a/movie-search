@@ -9,41 +9,41 @@ const ProfileContent = ({ searchQuery }) => {
   const lastElementRef = useRef()
   const observer = useRef()
 
-  //Создать общий API запрос
+  const filterContent = (content) => {
+    return content.results.filter(
+      (item, index) =>
+        item.poster_path !== null &&
+        item.media_type !== 'person' &&
+        content.results.indexOf(item) === index,
+    )
+  }
 
-  useEffect(() => {
-    const loadingPoint = () => {
-      if (searchQuery !== '') {
-        if (
-          lastElementRef.current !== undefined &&
-          lastElementRef.current !== null
-        ) {
-          var callback = function (entries) {
-            if (entries[0].isIntersecting && currentPage < totalPages) {
-              setCurrentPage(currentPage + 1)
-            }
-          }
-          observer.current = new IntersectionObserver(callback)
-          observer.current.observe(lastElementRef.current)
-        }
-      }
-    }
+  const diff = function (a1, a2) {
+    return a1
+      .filter((i) => !a2.includes(i))
+      .concat(a2.filter((i) => !a1.includes(i)))
+  }
 
-    loadingPoint()
-  }, [content])
-
-  useEffect(() => {
-    const getTotalPages = async () => {
-      if (searchQuery !== '') {
-        const newTotalPages = await profileAPI.getTotalPages(searchQuery)
-        if (newTotalPages !== totalPages) {
-          await setTotalPages(newTotalPages)
-        }
-      }
-    }
-
-    getTotalPages()
-  }, [searchQuery])
+  // useEffect(() => {
+  //   const loadingPoint = () => {
+  //     if (searchQuery !== '') {
+  //       if (
+  //         lastElementRef.current !== undefined &&
+  //         lastElementRef.current !== null
+  //       ) {
+  //         var callback = function (entries) {
+  //           if (entries[0].isIntersecting && currentPage < totalPages) {
+  //             setCurrentPage(currentPage + 1)
+  //           }
+  //         }
+  //         observer.current = new IntersectionObserver(callback)
+  //         observer.current.observe(lastElementRef.current)
+  //       }
+  //     }
+  //   }
+  //
+  //   loadingPoint()
+  // }, [content])
 
   useEffect(() => {
     const changeNewContent = async () => {
@@ -52,9 +52,10 @@ const ProfileContent = ({ searchQuery }) => {
           setCurrentPage(1)
         }
         const newContent = await profileAPI.getContent(searchQuery)
-        const filtedNewContent = newContent.filter(
-          (item) => item.poster_path !== null,
-        )
+        if (newContent.total_pages !== totalPages) {
+          setTotalPages(newContent.total_pages)
+        }
+        const filtedNewContent = filterContent(newContent)
         setContent(filtedNewContent)
       } else {
         setContent([])
@@ -64,27 +65,23 @@ const ProfileContent = ({ searchQuery }) => {
     changeNewContent()
   }, [searchQuery])
 
-  useEffect(() => {
-    const addNewContent = async () => {
-      if (currentPage !== 1) {
-        const newContent = await profileAPI.getContent(searchQuery, currentPage)
-        const filtedNewContent = newContent.filter(
-          (item) => item.poster_path !== null,
-        )
-        if (filtedNewContent !== content) {
-          setContent([...content, ...filtedNewContent])
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const addNewContent = async () => {
+  //     if (currentPage !== 1) {
+  //       const newContent = await profileAPI.getContent(searchQuery, currentPage)
+  //       const filtedNewContent = filterContent(newContent)
+  //       if (filtedNewContent !== content) {
+  //         setContent([...content, ...filtedNewContent])
+  //       }
+  //     }
+  //   }
 
-    addNewContent()
-  }, [currentPage])
+  //   addNewContent()
+  // }, [currentPage])
 
   //fix
   let id = 0
   //
-
-  console.log(content)
 
   return (
     <section>

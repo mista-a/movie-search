@@ -1,17 +1,19 @@
 import image_placeholder from '../../../assets/img/image-placeholder.png'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const ProfileContentCard = ({ item }) => {
   const [loaded, setLoaded] = useState(false)
 
+  const showPosters = () => {
+    setLoaded(true)
+  }
+
   useEffect(() => {
     setLoaded(false)
   }, [item])
 
-  const showPosters = useCallback(() => {
-    setLoaded(true)
-  }, [])
+  //fix 
 
   return (
     <Link to={`/movie/${item.id}`}>
@@ -21,14 +23,14 @@ const ProfileContentCard = ({ item }) => {
         alt='card'
         className={
           loaded
-            ? 'content__card__show content__card'
+            ? 'content__card content__card__show'
             : 'content__card content__card__hide'
         }
       />
       {!loaded && (
         <img
           src={image_placeholder}
-          className='content__card__show content__card__delay content__card'
+          className={'content__card content__card__show'}
           alt='card'
         />
       )}
