@@ -26,8 +26,6 @@ const MoviePage = () => {
     'декабря',
   ]
 
-  console.log(movieDescribe)
-
   useEffect(() => {
     const getDescribe = async (type, id) => {
       const movieDescribe = await moviePage.getMovieDescribe(type, id)
@@ -43,14 +41,16 @@ const MoviePage = () => {
   }, [])
 
   useEffect(() => {
-    if (movieAgeLimit !== 0) {
-      const getMovieAgeLimit = async (id) => {
-        const movieAgeLimit = await moviePage.getMovieAgeLimit(id)
+
+      const getMovieAgeLimit = async (type, id) => {
+        const movieAgeLimit = await moviePage.getMovieAgeLimit(type, id)
         setMovieAgeLimit(movieAgeLimit)
       }
-      getMovieAgeLimit(id)
-    }
+      getMovieAgeLimit(type, id)
+    
   }, [])
+
+  if (movieAgeLimit !== 0) {console.log(movieAgeLimit)}
 
   return (
     <section className='movie-page'>
@@ -64,12 +64,6 @@ const MoviePage = () => {
       <div className='main-description'>
         <div className='movie-title'>
           <h2 className='movie-title__translated'>{movieDescribe.title}</h2>
-          <h2 className='movie-title__original'>{` / ${movieDescribe.original_title}`}</h2>
-        </div>
-        <div className='subtitle'>
-          <span className='release-date'>{`${release_date.getDate()} ${
-            monthListRus[release_date.getMonth()]
-          } ${release_date.getFullYear()} г.`}</span>
           {movieAgeLimit !== 0 &&
             movieAgeLimit.results[0].release_dates[0].certification && (
               <div className='age-limit-container'>
@@ -80,6 +74,11 @@ const MoviePage = () => {
                 }
               </div>
             )}
+        </div>
+        <div className='subtitle'>
+          <span className='release-date'>{`${release_date.getDate()} ${
+            monthListRus[release_date.getMonth()]
+          } ${release_date.getFullYear()} г.`}</span>
           <div className='geners'>
             {movieDescribe.genres.map((item) => (
               <b className='geners__name'>
