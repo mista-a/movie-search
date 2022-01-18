@@ -1,41 +1,54 @@
 import image_placeholder from '../../../assets/img/image-placeholder.png'
-import { useEffect, useState } from 'react'
+import { forwardRef, useEffect, memo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
-const ProfileContentCard = ({ item }) => {
-  const [loaded, setLoaded] = useState(false)
+const ProfileContentCard = forwardRef(
+  ({ id, poster, type, lastElenemt, g }, ref) => {
+    const [loaded, setLoaded] = useState(false)
+    const loadedRef = useRef()
 
-  const showPosters = () => {
-    setLoaded(true)
-  }
+    //Ебаника анимацию через observer
 
-  useEffect(() => {
-    setLoaded(false)
-  }, [item])
-
-  //fix 
-
-  return (
-    <Link to={`/movie/${item.id}`}>
-      <img
-        onLoad={showPosters}
-        src={`https://www.themoviedb.org/t/p/w185_and_h278_multi_faces${item.poster_path}`}
-        alt='card'
-        className={
-          loaded
-            ? 'content__card content__card__show'
-            : 'content__card content__card__hide'
+    useEffect(() => {
+      setLoaded(false)
+      setTimeout(() => {
+        if (
+          loadedRef.current !== undefined &&
+          loadedRef.current !== null &&
+          loadedRef.current.complete === true
+        ) {
+          setLoaded(true)
         }
-      />
-      {!loaded && (
+      }, 1)
+    }, [g])
+
+    return (
+      <Link to={`/${type}/${id}`}>
         <img
-          src={image_placeholder}
-          className={'content__card content__card__show'}
+          ref={lastElenemt ? ref : undefined}
+          onLoad={() => {
+            setLoaded(true)
+          }}
+          src={`https://www.themoviedb.org/t/p/w185_and_h278_multi_faces${poster}`}
           alt='card'
+          className={
+            loaded
+              ? 'content__card content__card__show'
+              : 'content__card content__card__hide'
+          }
         />
-      )}
-    </Link>
-  )
-}
+        {!loaded && (
+          <img
+            ref={loadedRef}
+            src={image_placeholder}
+            alt='card'
+            className={'content__card content__card__show'}
+          />
+        )}
+      </Link>
+    )
+  },
+)
 
 export default ProfileContentCard

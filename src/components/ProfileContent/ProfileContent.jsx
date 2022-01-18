@@ -2,6 +2,8 @@ import ProfileContentCard from './ProfileContentCard/ProfileContentCard'
 import { profileAPI } from './../../API/API'
 import { useState, useEffect, useRef } from 'react'
 
+//fix 'Ничего не найдено' вылазит нахуй, когда ненадо
+
 const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
@@ -10,40 +12,42 @@ const ProfileContent = ({ searchQuery }) => {
   const observer = useRef()
 
   const filterContent = (content) => {
-    return content.results.filter(
-      (item, index) =>
+    const ids = []
+    return content.results.filter((item, index) => {
+      if (
+        !ids.includes(item.id) &&
         item.poster_path !== null &&
-        item.media_type !== 'person' &&
-        content.results.indexOf(item) === index,
-    )
+        item.media_type !== 'person'
+      ) {
+        //  debugger
+        ids.push(item.id)
+        return true
+      } else {
+        return false
+      }
+    })
   }
 
-  const diff = function (a1, a2) {
-    return a1
-      .filter((i) => !a2.includes(i))
-      .concat(a2.filter((i) => !a1.includes(i)))
-  }
+  useEffect(() => {
+    const loadingPoint = () => {
+      if (searchQuery !== '') {
+        if (
+          lastElementRef.current !== undefined &&
+          lastElementRef.current !== null
+        ) {
+          const callback = function (entries) {
+            if (entries[0].isIntersecting && currentPage < totalPages) {
+              setCurrentPage(currentPage + 1)
+            }
+          }
+          observer.current = new IntersectionObserver(callback)
+          observer.current.observe(lastElementRef.current)
+        }
+      }
+    }
 
-  // useEffect(() => {
-  //   const loadingPoint = () => {
-  //     if (searchQuery !== '') {
-  //       if (
-  //         lastElementRef.current !== undefined &&
-  //         lastElementRef.current !== null
-  //       ) {
-  //         var callback = function (entries) {
-  //           if (entries[0].isIntersecting && currentPage < totalPages) {
-  //             setCurrentPage(currentPage + 1)
-  //           }
-  //         }
-  //         observer.current = new IntersectionObserver(callback)
-  //         observer.current.observe(lastElementRef.current)
-  //       }
-  //     }
-  //   }
-  //
-  //   loadingPoint()
-  // }, [content])
+    loadingPoint()
+  }, [content])
 
   useEffect(() => {
     const changeNewContent = async () => {
@@ -57,7 +61,7 @@ const ProfileContent = ({ searchQuery }) => {
         }
         const filtedNewContent = filterContent(newContent)
         setContent(filtedNewContent)
-      } else {
+      } else if (content.length !== 0) {
         setContent([])
       }
     }
@@ -65,42 +69,42 @@ const ProfileContent = ({ searchQuery }) => {
     changeNewContent()
   }, [searchQuery])
 
-  // useEffect(() => {
-  //   const addNewContent = async () => {
-  //     if (currentPage !== 1) {
-  //       const newContent = await profileAPI.getContent(searchQuery, currentPage)
-  //       const filtedNewContent = filterContent(newContent)
-  //       if (filtedNewContent !== content) {
-  //         setContent([...content, ...filtedNewContent])
-  //       }
-  //     }
-  //   }
+  useEffect(() => {
+    const addNewContent = async () => {
+      if (currentPage !== 1) {
+        const newContent = await profileAPI.getContent(searchQuery, currentPage)
+        const filtedNewContent = filterContent(newContent)
+        setContent([...content, ...filtedNewContent])
+      }
+    }
 
-  //   addNewContent()
-  // }, [currentPage])
+    addNewContent()
+  }, [currentPage])
+
+  console.log(content)
 
   //fix
-  let id = 0
+
   //
 
   return (
     <section>
       <div className='content'>
         {content.map((item, index) => {
+          //if (index === content.length - 1) {
           return (
-            <>
-              <ProfileContentCard key={(id += 1)} item={item} />
-              {index === content.length - 1 && (
-                <div
-                  ref={lastElementRef}
-                  className='content__loading-point'
-                ></div>
-              )}
-            </>
+            <ProfileContentCard
+              key={item.id}
+              poster={item.poster_path}
+              type={item.media_type}
+              id={item.id}
+              lastElenemt={index === content.length - 1}
+              ref={index === content.length - 1 ? lastElementRef : undefined}
+            />
           )
         })}
       </div>
-      {totalPages === 0 && searchQuery !== '' && (
+      {content.length === 0 && searchQuery !== '' && totalPages === 0 && (
         <span className='content__not-found'>Ничего не найдено</span>
       )}
     </section>

@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { moviePage } from '../API/API'
+import gener_partition from '../assets/img/gener-partition.png'
 
 const MoviePage = () => {
-  const { id } = useParams()
-  const [movieDescribe, setMovieDescribe] = useState({ poster_path: '' })
+  const { type, id } = useParams()
+  const [movieDescribe, setMovieDescribe] = useState({
+    poster_path: '',
+    genres: [],
+  })
   const [movieAgeLimit, setMovieAgeLimit] = useState(0)
+  const release_date = new Date(movieDescribe.release_date)
   const monthListRus = [
     'января',
     'февраля',
@@ -20,15 +25,21 @@ const MoviePage = () => {
     'ноября',
     'декабря',
   ]
-  const release_date = new Date(movieDescribe.release_date)
+
+  console.log(movieDescribe)
 
   useEffect(() => {
-    const getDescribe = async (id) => {
-      const movieDescribe = await moviePage.getMovieDescribe(id)
+    const getDescribe = async (type, id) => {
+      const movieDescribe = await moviePage.getMovieDescribe(type, id)
+      if (type === 'tv') {
+        movieDescribe.title = movieDescribe.name
+        movieDescribe.original_title = movieDescribe.original_name
+        movieDescribe.release_date = movieDescribe.first_air_date
+      }
       setMovieDescribe(movieDescribe)
     }
 
-    getDescribe(id)
+    getDescribe(type, id)
   }, [])
 
   useEffect(() => {
@@ -51,12 +62,12 @@ const MoviePage = () => {
         />
       </div>
       <div className='main-description'>
-        <span className='movie-title'>
+        <div className='movie-title'>
           <h2 className='movie-title__translated'>{movieDescribe.title}</h2>
-          <h3 className='movie-title__original'>{` / ${movieDescribe.original_title}`}</h3>
-        </span>
-        <span className='movie-name__description'>
-          <span className='release-date'>{`${release_date.getDay()} ${
+          <h2 className='movie-title__original'>{` / ${movieDescribe.original_title}`}</h2>
+        </div>
+        <div className='subtitle'>
+          <span className='release-date'>{`${release_date.getDate()} ${
             monthListRus[release_date.getMonth()]
           } ${release_date.getFullYear()} г.`}</span>
           {movieAgeLimit !== 0 &&
@@ -69,12 +80,15 @@ const MoviePage = () => {
                 }
               </div>
             )}
-          <span className='geners'>
-            <b className='gener-name 1'>{`приключение .`}</b>
-            <b className='gener-name 2'>комедия &#8226</b>
-            <b className='gener-name 3'>боевик</b>
-          </span>
-        </span>
+          <div className='geners'>
+            {movieDescribe.genres.map((item) => (
+              <b className='geners__name'>
+                {`${item.name} `}
+                <img src={gener_partition} className='geners__partition'></img>
+              </b>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -20,21 +20,17 @@ export const profileAPI = {
 }
 
 export const moviePage = {
-  async getMovieDescribe(movieId) {
+  async getMovieDescribe(type, id) {
     const response = await instance
-      .get(`movie/${movieId}?api_key=${APIKey}&language=ru-RU`)
-      .catch((e) => {
-        console.log(e)
-      })
+      .get(`${type}/${id}?api_key=${APIKey}&language=ru-RU`)
+      .catch((e) => console.log(e))
     return response.data
   },
 
-  async getMovieAgeLimit(movieId) {
+  async getMovieAgeLimit(type, id) {
     const response = await instance
-      .get(`movie/${movieId}/release_dates?api_key=${APIKey}&language=ru-RU`)
-      .catch((e) => {
-        console.log(e)
-      })
+      .get(`${type}/${id}/release_dates?api_key=${APIKey}&language=ru-RU`)
+      .catch((e) => console.log(e))
     return response.data
   },
 }

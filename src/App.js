@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route path='profile' element={<ProfilePage />} />
-          <Route path='movie/:id' element={<MoviePage />} />
+          <Route path='/:type/:id' element={<MoviePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
