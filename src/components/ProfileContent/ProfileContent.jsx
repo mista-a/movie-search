@@ -1,6 +1,6 @@
 import ProfileContentCard from './ProfileContentCard/ProfileContentCard'
 import { profileAPI } from './../../API/API'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда ненадо
 
@@ -8,19 +8,30 @@ const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
-  const lastElementRef = useRef()
   const observer = useRef()
 
+  const lastElementRef = useCallback(
+    (element) => {
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && currentPage < totalPages) {
+          setCurrentPage(currentPage + 1)
+        }
+      })
+      if (element) observer.current.observe(element)
+    },
+    [content],
+  )
+
   const filterContent = (content) => {
-    const ids = []
-    return content.results.filter((item, index) => {
+    const newItemIds = []
+    return content.filter((item) => {
       if (
-        !ids.includes(item.id) &&
+        !newItemIds.includes(item.id) &&
         item.poster_path !== null &&
         item.media_type !== 'person'
       ) {
-        //  debugger
-        ids.push(item.id)
+        newItemIds.push(item.id)
         return true
       } else {
         return false
@@ -28,26 +39,26 @@ const ProfileContent = ({ searchQuery }) => {
     })
   }
 
-  useEffect(() => {
-    const loadingPoint = () => {
-      if (searchQuery !== '') {
-        if (
-          lastElementRef.current !== undefined &&
-          lastElementRef.current !== null
-        ) {
-          const callback = function (entries) {
-            if (entries[0].isIntersecting && currentPage < totalPages) {
-              setCurrentPage(currentPage + 1)
-            }
-          }
-          observer.current = new IntersectionObserver(callback)
-          observer.current.observe(lastElementRef.current)
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const loadingPoint = () => {
+  //     if (searchQuery !== '') {
 
-    loadingPoint()
-  }, [content])
+  //         lastElementRef.current !== undefined &&
+  //         lastElementRef.current !== null
+  //       ) {
+  //         const callback = function (entries) {
+  //           if (entries[0].isIntersecting && currentPage < totalPages) {
+  //             setCurrentPage(currentPage + 1)
+  //           }
+  //         }
+  //         observer.current = new IntersectionObserver(callback)
+  //         observer.current.observe(lastElementRef.current)
+  //       }
+  //     }
+  //   }
+
+  //   loadingPoint()
+  // }, [content])
 
   useEffect(() => {
     const changeNewContent = async () => {
@@ -59,7 +70,7 @@ const ProfileContent = ({ searchQuery }) => {
         if (newContent.total_pages !== totalPages) {
           setTotalPages(newContent.total_pages)
         }
-        const filtedNewContent = filterContent(newContent)
+        const filtedNewContent = filterContent(newContent.results)
         setContent(filtedNewContent)
       } else if (content.length !== 0) {
         setContent([])
@@ -73,19 +84,16 @@ const ProfileContent = ({ searchQuery }) => {
     const addNewContent = async () => {
       if (currentPage !== 1) {
         const newContent = await profileAPI.getContent(searchQuery, currentPage)
-        const filtedNewContent = filterContent(newContent)
-        setContent([...content, ...filtedNewContent])
+        const filtedNewContent = filterContent([
+          ...content,
+          ...newContent.results,
+        ])
+        setContent(filtedNewContent)
       }
     }
 
     addNewContent()
   }, [currentPage])
-
-  console.log(content)
-
-  //fix
-
-  //
 
   return (
     <section>
@@ -98,8 +106,7 @@ const ProfileContent = ({ searchQuery }) => {
               poster={item.poster_path}
               type={item.media_type}
               id={item.id}
-              lastElenemt={index === content.length - 1}
-              ref={index === content.length - 1 ? lastElementRef : undefined}
+              ref={index === content.length - 1 ? lastElementRef : null}
             />
           )
         })}

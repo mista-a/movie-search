@@ -41,16 +41,16 @@ const MoviePage = () => {
   }, [])
 
   useEffect(() => {
-
-      const getMovieAgeLimit = async (type, id) => {
-        const movieAgeLimit = await moviePage.getMovieAgeLimit(type, id)
-        setMovieAgeLimit(movieAgeLimit)
-      }
-      getMovieAgeLimit(type, id)
-    
+    const getMovieAgeLimit = async (type, id) => {
+      const movieAgeLimit = await moviePage.getMovieAgeLimit(type, id)
+      setMovieAgeLimit(movieAgeLimit)
+    }
+    getMovieAgeLimit(type, id)
   }, [])
 
-  if (movieAgeLimit !== 0) {console.log(movieAgeLimit)}
+  if (movieAgeLimit !== 0) {
+    console.log(movieAgeLimit)
+  }
 
   return (
     <section className='movie-page'>
