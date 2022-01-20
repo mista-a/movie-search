@@ -9,27 +9,13 @@
     max-height: 407px
     border-radius: 15px
 .description
-  max-width: 670px
+  width: 670px
 .movie-title
   &__translated
     display: inline
     font-weight: bold
     font-size: 24px
     line-height: 28px
-  &__original
-    display: inline
-    font-weight: normal
-    font-size: 18px
-    line-height: 21px
-.subtitle
-  display: flex
-  align-items: center
-.release-date
-  margin-right: 2px
-  font-style: normal
-  font-weight: normal
-  font-size: 16px
-  line-height: 20px
 .age-limit
   &-container
     display: inline-block
@@ -39,6 +25,15 @@
     margin-left: 4px
     font-size: 10px
     line-height: 12px
+.subtitle
+  display: flex
+  align-items: center
+.release-date
+  margin-right: 2px
+  font-style: normal
+  font-weight: normal
+  font-size: 16px
+  line-height: 20px
 .geners
   display: flex
   &__name
@@ -49,13 +44,19 @@
   &__partition
     margin: 2px
 .movie-description
+  margin-top: 4px
   font-weight: 500
   font-size: 18px
   line-height: 21px
-  margin: 0px
 .side-description
   margin-left: 30px
 .rating
-  font-weight: bold
-  font-size: 36px
-  line-height: 42px
+  &__rating-mark
+    font-weight: bold
+    font-size: 36px
+    line-height: 42px
+  &__max-rating
+    font-weight: bold
+    font-size: 18px
+    line-height: 21px
+.star-rating

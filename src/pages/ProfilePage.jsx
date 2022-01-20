@@ -7,7 +7,7 @@ const Profile = () => {
   const [delayMessage, setDelayMessage] = useState('')
 
   return (
-    <div>
+    <div className='profile'>
       <MemoUser />
       <MemoSearchBar setDelayMessage={setDelayMessage} />
       <ProfileContent searchQuery={delayMessage} />

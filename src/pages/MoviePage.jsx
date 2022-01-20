@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { movieAPI } from '../API/API'
 import gener_partition from '../assets/img/gener-partition.png'
+import enable_rating_star from '../assets/img/enable-rating-star.png'
+import disable_rating_star from '../assets/img/disable-rating-star.svg'
 
 const MoviePage = () => {
   const { id } = useParams()
   const [movieDescription, setMovieDescription] = useState({
-    poster_path: '',
+    poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',
     genres: [],
     release_date: [],
+    vote_average: 1,
   })
   const [movieAgeLimit, setMovieAgeLimit] = useState({
     id: 0,
@@ -31,6 +34,7 @@ const MoviePage = () => {
   ]
 
   //fix сделай нормальный default state
+  //доделать звездочки
 
   useEffect(() => {
     const getDescription = async (id) => {
@@ -38,16 +42,40 @@ const MoviePage = () => {
       setMovieDescription(movieDescription)
     }
 
-    getDescription(id)
-  }, [])
-
-  useEffect(() => {
     const getMovieAgeLimit = async (id) => {
       const movieAgeLimit = await movieAPI.getMovieAgeLimit(id)
       setMovieAgeLimit(movieAgeLimit)
     }
+
+    getDescription(id)
     getMovieAgeLimit(id)
   }, [])
+
+  const showStarsRating = (starsCounter) => {
+    const enableStarsCounter = Math.floor(starsCounter / 2)
+    return (
+      <div className='star-rating'>
+        {[...Array(enableStarsCounter)].map((star, index) => {
+          return (
+            <img
+              key={index}
+              src={enable_rating_star}
+              className='star-rating__enable-star'
+            />
+          )
+        })}
+        {[...Array(5 - enableStarsCounter)].map((star, index) => {
+          return (
+            <img
+              key={index}
+              src={disable_rating_star}
+              className='star-rating__disable-star'
+            />
+          )
+        })}
+      </div>
+    )
+  }
 
   console.log(movieDescription)
 
@@ -92,7 +120,13 @@ const MoviePage = () => {
         <p className='movie-description'>{movieDescription.overview}</p>
       </div>
       <div className='side-description'>
-        <span className='rating'>{movieDescription.vote_average}</span>
+        <div className='rating'>
+          <span className='rating__rating-mark'>
+            {movieDescription.vote_average}
+          </span>
+          <span className='rating__max-rating'>/10</span>
+          {showStarsRating(movieDescription.vote_average)}
+        </div>
       </div>
     </section>
   )
