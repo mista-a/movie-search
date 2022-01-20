@@ -16,8 +16,8 @@ export const profileAPI = {
   },
 }
 
-export const moviePage = {
-  async getMovieDescribe(type, id) {
+export const movieAPI = {
+  async getMovieDescription(id, type) {
     const response = await instance.get(
       `${type}/${id}?api_key=${APIKey}&language=ru-RU`,
     )
@@ -25,19 +25,19 @@ export const moviePage = {
     return response.data
   },
 
-  async getMovieAgeLimit(type, id) {
-    if (type === 'movie') {
-      const response = await instance.get(
-        `${type}/${id}/release_dates?api_key=${APIKey}`,
-      )
-      //.catch((e) => console.log(e));
-      return response.data
-    } else {
-      const response = await instance.get(
-        `${type}/${id}/content_ratings?api_key=${APIKey}`,
-      )
-      //.catch((e) => console.log(e));
-      return response.data
-    }
+  async getMovieAgeLimit(id) {
+    const response = await instance.get(
+      `movie/${id}/release_dates?api_key=${APIKey}`,
+    )
+    //.catch((e) => console.log(e));
+    return response.data
+  },
+
+  async getTvAgeLimit(id) {
+    const response = await instance.get(
+      `tv/${id}/release_dates?api_key=${APIKey}`,
+    )
+    //.catch((e) => console.log(e));
+    return response.data
   },
 }

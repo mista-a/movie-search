@@ -3,6 +3,7 @@ import { profileAPI } from './../../API/API'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда ненадо
+//обсервер для контейнер кард ты можешь хранить и тут
 
 const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
@@ -39,27 +40,6 @@ const ProfileContent = ({ searchQuery }) => {
     })
   }
 
-  // useEffect(() => {
-  //   const loadingPoint = () => {
-  //     if (searchQuery !== '') {
-
-  //         lastElementRef.current !== undefined &&
-  //         lastElementRef.current !== null
-  //       ) {
-  //         const callback = function (entries) {
-  //           if (entries[0].isIntersecting && currentPage < totalPages) {
-  //             setCurrentPage(currentPage + 1)
-  //           }
-  //         }
-  //         observer.current = new IntersectionObserver(callback)
-  //         observer.current.observe(lastElementRef.current)
-  //       }
-  //     }
-  //   }
-
-  //   loadingPoint()
-  // }, [content])
-
   useEffect(() => {
     const changeNewContent = async () => {
       if (searchQuery !== '') {
@@ -95,27 +75,27 @@ const ProfileContent = ({ searchQuery }) => {
     addNewContent()
   }, [currentPage])
 
-  return (
-    <section>
-      <div className='content'>
-        {content.map((item, index) => {
-          //if (index === content.length - 1) {
-          return (
-            <ProfileContentCard
-              key={item.id}
-              poster={item.poster_path}
-              type={item.media_type}
-              id={item.id}
-              ref={index === content.length - 1 ? lastElementRef : null}
-            />
-          )
-        })}
-      </div>
-      {content.length === 0 && searchQuery !== '' && totalPages === 0 && (
-        <span className='content__not-found'>Ничего не найдено</span>
-      )}
-    </section>
-  )
+  if (searchQuery !== '' && totalPages === 0 && content.length === 0) {
+    return <span className='content__not-found'>Ничего не найдено</span>
+  } else {
+    return (
+      <section>
+        <div className='content'>
+          {content.map((item, index) => {
+            return (
+              <ProfileContentCard
+                key={item.id}
+                id={item.id}
+                poster={item.poster_path}
+                type={item.media_type}
+                ref={index === content.length - 1 ? lastElementRef : null}
+              />
+            )
+          })}
+        </div>
+      </section>
+    )
+  }
 }
 
 export default ProfileContent

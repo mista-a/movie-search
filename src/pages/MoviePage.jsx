@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { moviePage } from '../API/API'
+import { movieAPI } from '../API/API'
 import gener_partition from '../assets/img/gener-partition.png'
 
 const MoviePage = () => {
-  const { type, id } = useParams()
-  const [movieDescribe, setMovieDescribe] = useState({
+  const { id } = useParams()
+  const [movieDescription, setMovieDescription] = useState({
     poster_path: '',
     genres: [],
+    release_date: [],
   })
-  const [movieAgeLimit, setMovieAgeLimit] = useState(0)
-  const release_date = new Date(movieDescribe.release_date)
+  const [movieAgeLimit, setMovieAgeLimit] = useState({
+    id: 0,
+    results: [{ release_dates: [{ certification: '0' }] }],
+  })
+  const release_date = new Date(movieDescription.release_date)
   const monthListRus = [
     'января',
     'февраля',
-    'мара',
+    'марта',
     'апреля',
     'мая',
     'июня',
@@ -26,44 +30,39 @@ const MoviePage = () => {
     'декабря',
   ]
 
+  //fix сделай нормальный default state
+
   useEffect(() => {
-    const getDescribe = async (type, id) => {
-      const movieDescribe = await moviePage.getMovieDescribe(type, id)
-      if (type === 'tv') {
-        movieDescribe.title = movieDescribe.name
-        movieDescribe.original_title = movieDescribe.original_name
-        movieDescribe.release_date = movieDescribe.first_air_date
-      }
-      setMovieDescribe(movieDescribe)
+    const getDescription = async (id) => {
+      const movieDescription = await movieAPI.getMovieDescription(id, 'movie')
+      setMovieDescription(movieDescription)
     }
 
-    getDescribe(type, id)
+    getDescription(id)
   }, [])
 
   useEffect(() => {
-    const getMovieAgeLimit = async (type, id) => {
-      const movieAgeLimit = await moviePage.getMovieAgeLimit(type, id)
+    const getMovieAgeLimit = async (id) => {
+      const movieAgeLimit = await movieAPI.getMovieAgeLimit(id)
       setMovieAgeLimit(movieAgeLimit)
     }
-    getMovieAgeLimit(type, id)
+    getMovieAgeLimit(id)
   }, [])
 
-  if (movieAgeLimit !== 0) {
-    console.log(movieAgeLimit)
-  }
+  console.log(movieDescription)
 
   return (
     <section className='movie-page'>
       <div className='movie-poster'>
         <img
-          src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movieDescribe.poster_path}`}
+          src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movieDescription.poster_path}`}
           alt='movie poster'
           className='movie-poster__image'
         />
       </div>
-      <div className='main-description'>
+      <div className='description'>
         <div className='movie-title'>
-          <h2 className='movie-title__translated'>{movieDescribe.title}</h2>
+          <h2 className='movie-title__translated'>{movieDescription.title}</h2>
           {movieAgeLimit !== 0 &&
             movieAgeLimit.results[0].release_dates[0].certification && (
               <div className='age-limit-container'>
@@ -80,14 +79,20 @@ const MoviePage = () => {
             monthListRus[release_date.getMonth()]
           } ${release_date.getFullYear()} г.`}</span>
           <div className='geners'>
-            {movieDescribe.genres.map((item) => (
-              <b className='geners__name'>
-                {`${item.name} `}
-                <img src={gener_partition} className='geners__partition'></img>
+            {movieDescription.genres.map((item, index) => (
+              <b key={item.id} className='geners__name'>
+                {index !== 0 && (
+                  <img src={gener_partition} className='geners__partition' />
+                )}
+                <a href='#'>{`${item.name}`}</a>
               </b>
             ))}
           </div>
         </div>
+        <p className='movie-description'>{movieDescription.overview}</p>
+      </div>
+      <div className='side-description'>
+        <span className='rating'>{movieDescription.vote_average}</span>
       </div>
     </section>
   )
