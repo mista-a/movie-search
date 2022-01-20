@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
+import Footer from '../Footer/Footer'
 import { MemoHeader } from '../Header/Header'
 
 const Layout = () => {
@@ -9,6 +10,7 @@ const Layout = () => {
         <div className='container'>
           <MemoHeader />
           <Outlet />
+          {/* <Footer /> */}
         </div>
       </div>
     </>
