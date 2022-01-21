@@ -1,16 +1,18 @@
 import logo from '../../assets/img/logo.svg'
 import user_avatar__image from '../../assets/img/user-avatar.png'
 import logout__image from '../../assets/img/logout.png'
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LogingPopUp from '../LoginPopUp/LoginPopUp'
 
 const Header = (props) => {
-  const [loginVis, setLoginVis] = false
+  const [loginVis, setLoginVis] = useState(false)
 
   const toggleLoginVis = () => {
     setLoginVis(!loginVis)
   }
+
+  console.log(loginVis)
 
   return (
     <header className='header'>
@@ -34,12 +36,13 @@ const Header = (props) => {
           <button
             href='#'
             className='sign-in__button'
-            onClick={() => toggleLoginVis}
+            onClick={() => toggleLoginVis()}
           >
             <span className='sign-in__text'>вход</span>
           </button>
         </div>
       </div>
+      {loginVis && <div className='login'>a</div>}
     </header>
   )
 }
