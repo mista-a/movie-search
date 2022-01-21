@@ -17,6 +17,10 @@ const MoviePage = () => {
     id: 0,
     results: [{ release_dates: [{ certification: '0' }] }],
   })
+  const [movieCredits, setMovieCredits] = useState({
+    casts: [],
+    crew: [{ name: '' }],
+  })
   const release_date = new Date(movieDescription.release_date)
   const monthListRus = [
     'января',
@@ -33,12 +37,20 @@ const MoviePage = () => {
     'декабря',
   ]
 
+  const getDirector = () => {
+    let ind = 0
+    movieCredits.crew.forEach((e, index) => {
+      if (e.job === 'Director') ind = index
+    })
+    return movieCredits.crew[ind].name
+  }
+
   //fix сделай нормальный default state
   //доделать звездочки
 
   useEffect(() => {
     const getDescription = async (id) => {
-      const movieDescription = await movieAPI.getMovieDescription(id, 'movie')
+      const movieDescription = await movieAPI.getDescription('movie', id)
       setMovieDescription(movieDescription)
     }
 
@@ -47,8 +59,14 @@ const MoviePage = () => {
       setMovieAgeLimit(movieAgeLimit)
     }
 
+    const getMovieCredits = async (id) => {
+      const movieCredits = await movieAPI.getCredits('movie', id)
+      setMovieCredits(movieCredits)
+    }
+
     getDescription(id)
     getMovieAgeLimit(id)
+    getMovieCredits(id)
   }, [])
 
   const showStarsRating = (starsCounter) => {
@@ -76,8 +94,6 @@ const MoviePage = () => {
       </div>
     )
   }
-
-  console.log(movieDescription)
 
   return (
     <section className='movie-page'>
@@ -126,6 +142,10 @@ const MoviePage = () => {
           </span>
           <span className='rating__max-rating'>/10</span>
           {showStarsRating(movieDescription.vote_average)}
+        </div>
+        <div className='site-description__director'>
+          <p className='director'>Режиссер</p>
+          <p className='director__name'>{getDirector()}</p>
         </div>
       </div>
     </section>

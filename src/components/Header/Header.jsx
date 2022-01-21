@@ -12,8 +12,6 @@ const Header = (props) => {
     setLoginVis(!loginVis)
   }
 
-  console.log(loginVis)
-
   return (
     <header className='header'>
       <a href='#' className='logo'>
@@ -24,7 +22,7 @@ const Header = (props) => {
           <img
             src={user_avatar__image}
             alt='user avatar'
-            className='user_avatar__image'
+            className='user-avatar__image'
           />
         </Link> */}
         <div className='sign-up'>

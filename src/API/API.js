@@ -8,36 +8,41 @@ const APIKey = '91728d8f7faa03ab1aa227e642da7984'
 
 export const profileAPI = {
   async getContent(keyword, currentPage, language = 'en-US', adult = 'false') {
-    const response = await instance.get(
-      `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`,
-    )
-    //.catch((e) => console.log(e))
+    const response = await instance
+      .get(
+        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`,
+      )
+      .catch((error) => console.log(error.response.data))
     return response.data
   },
 }
 
 export const movieAPI = {
-  async getMovieDescription(id, type) {
-    const response = await instance.get(
-      `${type}/${id}?api_key=${APIKey}&language=ru-RU`,
-    )
-    //.catch((e) => console.log(e));
+  async getDescription(type, id) {
+    const response = await instance
+      .get(`${type}/${id}?api_key=${APIKey}&language=ru-RU`)
+      .catch((error) => console.log(error.response.data))
     return response.data
   },
 
   async getMovieAgeLimit(id) {
-    const response = await instance.get(
-      `movie/${id}/release_dates?api_key=${APIKey}`,
-    )
-    //.catch((e) => console.log(e));
+    const response = await instance
+      .get(`movie/${id}/release_dates?api_key=${APIKey}`)
+      .catch((error) => console.log(error.response.data))
     return response.data
   },
 
   async getTvAgeLimit(id) {
-    const response = await instance.get(
-      `tv/${id}/release_dates?api_key=${APIKey}`,
-    )
-    //.catch((e) => console.log(e));
+    const response = await instance
+      .get(`tv/${id}/release_dates?api_key=${APIKey}`)
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+
+  async getCredits(type, id) {
+    const response = await instance
+      .get(`${type}/${id}/credits?api_key=${APIKey}&language=ru-RU`)
+      .catch((error) => console.log(error.response.data))
     return response.data
   },
 }
