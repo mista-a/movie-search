@@ -1,13 +1,39 @@
-.movie-page
-  display: flex
+.describe-inner
+  display: grid
+  grid-template-columns: 300px 670px 1fr
   margin-top: 50px
-.movie-poster
+  grid-column-gap: 30px
+.left-description
+  //fix BEM
+  &__movie-poster__image
+    cursor: pointer
+    //max-height: 405px
+.movie-poster__image
   cursor: pointer
-  margin-right: 30px
-  &__image
-    max-width: 270px
-    max-height: 407px
-    border-radius: 15px
+  border-radius: 15px
+  margin-bottom: 10px
+.trailer-button
+  height: 60px
+  width: 100%
+  background-color: #D9D9D9
+  border: none
+  border-radius: 10px
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: center
+  &__play-image
+    margin-right: 8px
+  &__text
+    color: #0F0F0F
+    font-weight: 500
+    font-size: 18px
+    line-height: 21px
+  &-subscribe
+    font-size: 14px
+    line-height: 16px
+    text-align: center
+    margin: 4px auto
 .description
   width: 670px
 .movie-title
@@ -48,8 +74,6 @@
   font-weight: 500
   font-size: 18px
   line-height: 21px
-.side-description
-  margin-left: 30px
 .rating
   &__rating-mark
     font-weight: bold

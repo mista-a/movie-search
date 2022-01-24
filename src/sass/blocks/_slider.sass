@@ -1,0 +1,32 @@
+.slider
+  display: flex
+  flex-direction: row
+  column-gap: 15px
+  min-width: 830px
+  overflow-x: scroll
+  &::-webkit-scrollbar
+    height: 10px
+.slide
+  border: 1px solid #222222
+  border-radius: 8px
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25)
+  cursor: pointer
+  margin-bottom: 10px
+
+  &__img
+    border-radius: 8px 8px 0 0
+    min-width: 142px
+    min-height: 175px
+    margin-bottom: -4px
+  &__text-inner
+    display: flex
+    min-width: 142px
+    flex-direction: column
+    padding: 12px
+    background-color: #111111
+  &__actor-name
+    margin: 0 0 5px 0
+  &__character-name
+    margin: 0
+
+  //fix SLIDER ДОЛЖЕН БЫТЬ ОТДЕЛЬНЫМ!!!
