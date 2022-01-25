@@ -11,6 +11,7 @@ import Modal from '../components/Modal/Modal'
 
 const MoviePage = () => {
   const { id } = useParams()
+  const [modalActive, setModalActive] = useState(false)
   const [movieState, setMovieState] = useState({
     description: {
       poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',
@@ -22,14 +23,8 @@ const MoviePage = () => {
       id: 0,
       results: [{ release_dates: [{ certification: '0' }] }],
     },
-  })
-  const [movieCredits, setMovieCredits] = useState({
-    cast: [],
-    crew: [{ name: '' }],
-  })
-  const [modalActive, setModalActive] = useState(false)
-  const [movieTrailer, setMovieTrailer] = useState({
-    results: [{ key: 'VCMaJLwChfs' }],
+    Credits: { cast: [], crew: [{ name: '' }] },
+    Trailer: { results: [{ key: 'VCMaJLwChfs' }] },
   })
   const release_date = new Date(movieState.description.release_date)
   const monthListRus = [
@@ -48,40 +43,65 @@ const MoviePage = () => {
   ]
   const getDirector = () => {
     let ind = 0
-    movieCredits.crew.forEach((e, index) => {
+    movieState.Credits.crew.forEach((e, index) => {
       if (e.job === 'Director') ind = index
     })
-    return movieCredits.crew[ind].name
+    return movieState.Credits.crew[ind].name
   }
+  //const [loading, setLoading] = useState(true)
 
   //fix сделай нормальный default state
   //доделать звездочки
 
+  // useEffect(() => {
+  //   const getDescription = async (id) => {
+  //     const description = await movieAPI.getDescription('movie', id)
+  //     setMovieState({ ...movieState, description })
+  //   }
+
+  //   const getAgeLimit = async (id) => {
+  //     const AgeLimit = await movieAPI.getMovieAgeLimit(id)
+  //     setMovieState({ ...movieState, AgeLimit })
+  //   }
+
+  //   const getMovieCredits = async (id) => {
+  //     const movieCredits = await movieAPI.getCredits('movie', id)
+  //     setMovieState({ ...movieState, movieCredits })
+  //     console.log(movieState)
+  //   }
+
+  //   const getMovieTraler = async (id, language) => {
+  //     const movieTrailer = await movieAPI.getTrailer('movie', id, language)
+  //     setMovieState({ ...movieState, movieTrailer })
+  //   }
+
+  //   setLoading(true)
+  //   getDescription(id)
+  //   getAgeLimit(id)
+  //   getMovieCredits(id)
+  //   getMovieTraler(id, 'ru-Ru')
+  //   setLoading(false)
+  // }, [])
+
+  console.log(movieState)
+
   useEffect(() => {
-    const getDescription = async (id) => {
+    const getMovieState = async (id) => {
       const description = await movieAPI.getDescription('movie', id)
-      setMovieState({ ...movieState, description })
-    }
-
-    const getAgeLimit = async (id) => {
       const AgeLimit = await movieAPI.getMovieAgeLimit(id)
-      setMovieState({ ...movieState, AgeLimit })
+      const Credits = await movieAPI.getCredits('movie', id)
+      const Trailer = await movieAPI.getTrailer('movie', id)
+
+      setMovieState({
+        ...movieState,
+        description,
+        AgeLimit,
+        Credits,
+        Trailer,
+      })
     }
 
-    const getMovieCredits = async (id) => {
-      const movieCredits = await movieAPI.getCredits('movie', id)
-      setMovieCredits(movieCredits)
-    }
-
-    const getMovieTraler = async (id, language) => {
-      const movieTrailer = await movieAPI.getTrailer('movie', id, language)
-      setMovieTrailer(movieTrailer)
-    }
-
-    getDescription(id)
-    getAgeLimit(id)
-    getMovieCredits(id)
-    getMovieTraler(id, 'ru-Ru')
+    getMovieState(id)
   }, [])
 
   const showStarsRating = (starsCounter) => {
@@ -110,8 +130,6 @@ const MoviePage = () => {
     )
   }
 
-  console.log(movieState)
-
   return (
     <section className='movie-page'>
       <div className='describe-inner'>
@@ -138,7 +156,7 @@ const MoviePage = () => {
             <iframe
               width='560'
               height='315'
-              src={`https://www.youtube.com/embed/${movieTrailer.results[0].key}`}
+              src={`https://www.youtube.com/embed/${movieState.Trailer.results[0].key}`}
               title='YouTube video player'
               frameBorder='0'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
@@ -185,7 +203,7 @@ const MoviePage = () => {
           </div>
           <p className='movie-description'>{movieState.description.overview}</p>
           <Slider classSlider='slider'>
-            {movieCredits.cast.map((actor, index) => {
+            {movieState.Credits.cast.map((actor, index) => {
               if (index > 6) return ''
               return (
                 <Link
