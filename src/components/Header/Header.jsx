@@ -3,15 +3,10 @@ import user_avatar__image from '../../assets/img/user-avatar.png'
 import logout__image from '../../assets/img/logout.png'
 import { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import LogingPopUp from '../LoginPopUp/LoginPopUp'
+import Modal from '../Modal/Modal'
 
 const Header = (props) => {
-  const [loginVis, setLoginVis] = useState(false)
-
-  const toggleLoginVis = () => {
-    setLoginVis(!loginVis)
-  }
-
+  const [modalActive, setModalActive] = useState(false)
   return (
     <header className='header'>
       <a href='#' className='logo'>
@@ -34,13 +29,13 @@ const Header = (props) => {
           <button
             href='#'
             className='sign-in__button'
-            onClick={() => toggleLoginVis()}
+            onClick={() => setModalActive(true)}
           >
             <span className='sign-in__text'>вход</span>
           </button>
         </div>
       </div>
-      {loginVis && <div className='login'>a</div>}
+      <Modal active={modalActive} setActive={setModalActive}></Modal>
     </header>
   )
 }

@@ -7,6 +7,7 @@ const instance = axios.create({
 const APIKey = '91728d8f7faa03ab1aa227e642da7984'
 
 export const profileAPI = {
+  //fix getProfileContent
   async getContent(keyword, currentPage, language = 'en-US', adult = 'false') {
     const response = await instance
       .get(
@@ -42,6 +43,13 @@ export const movieAPI = {
   async getCredits(type, id) {
     const response = await instance
       .get(`${type}/${id}/credits?api_key=${APIKey}&language=ru-RU`)
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+
+  async getTrailer(type, id, language = 'en-En') {
+    const response = await instance
+      .get(`${type}/${id}/videos?api_key=${APIKey}&language=${language}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },

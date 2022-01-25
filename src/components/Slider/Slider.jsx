@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 //fix SLIDER ДОЛЖЕН БЫТЬ ОТДЕЛЬНЫМ!!!
+//ОПРЕДЕЛИСЬ
 
-const Slider = (props) => {
+const Slider = ({ classSlider, children }) => {
   const slideRef = useRef()
   const [state, setState] = useState({
     isScrolling: false,
@@ -10,65 +11,62 @@ const Slider = (props) => {
     scrollX: 0,
   })
 
-  useEffect(() => {
-    document.addEventListener('mousedown', onMouseDown)
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', onMouseDown)
+  //   document.addEventListener('mousemove', onMouseMove)
+  //   document.addEventListener('mouseup', onMouseUp)
 
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown)
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    }
-  })
+  //   return () => {
+  //     document.removeEventListener('mousedown', onMouseDown)
+  //     document.removeEventListener('mousemove', onMouseMove)
+  //     document.removeEventListener('mouseup', onMouseUp)
+  //   }
+  // })
 
-  const onMouseDown = (e) => {
-    if (!slideRef) return
-    e.preventDefault()
-    setState({ ...state, isScrolling: true, clientX: e.clientX })
-  }
+  // const onMouseDown = (e) => {
+  //   if (!slideRef) return
+  //   e.preventDefault()
+  //   setState({ ...state, isScrolling: true, clientX: e.clientX })
+  // }
 
-  const onMouseMove = (e) => {
-    if (!slideRef) return
-    e.preventDefault()
-    const { clientX, scrollX, isScrolling } = state
+  // const onMouseMove = (e) => {
+  //   if (!slideRef) return
+  //   e.preventDefault()
+  //   const { clientX, scrollX, isScrolling } = state
 
-    if (isScrolling) {
-      if (
-        slideRef &&
-        slideRef.current &&
-        !slideRef.current.contains(e.target)
-      ) {
-        return
-      }
-      slideRef.current.scrollLeft = scrollX + e.clientX - clientX
+  //   if (isScrolling) {
+  //     if (
+  //       slideRef &&
+  //       slideRef.current &&
+  //       !slideRef.current.contains(e.target)
+  //     ) {
+  //       return
+  //     }
+  //     slideRef.current.scrollLeft = scrollX + e.clientX - clientX
 
-      setState({
-        ...state,
-        scrollX: scrollX - e.clientX + clientX,
-        clientX: e.clientX,
-      })
-    }
-  }
+  //     setState({
+  //       ...state,
+  //       scrollX: scrollX - e.clientX + clientX,
+  //       clientX: e.clientX,
+  //     })
+  //   }
+  // }
 
-  const onMouseUp = (e) => {
-    if (!slideRef) return
-    e.preventDefault()
-    setState({ ...state, isScrolling: false })
-  }
-
-  if (slideRef.current) {
-  }
+  // const onMouseUp = (e) => {
+  //   if (!slideRef) return
+  //   e.preventDefault()
+  //   setState({ ...state, isScrolling: false })
+  // }
 
   return (
     <div
-      className={props.classSlider}
-      ref={slideRef}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
+      className={classSlider}
+      // ref={slideRef}
+      // onMouseDown={onMouseDown}
+      // onMouseMove={onMouseMove}
+      // onMouseUp={onMouseUp}
     >
-      {props.children}
+      {children}
     </div>
   )
 }
