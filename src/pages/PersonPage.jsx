@@ -9,18 +9,19 @@ const Person = () => {
       'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/271xabIyKpp8R0mjRRD6eZkfqjn.jpg',
   })
   const [personCredits, setPersonCredits] = useState({
-    profile_path:
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/271xabIyKpp8R0mjRRD6eZkfqjn.jpg',
+    cast: [{ poster_path: '/az478qHIo2nYAzKVms0wj4efdBE.jpg' }],
   })
   useEffect(() => {
     const getPersonDescribe = async (id, language) => {
-      const personDescribe = await PersonAPI.getPerson(id, language)
+      const personDescribe = await PersonAPI.getPersonDescribe(id, language)
       setPersonDescribe(personDescribe)
     }
     const getPersonCredits = async (id, language) => {
       const personCredits = await PersonAPI.getPersonCredits(id, language)
       setPersonCredits(personCredits)
     }
+
+    console.log(personCredits)
 
     getPersonCredits(id, 'Ru-ru')
     getPersonDescribe(id, 'Ru-ru')
@@ -43,6 +44,13 @@ const Person = () => {
             <span className='realese-date'>{personDescribe.birthday}</span>
           </div>
           <p>{personDescribe.biography}</p>
+          {personCredits.cast.map((person) => {
+            return (
+              <img
+                src={`https://www.themoviedb.org/t/p/w150_and_h225_bestv2${person.poster_path}`}
+              />
+            )
+          })}
         </div>
       </div>
     </section>
