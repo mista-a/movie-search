@@ -11,7 +11,7 @@ export const profileAPI = {
   async getContent(keyword, currentPage, language = 'en-US', adult = 'false') {
     const response = await instance
       .get(
-        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`,
+        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`
       )
       .catch((error) => console.log(error.response.data))
     return response.data
@@ -50,6 +50,24 @@ export const movieAPI = {
   async getTrailer(type, id, language = 'en-En') {
     const response = await instance
       .get(`${type}/${id}/videos?api_key=${APIKey}&language=${language}`)
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+}
+
+export const PersonAPI = {
+  async getPersonDescribe(id, language = 'en-En') {
+    const response = await instance
+      .get(`person/${id}?api_key=${APIKey}&language=${language}`)
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+
+  async getPersonCredits(id, language = 'en-En') {
+    const response = await instance
+      .get(
+        `person/${id}/combined_credits?api_key=${APIKey}&language=${language}`
+      )
       .catch((error) => console.log(error.response.data))
     return response.data
   },
