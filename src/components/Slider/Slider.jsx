@@ -1,72 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
+import slider_arrow_left from '../../assets/img/slider-arrow-left.svg'
+import slider_arrow_right from '../../assets/img/slider-arrow-right.svg'
 
 //fix SLIDER ДОЛЖЕН БЫТЬ ОТДЕЛЬНЫМ!!!
 //ОПРЕДЕЛИСЬ
 
 const Slider = ({ classSlider, children }) => {
-  const slideRef = useRef()
-  const [state, setState] = useState({
-    isScrolling: false,
-    clientX: 0,
-    scrollX: 0,
-  })
-
-  // useEffect(() => {
-  //   document.addEventListener('mousedown', onMouseDown)
-  //   document.addEventListener('mousemove', onMouseMove)
-  //   document.addEventListener('mouseup', onMouseUp)
-
-  //   return () => {
-  //     document.removeEventListener('mousedown', onMouseDown)
-  //     document.removeEventListener('mousemove', onMouseMove)
-  //     document.removeEventListener('mouseup', onMouseUp)
-  //   }
-  // })
-
-  // const onMouseDown = (e) => {
-  //   if (!slideRef) return
-  //   e.preventDefault()
-  //   setState({ ...state, isScrolling: true, clientX: e.clientX })
-  // }
-
-  // const onMouseMove = (e) => {
-  //   if (!slideRef) return
-  //   e.preventDefault()
-  //   const { clientX, scrollX, isScrolling } = state
-
-  //   if (isScrolling) {
-  //     if (
-  //       slideRef &&
-  //       slideRef.current &&
-  //       !slideRef.current.contains(e.target)
-  //     ) {
-  //       return
-  //     }
-  //     slideRef.current.scrollLeft = scrollX + e.clientX - clientX
-
-  //     setState({
-  //       ...state,
-  //       scrollX: scrollX - e.clientX + clientX,
-  //       clientX: e.clientX,
-  //     })
-  //   }
-  // }
-
-  // const onMouseUp = (e) => {
-  //   if (!slideRef) return
-  //   e.preventDefault()
-  //   setState({ ...state, isScrolling: false })
-  // }
-
   return (
-    <div
-      className={classSlider}
-      // ref={slideRef}
-      // onMouseDown={onMouseDown}
-      // onMouseMove={onMouseMove}
-      // onMouseUp={onMouseUp}
-    >
-      {children}
+    <div className='slider-container'>
+      <button className='slider-container__button slider-container__button_prev'>
+        <img
+          src={slider_arrow_left}
+          alt='slider arrow'
+          className='slider-container__img slider-container__img_left'
+        />
+      </button>
+      <button className='slider-container__button slider-container__button_next'>
+        <img
+          src={slider_arrow_right}
+          alt='slider arrow'
+          className=' slider-container__img slider-container__img_right'
+        />
+      </button>
+      <div className={classSlider}>{children}</div>
     </div>
   )
 }

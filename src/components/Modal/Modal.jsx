@@ -1,16 +1,23 @@
+import { useEffect, useState } from 'react'
+
 const Modal = ({ active, setActive, children }) => {
+  const [anim, setAnim] = useState(true)
+  //Все еще зависим
+  useEffect(() => setAnim(true), [active])
+
+  const hideModal = () => {
+    setAnim(false)
+    setTimeout(() => setActive(false), 450)
+  }
+
   return (
-    <div
-      className={active ? 'modal active' : 'modal'}
-      onClick={() => setActive(false)}
-    >
-      <div
-        className={active ? 'modal__content active' : 'modal__content'}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {children}
+    active && (
+      <div className={anim ? 'modal' : 'hide'} onClick={hideModal}>
+        <div className={'modal__content'} onClick={(e) => e.stopPropagation()}>
+          {children}
+        </div>
       </div>
-    </div>
+    )
   )
 }
 

@@ -33,9 +33,9 @@ const Header = (props) => {
           >
             <span className='sign-in__text'>вход</span>
           </button>
+          <Modal active={modalActive} setActive={setModalActive}></Modal>
         </div>
       </div>
-      <Modal active={modalActive} setActive={setModalActive}></Modal>
     </header>
   )
 }
