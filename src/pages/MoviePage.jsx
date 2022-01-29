@@ -188,13 +188,12 @@ const MoviePage = () => {
             </p>
             <Slider classSlider='slider'>
               {movieState.Credits.cast.map((actor, index) => {
-                if (index > 6) return ''
+                if (index > 9) return ''
                 return (
                   <Link
                     to={`/person/${actor.id}`}
                     key={actor.id}
                     className='slide'
-                    index={index}
                   >
                     <div className='slide__img-container'>
                       <img
