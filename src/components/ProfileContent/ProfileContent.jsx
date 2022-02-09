@@ -2,9 +2,9 @@ import ProfileContentCard from './ProfileContentCard/ProfileContentCard'
 import { profileAPI } from './../../API/API'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-//fix 'Ничего не найдено' вылазит нахуй, когда ненадо
+//fix 'Ничего не найдено' вылазит нахуй, когда не надо
 //обсервер для контейнер кард ты можешь хранить и тут
-
+//переделай методы в use effect
 const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)

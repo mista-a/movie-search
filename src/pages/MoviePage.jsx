@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { movieAPI } from '../API/API'
 import gener_partition from '../assets/img/gener-partition.png'
 import enable_rating_star from '../assets/img/enable-rating-star.png'
 import disable_rating_star from '../assets/img/disable-rating-star.svg'
 import Slider from '../components/Slider/Slider'
-import image__placeholder from '../assets/img/image-placeholder.png'
+import placeholder_image from '../assets/img/image-placeholder.png'
 import play_image from '../assets/img/play-image.svg'
 import Modal from '../components/Modal/Modal'
+import { LanguageContext } from '../contexts/LanguageContext'
 
 const MoviePage = () => {
-  const { id } = useParams()
+  //fix доделать звездочки
+  //fix подумай над реализацией отсутсвия треллера
+  //fix попробуй треллер норм выбрать (official, #1)
   const [movieState, setMovieState] = useState({
     description: {
       poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',
@@ -18,18 +21,18 @@ const MoviePage = () => {
       release_date: [],
       vote_average: 1,
     },
-    AgeLimit: {
+    ageLimit: {
       id: 0,
       results: [{ release_dates: [{ certification: '0' }] }],
     },
-    Credits: { cast: [], crew: [{ name: '' }] },
-    Trailer: { results: [{ key: 'VCMaJLwChfs' }] },
+    credits: { cast: [], crew: [{ name: '' }] },
+    trailer: { results: [{ key: 'VCMaJLwChfs' }] },
   })
-
+  const [loading, setLoading] = useState(true)
   const [modalActive, setModalActive] = useState(false)
 
+  const { id } = useParams()
   const release_date = new Date(movieState.description.release_date)
-
   const monthListRus = [
     'января',
     'февраля',
@@ -44,40 +47,36 @@ const MoviePage = () => {
     'ноября',
     'декабря',
   ]
+  const language = useContext(LanguageContext)
 
   const getDirector = () => {
-    let ind = 0
-    movieState.Credits.crew.forEach((e, index) => {
-      if (e.job === 'Director') ind = index
-    })
-    return movieState.Credits.crew[ind].name
+    if (movieState.credits.crew.length) {
+      let ind = 0
+      movieState.credits.crew.forEach((person, index) => {
+        if (person.job === 'Director') ind = index
+      })
+      return movieState.credits.crew[ind].name
+    }
   }
-
-  const [loading, setLoading] = useState(true)
-
-  //fix сделай нормальный default state
-  //доделать звездочки
 
   useEffect(() => {
     const getMovieState = async (id, language) => {
       setLoading(true)
-      const description = await movieAPI.getDescription('movie', id)
-      const AgeLimit = await movieAPI.getMovieAgeLimit(id)
-      const Credits = await movieAPI.getCredits('movie', id)
-      const Trailer = await movieAPI.getTrailer('movie', id)
-
+      const description = await movieAPI.getDescription('movie', id, language)
+      const ageLimit = await movieAPI.getMovieAgeLimit(id)
+      const credits = await movieAPI.getCredits('movie', id, language)
+      const trailer = await movieAPI.getTrailer('movie', id, language)
       setMovieState({
         ...movieState,
         description,
-        AgeLimit,
-        Credits,
-        Trailer,
+        ageLimit,
+        credits,
+        trailer,
       })
       setLoading(false)
     }
-
-    getMovieState(id)
-  }, [])
+    getMovieState(id, language.language)
+  }, [language])
 
   const showStarsRating = (starsCounter) => {
     const enableStarsCounter = Math.floor(starsCounter / 2)
@@ -118,10 +117,12 @@ const MoviePage = () => {
               />
             </div>
             <button
-              className='trailer-button'
-              onClick={() => {
-                setModalActive(true)
-              }}
+              className={
+                movieState.trailer.results.length
+                  ? 'trailer-button'
+                  : 'trailer-button--disabled'
+              }
+              onClick={() => setModalActive(true)}
             >
               <img
                 src={play_image}
@@ -130,17 +131,21 @@ const MoviePage = () => {
               />
               <span className='trailer-button__text'>Смотреть трейллер</span>
             </button>
-            <Modal active={modalActive} setActive={setModalActive}>
-              <iframe
-                width='1200'
-                height='675'
-                src={`https://www.youtube.com/embed/${movieState.Trailer.results[0].key}?&autoplay=1`}
-                title='YouTube video player'
-                frameBorder='0'
-                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                allowFullScreen
-              ></iframe>
-            </Modal>
+            {movieState.trailer.results.length ? (
+              <Modal active={modalActive} setActive={setModalActive}>
+                <iframe
+                  width='1200'
+                  height='675'
+                  src={`https://www.youtube.com/embed/${movieState.trailer.results[0].key}?&autoplay=1`}
+                  title='YouTube video player'
+                  frameBorder='0'
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                  allowFullScreen
+                ></iframe>
+              </Modal>
+            ) : (
+              ''
+            )}
             <p className='trailer-button-subscribe'>
               *трейлер может отсутствовать :(
             </p>
@@ -150,14 +155,14 @@ const MoviePage = () => {
               <h2 className='movie-title__translated'>
                 {movieState.description.title}
               </h2>
-              {movieState.AgeLimit !== 0 &&
-                movieState.AgeLimit.results[0].release_dates[0]
+              {movieState.ageLimit !== 0 &&
+                movieState.ageLimit.results[0].release_dates[0]
                   .certification && (
                   <div className='age-limit-container'>
                     {
                       <b className='age-limit-container__text'>
                         {
-                          movieState.AgeLimit.results[0].release_dates[0]
+                          movieState.ageLimit.results[0].release_dates[0]
                             .certification
                         }
                       </b>
@@ -176,6 +181,7 @@ const MoviePage = () => {
                       <img
                         src={gener_partition}
                         className='geners__partition'
+                        alt=' '
                       />
                     )}
                     <span>{`${item.name}`}</span>
@@ -186,36 +192,46 @@ const MoviePage = () => {
             <p className='movie-description'>
               {movieState.description.overview}
             </p>
-            <Slider classSlider='slider'>
-              {movieState.Credits.cast.map((actor, index) => {
-                if (index > 9) return ''
-                return (
-                  <Link
-                    to={`/person/${actor.id}`}
-                    key={actor.id}
-                    className='slide'
-                  >
-                    <div className='slide__img-container'>
-                      <img
-                        src={
-                          actor.profile_path
-                            ? `https://www.themoviedb.org/t/p/w138_and_h175_face/${actor.profile_path}`
-                            : `${image__placeholder}`
-                        }
-                        alt='actor img'
-                        className='slide__img'
-                      />
-                    </div>
-                    <div className='slide__text-inner'>
-                      <p className='slide__actor-name'>{actor.name}</p>
-                      <p className='slide__character-name'>{actor.character}</p>
-                    </div>
-                  </Link>
-                )
-              })}
-            </Slider>
+            {movieState.credits.crew.length ? (
+              <Slider
+                classSlider='slider'
+                showButtons={movieState.credits.cast.length > 5}
+              >
+                {movieState.credits.cast.map((actor, index) => {
+                  if (index > 9) return ''
+                  return (
+                    <Link
+                      to={`/person/${actor.id}`}
+                      key={actor.id}
+                      className='slide'
+                    >
+                      <div className='slide__img-container'>
+                        <img
+                          src={
+                            actor.profile_path
+                              ? `https://www.themoviedb.org/t/p/w138_and_h175_face/${actor.profile_path}`
+                              : `${placeholder_image}`
+                          }
+                          alt='actor img'
+                          className='slide__img'
+                        />
+                        <div className='slide__active'></div>
+                      </div>
+                      <div className='slide__text-inner'>
+                        <p className='slide__actor-name'>{actor.name}</p>
+                        <p className='slide__character-name'>
+                          {actor.character}
+                        </p>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </Slider>
+            ) : (
+              ''
+            )}
           </div>
-          <div className='side-description'>
+          <div className='right-description'>
             <div className='rating'>
               <span className='rating__rating-mark'>
                 {movieState.description.vote_average}
@@ -223,7 +239,7 @@ const MoviePage = () => {
               <span className='rating__max-rating'>/10</span>
               {showStarsRating(movieState.description.vote_average)}
             </div>
-            <div className='site-description__director'>
+            <div className='right-description__director'>
               <p className='director'>Режиссер</p>
               <p className='director__name'>{getDirector()}</p>
             </div>

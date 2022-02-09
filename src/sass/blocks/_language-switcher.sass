@@ -1,0 +1,41 @@
+.language-switcher
+  &__button
+    display: flex
+    background-color: inherit
+    border: 1px solid white
+    cursor: pointer
+    position: relative
+    border-radius: 4px
+    text-align: center
+  &__menu
+    //width: 33px
+    display: none
+    position: absolute
+    align-items: center
+    max-height: 100px
+    z-index: 1
+    overflow: scroll
+    width: 75px
+    &_show
+      animation: show 0.3s
+      display: flex
+      flex-direction: column
+    &_hide
+      animation: hide 0.3s
+      display: none
+  &__language
+    background-color: inherit
+    border: none
+    cursor: pointer
+
+@keyframes show
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+@keyframes hide
+  0%
+    opacity: 1
+  100%
+    opacity: 0

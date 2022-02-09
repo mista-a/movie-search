@@ -22,6 +22,19 @@
   display: flex
   justify-content: center
   align-items: center
+  transition: .6s
+  &:hover
+    background-color: #FFFFFF
+  &--disabled
+    height: 60px
+    width: 100%
+    background-color: #D9D9D9
+    border: none
+    border-radius: 10px
+    cursor: not-allowed
+    display: flex
+    justify-content: center
+    align-items: center
   &__play-image
     margin-right: 8px
   &__text
@@ -37,8 +50,10 @@
 .description
   width: 670px
 .movie-title
+  display: flex
+  align-items: center
   &__translated
-    display: inline
+    margin: 0
     font-weight: bold
     font-size: 24px
     line-height: 28px
