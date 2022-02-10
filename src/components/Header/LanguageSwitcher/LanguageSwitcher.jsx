@@ -4,7 +4,6 @@ import { languageAPI } from '../../../API/API'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 
 //fix норм переменные
-//fix зачем тебе контекст когда все есть в localStorage   !!!
 
 const LanguageSwitcher = () => {
   const [translations, setTranslations] = useState([])
