@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { personAPI } from '../API/API'
 import placeholder_image_100x135 from '../assets/img/placeholder-image-100x135.svg'
+import { LanguageContext } from '../contexts/LanguageContext'
 
 //fix уменьшить размер фотак
 //fix добавить crew не забудь
@@ -21,6 +22,8 @@ const Person = () => {
     },
   })
 
+  const { language } = useContext(LanguageContext)
+
   useEffect(() => {
     const getPersonState = async (id, language) => {
       const describe = await personAPI.getPersonDescribe(id, language)
@@ -29,8 +32,8 @@ const Person = () => {
       setPersonState({ ...personState, describe, credits })
     }
 
-    getPersonState(id, 'Ru-ru')
-  }, [])
+    getPersonState(id, language)
+  }, [language])
 
   return (
     <section className='person-page'>

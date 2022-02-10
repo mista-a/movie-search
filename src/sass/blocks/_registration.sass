@@ -1,14 +1,73 @@
+//fix переименовать файл
+
 .registration
-  height: 500px
-  width: 400px
-  background-color: #383636
+  height: 420px
+  width: 570px
+  background-color: #1E1E1E
   display: flex
   justify-content: center
   align-items: center
-  &__input
-    background-color: #030303
-    border: none
+  border-radius: 60px
+  flex-direction: column
+  &-header
+    &__text
+      font-weight: 300
+      font-size: 24px
+      line-height: 28px
+      margin-bottom: 10px
+  &-label
+    display: flex
+    flex-direction: column
+    &__text
+      margin-bottom: 5px
+      font-size: 18px
+      line-height: 21px
+  &-input
+    background-color: #111111
+    border-radius: 10px
+    height: 35px
+    width: 300px
+    border: 1px solid #C3C1C1
+  &-username
+    &__input
+      margin-bottom: 15px
+  &-password
+    &__input
+      margin-bottom: 5px
   &__submit
     cursor: pointer
   &__error
     height: 40px
+  &-submit
+    height: 40px
+    display: flex
+    justify-content: center
+    &__input
+      border-radius: 15px
+      padding: 0
+      border: none
+      background-color: #717171
+      font-weight: 300
+      font-size: 18px
+      line-height: 21px
+      width: 170px
+      height: 100%
+      cursor: pointer
+      &_invalid
+        background-color: #717171
+.label-username
+  margin-bottom: 15px
+.password-reset
+  display: flex
+  flex-direction: column
+  &__button
+    cursor: pointer
+    border: none
+    background-color: inherit
+    align-self: self-end
+  &__text
+    margin-top: 0
+    margin-bottom: 15px
+    font-weight: 300
+    font-size: 14px
+    line-height: 16px

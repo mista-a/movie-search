@@ -14,6 +14,11 @@ export const AuthenticationProvider = ({ children }) => {
     setSessionId(sessionId)
   }
 
+  const deleteLocalStorageSessionId = () => {
+    localStorage.removeItem('sessionId')
+    setSessionId(null)
+  }
+
   useEffect(() => {
     if (localStorage.getItem('sessionId')) {
       setSessionId(localStorage.getItem('sessionId'))
@@ -22,7 +27,11 @@ export const AuthenticationProvider = ({ children }) => {
 
   return (
     <AuthenticationContext.Provider
-      value={{ sessionId, setLocalStorageSessionId }}
+      value={{
+        sessionId,
+        setLocalStorageSessionId,
+        deleteLocalStorageSessionId,
+      }}
     >
       {children}
     </AuthenticationContext.Provider>

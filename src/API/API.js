@@ -1,6 +1,3 @@
-//fix getProfileContent
-//fix lang sdes?
-
 import axios from 'axios'
 
 const themoviedb = axios.create({
@@ -34,7 +31,6 @@ export const authenticationAPI = {
       })
       .catch((error) => console.log(error.response.data))
     return response.data.session_id
-    console.log(response)
   },
 }
 
@@ -115,15 +111,7 @@ export const movieAPI = {
         { value },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
-      .then((response) => console.log(response))
       .catch((error) => console.log(error.response.data))
-  },
-
-  async getUserDeatails(id) {
-    const response = await themoviedb
-      .get(`account?api_key=${APIKey}&session_id=${id}`)
-      .catch((error) => console.log(error.response.data))
-    return response.data
   },
 }
 
@@ -140,6 +128,15 @@ export const personAPI = {
       .get(
         `person/${id}/combined_credits?api_key=${APIKey}&language=${language}`,
       )
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+}
+
+export const accountAPI = {
+  async getAccountDetails(id) {
+    const response = await themoviedb
+      .get(`account?api_key=${APIKey}&session_id=${id}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
