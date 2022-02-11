@@ -14,6 +14,7 @@ const MoviePage = () => {
   //fix доделать звездочки
   //fix подумай над реализацией отсутсвия треллера
   //fix попробуй треллер норм выбрать (official, #1)
+  //fix переделать месяцы
   const [movieState, setMovieState] = useState({
     description: {
       poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',

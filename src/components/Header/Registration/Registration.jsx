@@ -3,7 +3,8 @@ import { useContext } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 
 //fix перенаименовать компоненту
-// ne fix тут бэм просто пушка вроде
+//ne fix тут бэм просто пушка вроде
+//fix переделать border при ошибки
 
 const Registration = () => {
   const { setLocalStorageSessionId } = useContext(AuthenticationContext)
@@ -28,8 +29,8 @@ const Registration = () => {
           <label className='registration-label registration-username__label'>
             <span className='registration-label__text '>Имя пользователя</span>
             <input
-              className='registration-input registration-username__input'
-              {...register('username', { required: 'Обяз' })}
+              className={errors?.username?'registration-input registration-username__input registration-username__input_error' : 'registration-input registration-username__input'}
+              {...register('username', { required: 'обязательное поле' })}
             />
           </label>
         </div>
@@ -43,16 +44,16 @@ const Registration = () => {
         <div className='registration-password'>
           <label className='registration-label registration-password__label'>
             <span className='registration-label__text'>Пароль</span>
-            <input
+            <input type='password'
               className='registration-input registration-password__input'
-              {...register('password', { required: 'Обяз' })}
+              {...register('password', { required: 'обязательное поле' })}
             />
           </label>
         </div>
         <div className='registration-error'>
-          {errors?.username && (
+          {errors?.password && (
             <span className='registration-error__text'>
-              {errors?.username?.message}
+              {errors?.password?.message}
             </span>
           )}
         </div>

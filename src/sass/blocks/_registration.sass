@@ -30,10 +30,18 @@
     border: 1px solid #C3C1C1
   &-username
     &__input
-      margin-bottom: 15px
+      &_error
+        border-color: #FF5353
   &-password
+    &__label
+      margin-top: 15px
     &__input
-      margin-bottom: 5px
+  &-error
+    &__text
+      color: #FF5353
+      font-weight: 300
+      font-size: 14px
+      line-height: 16px
   &__submit
     cursor: pointer
   &__error
