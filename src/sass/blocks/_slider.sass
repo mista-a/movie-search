@@ -11,16 +11,15 @@
     border: 10px
     border-radius: 20px
     padding: 0
-    cursor: pointer
     background-color: white
     transition: transform 0.5s
     z-index: 1
     transform: translateY(-50%)
-    animation: show 0.4s
+    animation: opacity0-1 0.4s
     &:active
       background-color: #D9D9D9
     &_hide
-      animation: hide 0.4s
+      animation: opacity1-0 0.4s
     &_prev
       left: -15px
       &:hover
@@ -89,15 +88,3 @@
     margin: 0
     font-size: 16px
     line-height: 16px
-
-@keyframes show
-  0%
-    opacity: 0
-  100%
-    opacity: 1
-
-@keyframes hide
-  0%
-    opacity: 1
-  100%
-    opacity: 0

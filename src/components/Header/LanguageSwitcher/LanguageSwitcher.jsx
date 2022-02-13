@@ -3,12 +3,12 @@ import { useContext, useState } from 'react'
 import { languageAPI } from '../../../API/API'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 
-//fix норм переменные
-
 const LanguageSwitcher = () => {
   const [translations, setTranslations] = useState([])
   const [languageSwitcher, setlanguageSwitcher] = useState(false)
   const { language, setLocalStorageLanguage } = useContext(LanguageContext)
+
+  const switchLanguageSwitcher = () => setlanguageSwitcher(!languageSwitcher)
 
   useEffect(() => {
     const getTranslations = async () => {
@@ -23,7 +23,7 @@ const LanguageSwitcher = () => {
     <div className='language-switcher'>
       <button
         className='language-switcher__button'
-        onClick={() => setlanguageSwitcher(!languageSwitcher)}
+        onClick={switchLanguageSwitcher}
       >
         <span className='language-switcher__text'>{language}</span>
       </button>
@@ -39,9 +39,7 @@ const LanguageSwitcher = () => {
             key={index}
             className='language-switcher__language'
             value={language}
-            onClick={(e) => {
-              setLocalStorageLanguage(e.target.value)
-            }}
+            onClick={(e) => setLocalStorageLanguage(e.target.value)}
           >
             {language}
           </button>

@@ -1,6 +1,7 @@
 import ProfileContentCard from './ProfileContentCard/ProfileContentCard'
 import { profileAPI } from './../../API/API'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useContext } from 'react'
+import { LanguageContext } from '../../contexts/LanguageContext'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда не надо
 //обсервер для контейнер кард ты можешь хранить и тут
@@ -9,7 +10,12 @@ const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
+
+  const { language } = useContext(LanguageContext)
+
   const observer = useRef()
+
+  console.log(content)
 
   const lastElementRef = useCallback(
     (element) => {
@@ -41,29 +47,37 @@ const ProfileContent = ({ searchQuery }) => {
   }
 
   useEffect(() => {
-    const changeNewContent = async () => {
-      if (searchQuery !== '') {
-        if (currentPage !== 1) {
-          setCurrentPage(1)
-        }
-        const newContent = await profileAPI.getContent(searchQuery)
+    const changeNewContent = async (searchQuery, currentPage, language) => {
+      if (searchQuery) {
+        if (currentPage !== 1) setCurrentPage(1)
+
+        const newContent = await profileAPI.getContent(
+          searchQuery,
+          currentPage,
+          language,
+        )
         if (newContent.total_pages !== totalPages) {
           setTotalPages(newContent.total_pages)
         }
+
         const filtedNewContent = filterContent(newContent.results)
         setContent(filtedNewContent)
-      } else if (content.length !== 0) {
+      } else if (content.length) {
         setContent([])
       }
     }
 
-    changeNewContent()
+    changeNewContent(searchQuery, currentPage, language)
   }, [searchQuery])
 
   useEffect(() => {
-    const addNewContent = async () => {
+    const addNewContent = async (searchQuery, currentPage, language) => {
       if (currentPage !== 1) {
-        const newContent = await profileAPI.getContent(searchQuery, currentPage)
+        const newContent = await profileAPI.getContent(
+          searchQuery,
+          currentPage,
+          language,
+        )
         const filtedNewContent = filterContent([
           ...content,
           ...newContent.results,
@@ -72,7 +86,7 @@ const ProfileContent = ({ searchQuery }) => {
       }
     }
 
-    addNewContent()
+    addNewContent(searchQuery, currentPage, language)
   }, [currentPage])
 
   if (searchQuery !== '' && totalPages === 0 && content.length === 0) {
@@ -88,6 +102,8 @@ const ProfileContent = ({ searchQuery }) => {
                 id={item.id}
                 poster={item.poster_path}
                 type={item.media_type}
+                name={item.name ? item.name : item.title}
+                overview={item.overview}
                 ref={index === content.length - 1 ? lastElementRef : null}
               />
             )

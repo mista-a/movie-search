@@ -30,9 +30,12 @@ const MoviePage = () => {
     trailer: { results: [{ key: 'VCMaJLwChfs' }] },
   })
   const [loading, setLoading] = useState(true)
-  const [modalActive, setModalActive] = useState(false)
+  const [sliderModalActive, setSliderModalActive] = useState(false)
 
   const { id } = useParams()
+
+  const language = useContext(LanguageContext)
+
   const release_date = new Date(movieState.description.release_date)
   const monthListRus = [
     'января',
@@ -48,17 +51,8 @@ const MoviePage = () => {
     'ноября',
     'декабря',
   ]
-  const language = useContext(LanguageContext)
 
-  const getDirector = () => {
-    if (movieState.credits.crew.length) {
-      let ind = 0
-      movieState.credits.crew.forEach((person, index) => {
-        if (person.job === 'Director') ind = index
-      })
-      return movieState.credits.crew[ind].name
-    }
-  }
+  const toggleSliderModalActive = () => setSliderModalActive(!sliderModalActive)
 
   useEffect(() => {
     const getMovieState = async (id, language) => {
@@ -79,6 +73,16 @@ const MoviePage = () => {
     getMovieState(id, language.language)
   }, [language])
 
+  const getDirector = () => {
+    if (movieState.credits.crew.length) {
+      let ind = 0
+      movieState.credits.crew.forEach((person, index) => {
+        if (person.job === 'Director') ind = index
+      })
+      return movieState.credits.crew[ind].name
+    }
+  }
+
   const showStarsRating = (starsCounter) => {
     const enableStarsCounter = Math.floor(starsCounter / 2)
     return (
@@ -86,18 +90,20 @@ const MoviePage = () => {
         {[...Array(enableStarsCounter)].map((star, index) => {
           return (
             <img
+              className='star-rating__enable-star'
               key={index}
               src={enable_rating_star}
-              className='star-rating__enable-star'
+              alt='enable star'
             />
           )
         })}
         {[...Array(5 - enableStarsCounter)].map((star, index) => {
           return (
             <img
+              className='star-rating__disable-star'
               key={index}
               src={disable_rating_star}
-              className='star-rating__disable-star'
+              alt='disable star'
             />
           )
         })}
@@ -123,7 +129,7 @@ const MoviePage = () => {
                   ? 'trailer-button'
                   : 'trailer-button--disabled'
               }
-              onClick={() => setModalActive(true)}
+              onClick={toggleSliderModalActive}
             >
               <img
                 src={play_image}
@@ -133,7 +139,10 @@ const MoviePage = () => {
               <span className='trailer-button__text'>Смотреть трейллер</span>
             </button>
             {movieState.trailer.results.length ? (
-              <Modal active={modalActive} setActive={setModalActive}>
+              <Modal
+                active={sliderModalActive}
+                setActive={setSliderModalActive}
+              >
                 <iframe
                   width='1200'
                   height='675'
@@ -249,7 +258,7 @@ const MoviePage = () => {
       </section>
     )
   } else {
-    return <div></div>
+    return <></>
   }
 }
 

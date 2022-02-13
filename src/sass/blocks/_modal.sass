@@ -8,7 +8,7 @@
     display: flex
     align-items: center
     justify-content: center
-    animation: show 0.5s 1
+    animation: opacity0-1 0.5s 1
     opacity: 1
     z-index: 100
     //pointer-events: none
@@ -23,7 +23,7 @@
     display: flex
     align-items: center
     justify-content: center
-    animation: hide 0.5s 1
+    animation: opacity1-0 0.5s 1
     opacity: 0
     z-index: 100
 
@@ -31,16 +31,4 @@
 //     padding: 20px
 //     border-radius: 12px
 //     transition: 0.4s all
-//     animation: show 0.4s 1
-
-@keyframes show
-    0%
-        opacity: 0
-    100%
-        opacity: 1
-
-@keyframes hide
-    0%
-        opacity: 1
-    100%
-        opacity: 0
+//     animation: opacity0-1 0.4s 1

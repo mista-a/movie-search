@@ -55,9 +55,7 @@ const Slider = ({ classSlider, children, showButtons }) => {
                   ? 'slider-container__button slider-container__button_prev'
                   : 'slider-container__button slider-container__button_prev slider-container__button_hide'
               }
-              onClick={(e) => {
-                slideLeft(e)
-              }}
+              onClick={(e) => slideLeft(e)}
             >
               <img
                 src={slider_arrow_left}
@@ -73,9 +71,7 @@ const Slider = ({ classSlider, children, showButtons }) => {
                   ? 'slider-container__button slider-container__button_next'
                   : 'slider-container__button slider-container__button_next slider-container__button_hide'
               }
-              onClick={(e) => {
-                slideRight(e)
-              }}
+              onClick={(e) => slideRight(e)}
             >
               <img
                 src={slider_arrow_right}
@@ -86,6 +82,7 @@ const Slider = ({ classSlider, children, showButtons }) => {
           )}
         </>
       )}
+      <div className=''></div>
       <div className={classSlider} ref={sliderRef}>
         {children}
       </div>
