@@ -1,22 +1,42 @@
 import image_placeholder from '../../../assets/img/image-placeholder.png'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-//fix не забыть перенести cutText в utilits? и определится с написанием
+import cutText from '../../../utils/cutText'
+import translateDate from '../../../utils/translateDate'
+import { GenersContext } from '../../../contexts/GenersContext'
 
 const ProfileContentCard = forwardRef(
-  ({ id, poster, type, name, overview }, ref) => {
+  ({ id, poster, type, name, overview, releaseDate, genersIds }, ref) => {
     const [loaded, setLoaded] = useState(false)
+    const [showDescription, setShowDescription] = useState(false)
 
-    const cutText = (text, size) => {
-      // splitedText = text.split(' ')
-      // firstWords = text.slice(0, size)
-      // text = text.join(' ')
-      // text = `${text}...`
-      return `${text.split(' ').slice(0, size).join(' ')}...`
+    const switchShowDescription = () => setShowDescription(!showDescription)
+
+    const { genersList } = useContext(GenersContext)
+
+    if (overview) overview = cutText(overview, 12)
+
+    if (releaseDate) releaseDate = translateDate(releaseDate)
+
+    const getGeners = (genersList, genersIds) => {
+      let geners = []
+
+      genersIds.forEach((generId) => {
+        genersList.genres.forEach((gener) => {
+          if (gener.id === generId) {
+            geners.push(gener.name)
+          }
+        })
+      })
+
+      return geners
     }
 
-    if (overview) overview = cutText(overview, 10)
+    let geners = []
+
+    if (genersIds) {
+      geners = getGeners(genersList, genersIds)
+    }
 
     return (
       <div className='content__wrapper'>
@@ -29,6 +49,8 @@ const ProfileContentCard = forwardRef(
             }
             ref={ref ? ref : null}
             onLoad={() => setLoaded(true)}
+            onMouseEnter={switchShowDescription}
+            onMouseLeave={switchShowDescription}
             src={`https://www.themoviedb.org/t/p/w185_and_h278_multi_faces${poster}`}
             alt='card'
           />
@@ -40,11 +62,28 @@ const ProfileContentCard = forwardRef(
             />
           )}
         </Link>
-        <div className='content-description'>
+        <div
+          className={
+            showDescription
+              ? 'content-description content-description_show'
+              : 'content-description content-description_hide'
+          }
+        >
           <div className='content-description__arrow'></div>
           <div className='content-description__description'>
             <h4 className='content-description__name'>{name}</h4>
+            <p className='content-description__release-date'>
+              {releaseDate} г.
+            </p>
             <p className='content-description__overview'>{overview}</p>
+            <div className='content-description__geners'>
+              {`Жанры: `}
+              {geners.map((gener, index) => (
+                <span className='content-description__gener' key={index}>
+                  {`${gener} `}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

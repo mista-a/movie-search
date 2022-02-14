@@ -104,6 +104,10 @@ const ProfileContent = ({ searchQuery }) => {
                 type={item.media_type}
                 name={item.name ? item.name : item.title}
                 overview={item.overview}
+                releaseDate={
+                  item.first_air_date ? item.first_air_date : item.release_date
+                }
+                genersIds={item.genre_ids}
                 ref={index === content.length - 1 ? lastElementRef : null}
               />
             )

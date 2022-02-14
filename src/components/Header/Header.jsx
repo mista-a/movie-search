@@ -48,8 +48,6 @@ const Header = () => {
     getAccountDetails(sessionId)
   }, [sessionId])
 
-  console.log(accountDetails)
-
   return (
     <header className='header'>
       <Link to='profile' className='logo'>

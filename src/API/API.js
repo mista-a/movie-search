@@ -141,3 +141,12 @@ export const accountAPI = {
     return response.data
   },
 }
+
+export const genersAPI = {
+  async getGeners(language) {
+    const response = await themoviedb
+      .get(`genre/movie/list?api_key=${APIKey}&language=${language}`)
+      .catch((error) => console.log(error.response.data))
+    return response.data
+  },
+}
