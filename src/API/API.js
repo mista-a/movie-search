@@ -115,6 +115,32 @@ export const movieAPI = {
   },
 }
 
+export const listsAPI = {
+  async addToWatchList(type, id, sessionId, watchlist) {
+    await themoviedb
+      .post(
+        `account/{account_id}/watchlist?api_key=${APIKey}&session_id=${sessionId}`,
+        {
+          media_type: type,
+          media_id: id,
+          watchlist: watchlist,
+        },
+        { 'Content-Type': 'application/json;charset=utf-8' },
+      )
+      .catch((error) => console.log(error.response.data))
+  },
+
+  async getWatchList(accountId, sessionId, language, page) {
+    const response = await themoviedb
+      .get(
+        `account/${accountId}/watchlist/movies?api_key=${APIKey}&language=${language}&session_id=${sessionId}&page=${page}`,
+      )
+      .catch((error) => console.log(error.response.data))
+
+    return response.data
+  },
+}
+
 export const personAPI = {
   async getPersonDescribe(id, language = 'en') {
     const response = await themoviedb

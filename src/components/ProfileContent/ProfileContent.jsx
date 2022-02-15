@@ -15,8 +15,6 @@ const ProfileContent = ({ searchQuery }) => {
 
   const observer = useRef()
 
-  console.log(content)
-
   const lastElementRef = useCallback(
     (element) => {
       if (observer.current) observer.current.disconnect()
@@ -108,6 +106,7 @@ const ProfileContent = ({ searchQuery }) => {
                   item.first_air_date ? item.first_air_date : item.release_date
                 }
                 genersIds={item.genre_ids}
+                rating={item.vote_average}
                 ref={index === content.length - 1 ? lastElementRef : null}
               />
             )
