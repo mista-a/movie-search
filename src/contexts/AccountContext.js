@@ -5,7 +5,9 @@ import { AuthenticationContext } from './AuthenticationContext'
 export const AccountContext = createContext()
 
 export const AccountProvider = ({ children }) => {
-  const [accountDetails, setAccountDetails] = useState()
+  const [accountDetails, setAccountDetails] = useState({
+    accountDetails: { id: 0 },
+  })
 
   const { sessionId } = useContext(AuthenticationContext)
 
@@ -19,7 +21,12 @@ export const AccountProvider = ({ children }) => {
   }, [sessionId])
 
   return (
-    <AccountContext.Provider value={{ accountDetails }}>
+    <AccountContext.Provider
+      value={{
+        accountId: accountDetails.id,
+        accountUsername: accountDetails.username,
+      }}
+    >
       {children}
     </AccountContext.Provider>
   )
