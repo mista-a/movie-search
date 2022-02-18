@@ -13,6 +13,14 @@ const SearchBar = ({ setDelayMessage }) => {
     return () => clearTimeout(timeOutId)
   }, [searchQuery])
 
+  const onSearchBarChange = (e) => setSearchQuery(e.target.value)
+
+  const cleanSearchBar = (e) => {
+    setSearchQuery('')
+    e.preventDefault()
+    ref.current.focus()
+  }
+
   return (
     <section className='search-bar'>
       <form className='search-bar__action'>
@@ -26,16 +34,9 @@ const SearchBar = ({ setDelayMessage }) => {
           value={searchQuery}
           type='text'
           className='search-bar__input'
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={onSearchBarChange}
         />
-        <button
-          className='search-bar__cleaner'
-          onClick={(e) => {
-            setSearchQuery('')
-            e.preventDefault()
-            ref.current.focus()
-          }}
-        >
+        <button className='search-bar__cleaner' onClick={cleanSearchBar}>
           <img
             src={search_bar__cleaner}
             alt='clean search'

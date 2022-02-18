@@ -61,53 +61,53 @@ export const profileAPI = {
   },
 }
 
-export const movieAPI = {
-  async getDescription(type, id, language) {
+export const titleAPI = {
+  async getDescription(type, titleId, language) {
     const response = await themoviedb
-      .get(`${type}/${id}?api_key=${APIKey}&language=${language}`)
+      .get(`${type}/${titleId}?api_key=${APIKey}&language=${language}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
 
-  async getMovieAgeLimit(id) {
+  async getMovieAgeLimit(titleId) {
     const response = await themoviedb
-      .get(`movie/${id}/release_dates?api_key=${APIKey}`)
+      .get(`movie/${titleId}/release_dates?api_key=${APIKey}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
 
-  async getTvAgeLimit(id) {
+  async getTvAgeLimit(titleId) {
     const response = await themoviedb
-      .get(`tv/${id}/release_dates?api_key=${APIKey}`)
+      .get(`tv/${titleId}/release_dates?api_key=${APIKey}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
 
-  async getCredits(type, id, language) {
+  async getCredits(type, titleId, language) {
     const response = await themoviedb
-      .get(`${type}/${id}/credits?api_key=${APIKey}&language=${language}`)
+      .get(`${type}/${titleId}/credits?api_key=${APIKey}&language=${language}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
 
-  async getTrailer(type, id, language) {
+  async getTrailer(type, titleId, language) {
     let response = await themoviedb
-      .get(`${type}/${id}/videos?api_key=${APIKey}&language=${language}`)
+      .get(`${type}/${titleId}/videos?api_key=${APIKey}&language=${language}`)
       .catch((error) => console.log(error.response.data))
     if (response.data.results.length > 0) {
       return response.data
     } else {
       response = await themoviedb
-        .get(`${type}/${id}/videos?api_key=${APIKey}&language=en`)
+        .get(`${type}/${titleId}/videos?api_key=${APIKey}&language=en`)
         .catch((error) => console.log(error.response.data))
       return response.data
     }
   },
 
-  async postRating(id, value) {
+  async postRating(titleId, value) {
     await themoviedb
       .post(
-        `movie/${id}/rating?api_key=${APIKey}`,
+        `movie/${titleId}/rating?api_key=${APIKey}`,
         { value },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
@@ -116,13 +116,13 @@ export const movieAPI = {
 }
 
 export const listsAPI = {
-  async addToWatchList(type, id, sessionId, watchlist) {
+  async addToWatchList(type, titleId, sessionId, watchlist) {
     await themoviedb
       .post(
         `account/{account_id}/watchlist?api_key=${APIKey}&session_id=${sessionId}`,
         {
           media_type: type,
-          media_id: id,
+          media_id: titleId,
           watchlist: watchlist,
         },
         { 'Content-Type': 'application/json;charset=utf-8' },
@@ -142,17 +142,17 @@ export const listsAPI = {
 }
 
 export const personAPI = {
-  async getPersonDescribe(id, language = 'en') {
+  async getPersonDescribe(personId, language = 'en') {
     const response = await themoviedb
-      .get(`person/${id}?api_key=${APIKey}&language=${language}`)
+      .get(`person/${personId}?api_key=${APIKey}&language=${language}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },
 
-  async getPersonCredits(id, language = 'en') {
+  async getPersonCredits(personId, language = 'en') {
     const response = await themoviedb
       .get(
-        `person/${id}/combined_credits?api_key=${APIKey}&language=${language}`,
+        `person/${personId}/combined_credits?api_key=${APIKey}&language=${language}`,
       )
       .catch((error) => console.log(error.response.data))
     return response.data
@@ -160,9 +160,9 @@ export const personAPI = {
 }
 
 export const accountAPI = {
-  async getAccountDetails(id) {
+  async getAccountDetails(sessionId) {
     const response = await themoviedb
-      .get(`account?api_key=${APIKey}&session_id=${id}`)
+      .get(`account?api_key=${APIKey}&session_id=${sessionId}`)
       .catch((error) => console.log(error.response.data))
     return response.data
   },

@@ -8,7 +8,7 @@ import { LanguageContext } from '../contexts/LanguageContext'
 //fix добавить crew не забудь
 
 const Person = () => {
-  const { id } = useParams()
+  const { personId } = useParams()
   const [personState, setPersonState] = useState({
     describe: {
       profile_path:
@@ -25,14 +25,14 @@ const Person = () => {
   const { language } = useContext(LanguageContext)
 
   useEffect(() => {
-    const getPersonState = async (id, language) => {
-      const describe = await personAPI.getPersonDescribe(id, language)
-      const credits = await personAPI.getPersonCredits(id, language)
+    const getPersonState = async (personId, language) => {
+      const describe = await personAPI.getPersonDescribe(personId, language)
+      const credits = await personAPI.getPersonCredits(personId, language)
 
       setPersonState({ ...personState, describe, credits })
     }
 
-    getPersonState(id, language)
+    getPersonState(personId, language)
   }, [language])
 
   return (

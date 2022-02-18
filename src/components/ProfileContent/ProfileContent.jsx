@@ -6,8 +6,9 @@ import { AccountContext } from '../../contexts/AccountContext'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда не надо
-//обсервер для контейнер кард ты можешь хранить и тут
-//переделай методы в use effect
+//fix переделай методы в use effect
+//fix добавить фильтр по ориг назв
+
 const ProfileContent = ({ searchQuery }) => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)

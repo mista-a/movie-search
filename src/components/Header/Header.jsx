@@ -1,6 +1,5 @@
 import logo from '../../assets/img/logo.svg'
 import user_avatar__image from '../../assets/img/user-avatar.png'
-// import logout__image from '../../assets/img/logout.png'
 import { memo, useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from '../Modal/Modal'
@@ -9,8 +8,7 @@ import Registration from './Registration/Registration'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
 import { accountAPI } from '../../API/API'
 
-//fix норм классы, переделай закрытие входа на submite форм, подумай над переносам входа в "Registration"
-//fix определись с выходом
+//fix норм классы, подумай над переносам входа в "Registration"
 //fix jxs у тя гавнище
 //fix сделать одну общую ссылку для фото в themoviedb
 

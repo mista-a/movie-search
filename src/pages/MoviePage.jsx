@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { movieAPI } from '../API/API'
+import { titleAPI } from '../API/API'
 import gener_partition from '../assets/img/gener-partition.png'
 import enable_rating_star from '../assets/img/enable-rating-star.png'
 import disable_rating_star from '../assets/img/disable-rating-star.svg'
@@ -30,9 +30,9 @@ const MoviePage = () => {
     trailer: { results: [{ key: 'VCMaJLwChfs' }] },
   })
   const [loading, setLoading] = useState(true)
-  const [sliderModalActive, setSliderModalActive] = useState(false)
+  const [trailerModalActive, setTrailerModalActive] = useState(false)
 
-  const { id } = useParams()
+  const { titleId } = useParams()
 
   const language = useContext(LanguageContext)
 
@@ -52,15 +52,20 @@ const MoviePage = () => {
     'декабря',
   ]
 
-  const toggleSliderModalActive = () => setSliderModalActive(!sliderModalActive)
+  const toggleSliderModalActive = () =>
+    setTrailerModalActive(!trailerModalActive)
 
   useEffect(() => {
-    const getMovieState = async (id, language) => {
+    const getMovieState = async (titleId, language) => {
       setLoading(true)
-      const description = await movieAPI.getDescription('movie', id, language)
-      const ageLimit = await movieAPI.getMovieAgeLimit(id)
-      const credits = await movieAPI.getCredits('movie', id, language)
-      const trailer = await movieAPI.getTrailer('movie', id, language)
+      const description = await titleAPI.getDescription(
+        'movie',
+        titleId,
+        language,
+      )
+      const ageLimit = await titleAPI.getMovieAgeLimit(titleId)
+      const credits = await titleAPI.getCredits('movie', titleId, language)
+      const trailer = await titleAPI.getTrailer('movie', titleId, language)
       setMovieState({
         ...movieState,
         description,
@@ -70,7 +75,7 @@ const MoviePage = () => {
       })
       setLoading(false)
     }
-    getMovieState(id, language.language)
+    getMovieState(titleId, language.language)
   }, [language])
 
   const getDirector = () => {
@@ -140,8 +145,8 @@ const MoviePage = () => {
             </button>
             {movieState.trailer.results.length ? (
               <Modal
-                active={sliderModalActive}
-                setActive={setSliderModalActive}
+                active={trailerModalActive}
+                setActive={setTrailerModalActive}
               >
                 <iframe
                   width='1200'

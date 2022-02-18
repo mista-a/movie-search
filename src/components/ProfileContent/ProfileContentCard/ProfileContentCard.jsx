@@ -11,7 +11,6 @@ import ContentDescription from './ContentDesription/ContentDescription'
 //fix переделать дату в описании
 //fix переделать пустой жанр
 //fix сделать анимацию на исчезновения description
-//fix везде id заменить на movie id
 
 const ProfileContentCard = forwardRef(
   (

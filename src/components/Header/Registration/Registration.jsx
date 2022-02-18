@@ -3,8 +3,6 @@ import { useContext } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 
 //fix перенаименовать компоненту
-//ne fix тут бэм просто пушка вроде
-//fix переделать border при ошибки?
 //fix submit(кнопка на сайте) хуево работает
 
 const Registration = () => {

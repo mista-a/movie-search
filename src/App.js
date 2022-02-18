@@ -13,9 +13,9 @@ function App() {
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route path='profile' element={<ProfilePage />} />
-            <Route path='movie/:id' element={<MoviePage />} />
-            <Route path='tv/:id' element={<TvPage />} />
-            <Route path='person/:id' element={<PersonPage />} />
+            <Route path='movie/:titleId' element={<MoviePage />} />
+            <Route path='tv/:titleId' element={<TvPage />} />
+            <Route path='person/:personId' element={<PersonPage />} />
           </Route>
         </Routes>
       </ContextProvider>
