@@ -1,12 +1,10 @@
 import image_placeholder from '../../../assets/img/image-placeholder.png'
-import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import cutText from '../../../utils/cutText'
 import translateDate from '../../../utils/translateDate'
-import content_options from '../../../assets/img/content-options.svg'
-import AddToWatchList from './AddToWatchList/AddToWatchList'
-import AddToWishList from './AddToWishList/AddToWishList'
-import ContentDescription from './ContentDesription/ContentDescription'
+import ContentDescription from './ContentDescription/ContentDescription'
+import ContentOptions from './ContentOptions/ContentOptions'
 
 //fix переделать дату в описании
 //fix переделать пустой жанр
@@ -27,7 +25,9 @@ const ProfileContentCard = forwardRef(
     lastElementRef,
   ) => {
     const [showDescription, setShowDescription] = useState(false)
-    const [showOptions, setShowOptions] = useState(false)
+
+    const showDescriptionOnMouseEnter = () => setShowDescription(true)
+    const hideDescriptionOnMouseLeave = () => setShowDescription(false)
 
     const posterRef = useRef()
 
@@ -45,10 +45,6 @@ const ProfileContentCard = forwardRef(
       if (posterRef.current) imageObserver.observe(posterRef.current)
     }, [])
 
-    const switchShowDescription = () => setShowDescription(!showDescription)
-
-    const switchShowOptions = () => setShowOptions(!showOptions)
-
     if (overview) overview = cutText(overview, 20)
 
     if (releaseDate) releaseDate = translateDate(releaseDate)
@@ -58,8 +54,8 @@ const ProfileContentCard = forwardRef(
         <div className='content-card'>
           <Link
             to={`/${titleType}/${titleId}`}
-            onMouseEnter={switchShowDescription}
-            onMouseLeave={switchShowDescription}
+            onMouseEnter={showDescriptionOnMouseEnter}
+            onMouseLeave={hideDescriptionOnMouseLeave}
             ref={lastElementRef ? lastElementRef : null}
           >
             <img
@@ -70,33 +66,7 @@ const ProfileContentCard = forwardRef(
               alt='card'
             />
           </Link>
-          <div className='content-options'>
-            <button
-              className='content-options__options-button'
-              onClick={switchShowOptions}
-            >
-              <img
-                src={content_options}
-                alt='добавить'
-                className='content-options__img'
-              />
-            </button>
-            <div
-              className={
-                showOptions
-                  ? 'content-options__options content-options__options_show'
-                  : 'content-options__options '
-              }
-            >
-              <AddToWatchList titleType={titleType} titleId={titleId} />
-              <AddToWishList titleType={titleType} titleId={titleId} />
-              <div className='content-option content-options__rate'>
-                <button className='content-options__button'>
-                  <span className='content-options__text'>оценить</span>
-                </button>
-              </div>
-            </div>
-          </div>
+          <ContentOptions titleType={titleType} titleId={titleId} />
         </div>
         <ContentDescription
           showDescription={showDescription}

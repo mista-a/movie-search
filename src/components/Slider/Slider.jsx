@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import slider_arrow_left from '../../assets/img/slider-arrow-left.svg'
 import slider_arrow_right from '../../assets/img/slider-arrow-right.svg'
+import useHideAnimation from '../../hooks/useHideAnimation'
 
 //fix SLIDER ДОЛЖЕН БЫТЬ ОТДЕЛЬНЫМ!!!
 
@@ -12,13 +13,16 @@ const Slider = ({ classSlider, children, showButtons }) => {
   const [rightButton, setRightButton] = useState(true)
   const [rightButtonAnim, setRightButtonAnim] = useState(true)
 
+  const { anim, hide } = useHideAnimation(leftButton, setLeftButton, 400)
+
   useEffect(() => {
     if (left > 0) {
       setLeftButtonAnim(true)
       setLeftButton(true)
     } else {
-      setLeftButtonAnim(false)
-      setTimeout(() => setLeftButton(false), 400)
+      hide()
+      // setLeftButtonAnim(false)
+      // setTimeout(() => setLeftButton(false), 400)
     }
   }, [left])
 
@@ -51,10 +55,15 @@ const Slider = ({ classSlider, children, showButtons }) => {
           {leftButton && (
             <button
               className={
-                leftButtonAnim
+                anim
                   ? 'slider-container__button slider-container__button_prev'
                   : 'slider-container__button slider-container__button_prev slider-container__button_hide'
               }
+              // className={
+              //   leftButtonAnim
+              //     ? 'slider-container__button slider-container__button_prev'
+              //     : 'slider-container__button slider-container__button_prev slider-container__button_hide'
+              // }
               onClick={(e) => slideLeft(e)}
             >
               <img

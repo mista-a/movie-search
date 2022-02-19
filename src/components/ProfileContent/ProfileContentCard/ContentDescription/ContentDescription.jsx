@@ -11,6 +11,8 @@ const ContentDescription = ({
 }) => {
   const { genersList } = useContext(GenersContext)
 
+  console.log()
+
   const getGeners = (genersList, genersIds) => {
     let geners = []
 

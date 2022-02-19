@@ -6,6 +6,8 @@ import TvPage from './pages/TvPage'
 import PersonPage from './pages/PersonPage'
 import { ContextProvider } from './contexts/ContextProvider'
 
+//fix в низу хуйня какая то
+
 function App() {
   return (
     <BrowserRouter>

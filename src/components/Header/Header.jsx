@@ -27,7 +27,8 @@ const Header = () => {
   }
 
   const toggleModalActive = () => {
-    setLoginModalActive(!loginModalActive)
+    //setLoginModalActive(!loginModalActive)
+    setLoginModalActive(true)
   }
 
   const logout = () => {

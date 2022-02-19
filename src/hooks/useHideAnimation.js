@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 
 const useHideAnimation = (active, setActive, delay) => {
-  const [anim, setAnim] = useState(true)
+  const [hideAnimation, setHideAnimation] = useState(!active)
 
-  useEffect(() => setAnim(true), [active])
+  useEffect(() => {
+    setHideAnimation(false)
+  }, [active])
 
   const hide = () => {
-    setAnim(false)
+    setHideAnimation(true)
     setTimeout(() => setActive(false), delay)
   }
 
-  return { anim, hide }
+  return { hideAnimation, hide }
 }
 
 export default useHideAnimation
