@@ -1,8 +1,10 @@
 import { useContext } from 'react'
 import { GenersContext } from '../../../../contexts/GenersContext'
+import useHideAnimation from '../../../../hooks/useHideAnimation'
 
 const ContentDescription = ({
   showDescription,
+  setShowDescription,
   name,
   releaseDate,
   overview,
@@ -11,7 +13,7 @@ const ContentDescription = ({
 }) => {
   const { genersList } = useContext(GenersContext)
 
-  console.log()
+  // const hideDescriptionAnimation = useHideAnimation()
 
   const getGeners = (genersList, genersIds) => {
     let geners = []
@@ -34,13 +36,7 @@ const ContentDescription = ({
   }
 
   return (
-    <div
-      className={
-        showDescription
-          ? 'content-description content-description_show'
-          : 'content-description'
-      }
-    >
+    <>
       <div className='content-description__arrow'></div>
       <div className='content-description__description'>
         <h4 className='content-description__name'>{name}</h4>
@@ -63,7 +59,7 @@ const ContentDescription = ({
           <span className='content-description-rating__text'>{rating}</span>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

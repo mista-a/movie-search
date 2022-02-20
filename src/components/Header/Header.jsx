@@ -26,14 +26,13 @@ const Header = () => {
     window.open(`https://www.themoviedb.org/signup`)
   }
 
-  const toggleModalActive = () => {
-    //setLoginModalActive(!loginModalActive)
+  const showModalActive = () => {
     setLoginModalActive(true)
   }
 
   const logout = () => {
     deleteLocalStorageSessionId()
-    toggleModalActive()
+    showModalActive()
   }
 
   useEffect(() => {
@@ -87,7 +86,7 @@ const Header = () => {
               <button
                 href='#'
                 className='sign-in__button'
-                onClick={toggleModalActive}
+                onClick={showModalActive}
               >
                 вход
               </button>

@@ -5,10 +5,11 @@ import cutText from '../../../utils/cutText'
 import translateDate from '../../../utils/translateDate'
 import ContentDescription from './ContentDescription/ContentDescription'
 import ContentOptions from './ContentOptions/ContentOptions'
+import useHideAnimation from '../../../hooks/useHideAnimation'
 
 //fix переделать дату в описании
 //fix переделать пустой жанр
-//fix сделать анимацию на исчезновения description
+//fix сделать анимацию на исчезновения description либо удалить ее
 
 const ProfileContentCard = forwardRef(
   (
@@ -21,13 +22,36 @@ const ProfileContentCard = forwardRef(
       releaseDate,
       genersIds,
       rating,
+      watchList,
     },
     lastElementRef,
   ) => {
     const [showDescription, setShowDescription] = useState(false)
+    const [mouseEnter, setMouseEnter] = useState(false)
 
-    const showDescriptionOnMouseEnter = () => setShowDescription(true)
-    const hideDescriptionOnMouseLeave = () => setShowDescription(false)
+    const hideDescriptionAnimation = useHideAnimation(
+      showDescription,
+      setShowDescription,
+      400,
+    )
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (mouseEnter) {
+          showDescriptionOnMouseEnter()
+        }
+      }, 400)
+      if (!mouseEnter) {
+        hideDescriptionOnMouseLeave()
+      }
+    }, [mouseEnter])
+
+    const showDescriptionOnMouseEnter = () => {
+      setShowDescription(true)
+    }
+    const hideDescriptionOnMouseLeave = () => {
+      hideDescriptionAnimation.hide()
+    }
 
     const posterRef = useRef()
 
@@ -50,12 +74,14 @@ const ProfileContentCard = forwardRef(
     if (releaseDate) releaseDate = translateDate(releaseDate)
 
     return (
-      <div className='content__wrapper'>
+      <div
+        className='content__wrapper'
+        onMouseEnter={() => setMouseEnter(true)}
+        onMouseLeave={() => setMouseEnter(false)}
+      >
         <div className='content-card'>
           <Link
             to={`/${titleType}/${titleId}`}
-            onMouseEnter={showDescriptionOnMouseEnter}
-            onMouseLeave={hideDescriptionOnMouseLeave}
             ref={lastElementRef ? lastElementRef : null}
           >
             <img
@@ -66,16 +92,31 @@ const ProfileContentCard = forwardRef(
               alt='card'
             />
           </Link>
-          <ContentOptions titleType={titleType} titleId={titleId} />
+          <ContentOptions
+            watchList={watchList}
+            titleType={titleType}
+            titleId={titleId}
+          />
         </div>
-        <ContentDescription
-          showDescription={showDescription}
-          name={name}
-          releaseDate={releaseDate}
-          overview={overview}
-          rating={rating}
-          genersIds={genersIds}
-        />
+        {showDescription && (
+          <div
+            className={
+              hideDescriptionAnimation.hideAnimation
+                ? 'content-description content-description_hide'
+                : 'content-description content-description_show'
+            }
+          >
+            <ContentDescription
+              showDescription={showDescription}
+              setShowDescription={setShowDescription}
+              name={name}
+              releaseDate={releaseDate}
+              overview={overview}
+              rating={rating}
+              genersIds={genersIds}
+            />
+          </div>
+        )}
       </div>
     )
   },

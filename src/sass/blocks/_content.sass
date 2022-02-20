@@ -1,9 +1,13 @@
 //fix классы !!!!
+//fix расскидай по компонентам
 .content
   display: grid
   gap: 30px
   &__wrapper
     position: relative
+    &:last-child
+      //fix если добавишь футер удали строку
+      margin-bottom: 10px
   &__text
     grid-column-start: 1
     grid-column-end: 7
@@ -11,9 +15,6 @@
   &__card
     border-radius: 10px
     animation: opacity0-1 1s 1
-  &__loading-point
-    width: 1px
-    height: 1px
   &__not-found
     text-align: center
     display: block
@@ -28,10 +29,11 @@
   &:hover .content-options
     opacity: 1
 .content-description
-  display: none
-  z-index: 1
+  opacity: 0
   &_show
-    display: block
+    opacity: 1
+  &_hide
+    animation: opacity1-0 .4s
   &__arrow
     background: url(../../assets/img/content-description-arrow.png) no-repeat
     width: 7px
@@ -41,7 +43,7 @@
     top: 10%
   &__description
     z-index: 1
-    animation: 0.7s opacity0-1
+    animation: .4s opacity0-1
     position: absolute
     background-color: #111111
     border-radius: 4px
@@ -93,7 +95,7 @@
     position: absolute
     border: 1px solid
     opacity: 0
-    top: -70px
+    bottom: 30px
     left: -100px
     animation: opacity0-1 0.4s 1
     background-color: #111111

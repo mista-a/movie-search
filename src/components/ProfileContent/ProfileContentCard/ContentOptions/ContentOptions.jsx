@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AddToWatchList from './AddToWatchList/AddToWatchList'
 import AddToWishList from './AddToWishList/AddToWishList'
 import useHideAnimation from '../../../../hooks/useHideAnimation'
