@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useContext } from 'react'
-import { profileAPI } from '../../../../API/API'
-import { AccountContext } from '../../../../contexts/AccountContext'
-import { LanguageContext } from '../../../../contexts/LanguageContext'
-import ProfileContentCard from '../ProfileContentCard'
+import { profileAPI } from '../../../API/API'
+import { AccountContext } from '../../../contexts/AccountContext'
+import { LanguageContext } from '../../../contexts/LanguageContext'
+import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда не надо
 //fix убрать тайтлы которые уже есть в watchlist
@@ -89,29 +89,24 @@ const Content = ({ searchQuery }) => {
     addNewContent(searchQuery, currentPage, language)
   }, [currentPage])
 
-  return (
-    <>
-      <p className='content__text'>{`Фильмы не в списке ${accountUsername}:`}</p>
-      {content.map((item, index) => {
-        return (
-          <ProfileContentCard
-            key={item.id}
-            titleId={item.id}
-            poster={item.poster_path}
-            titleType={item.media_type}
-            name={item.name ? item.name : item.title}
-            overview={item.overview}
-            releaseDate={
-              item.first_air_date ? item.first_air_date : item.release_date
-            }
-            genersIds={item.genre_ids}
-            rating={item.vote_average}
-            ref={index === content.length - 1 ? lastElementRef : null}
-          />
-        )
-      })}
-    </>
-  )
+  return content.map((item, index) => {
+    return (
+      <ProfileContentCard
+        key={item.id}
+        titleId={item.id}
+        poster={item.poster_path}
+        titleType={item.media_type}
+        name={item.name ? item.name : item.title}
+        overview={item.overview}
+        releaseDate={
+          item.first_air_date ? item.first_air_date : item.release_date
+        }
+        genersIds={item.genre_ids}
+        rating={item.vote_average}
+        ref={index === content.length - 1 ? lastElementRef : null}
+      />
+    )
+  })
 }
 
 export default Content

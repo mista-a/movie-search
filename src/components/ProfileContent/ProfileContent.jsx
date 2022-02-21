@@ -1,4 +1,3 @@
-import Content from './ProfileContentCard/Content/Content'
 import Watchlist from './ProfileContentCard/Watchlist/Watchlist'
 
 //fix Ничего не найдено
@@ -10,7 +9,6 @@ const ProfileContent = ({ searchQuery }) => {
   return (
     <div className='content'>
       <Watchlist searchQuery={searchQuery} />
-      <Content searchQuery={searchQuery} />
     </div>
   )
 }

@@ -7,6 +7,7 @@ import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher'
 import Registration from './Registration/Registration'
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
 import { accountAPI } from '../../API/API'
+import { MemoSearchBar } from '../SearchBar/SearchBar'
 
 //fix норм классы, подумай над переносам входа в "Registration"
 //fix jxs у тя гавнище
@@ -51,6 +52,7 @@ const Header = () => {
       <Link to='profile' className='logo'>
         <img src={logo} alt='logo' className='logo__image' />
       </Link>
+      <MemoSearchBar />
       <div className='user-controller'>
         {sessionId ? (
           <>
