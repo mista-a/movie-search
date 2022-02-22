@@ -9,7 +9,7 @@ import useHideAnimation from '../../../hooks/useHideAnimation'
 
 //fix переделать дату в описании
 //fix переделать пустой жанр
-//fix сделать анимацию на исчезновения description либо удалить ее
+//fix сделать анимацию на исчезновения description либо удалить ее к хуям
 
 const ProfileContentCard = forwardRef(
   (
@@ -49,6 +49,7 @@ const ProfileContentCard = forwardRef(
     const showDescriptionOnMouseEnter = () => {
       setShowDescription(true)
     }
+
     const hideDescriptionOnMouseLeave = () => {
       hideDescriptionAnimation.hide()
     }
@@ -78,12 +79,10 @@ const ProfileContentCard = forwardRef(
         className='content__wrapper'
         onMouseEnter={() => setMouseEnter(true)}
         onMouseLeave={() => setMouseEnter(false)}
+        ref={lastElementRef ? lastElementRef : null}
       >
         <div className='content-card'>
-          <Link
-            to={`/${titleType}/${titleId}`}
-            ref={lastElementRef ? lastElementRef : null}
-          >
+          <Link to={`/${titleType}/${titleId}`}>
             <img
               ref={posterRef}
               className='content__card'

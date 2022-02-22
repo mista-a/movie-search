@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef, useCallback, useContext } from 'react'
 import { profileAPI } from '../../../API/API'
 import { LanguageContext } from '../../../contexts/LanguageContext'
+import { SearchContext } from '../../../contexts/SearchContext'
 import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
 
 //fix 'Ничего не найдено' вылазит нахуй, когда не надо
 //fix убрать тайтлы которые уже есть в watchlist
 
-const Content = ({ searchQuery }) => {
+const Content = () => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
 
   const { language } = useContext(LanguageContext)
+  const { searchQuery } = useContext(SearchContext)
 
   const observer = useRef()
 
@@ -25,7 +27,7 @@ const Content = ({ searchQuery }) => {
       })
       if (element) observer.current.observe(element)
     },
-    [content]
+    [content],
   )
 
   const filterContent = (content) => {
@@ -52,7 +54,7 @@ const Content = ({ searchQuery }) => {
         const newContent = await profileAPI.getContent(
           searchQuery,
           currentPage,
-          language
+          language,
         )
         if (newContent.total_pages !== totalPages) {
           setTotalPages(newContent.total_pages)
@@ -74,7 +76,7 @@ const Content = ({ searchQuery }) => {
         const newContent = await profileAPI.getContent(
           searchQuery,
           currentPage,
-          language
+          language,
         )
         const filtedNewContent = filterContent([
           ...content,

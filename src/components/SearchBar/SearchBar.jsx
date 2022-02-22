@@ -1,13 +1,18 @@
 import search_bar__icon from '../../assets/img/search-icon.svg'
 import search_bar__cleaner from '../../assets/img/search-cleaner.svg'
-import { useRef, memo, useEffect, useState } from 'react'
+import { useRef, memo, useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { SearchContext } from '../../contexts/SearchContext'
 
 //експорт как memoSearchBar ультро не удобен
 
 const SearchBar = ({ setDelayMessage }) => {
-  const [searchQuery, setSearchQuery] = useState('')
   //const [delayMessage, setDelayMessage] = useState('')
+  const [searchBarInFocus, setSearchBarInFocus] = useState(false)
+  const [searchBarWasInFocus, setSearchBarWasInFocus] = useState(false)
+
+  const { searchQuery, setSearchQuery } = useContext(SearchContext)
+
   const ref = useRef()
 
   useEffect(() => {
@@ -27,27 +32,45 @@ const SearchBar = ({ setDelayMessage }) => {
 
   return (
     <Link to='search'>
-      <section className='search-bar'>
+      <section
+        className={
+          searchBarWasInFocus
+            ? searchBarInFocus
+              ? 'search-bar search-bar_focus'
+              : 'search-bar search-bar_blur'
+            : 'search-bar'
+        }
+      >
         <form className='search-bar__action'>
-          <img
+          {/* <img
             src={search_bar__icon}
             alt='search icon'
             className='search-bar__icon'
-          />
+          /> */}
           <input
+            className='search-bar__input'
+            onFocus={() => {
+              setSearchBarInFocus(true)
+              setSearchBarWasInFocus(true)
+            }}
+            onBlur={() => {
+              if (searchBarWasInFocus) setSearchBarInFocus(false)
+            }}
+            onChange={onSearchBarChange}
             ref={ref}
             value={searchQuery}
             type='text'
-            className='search-bar__input'
-            onChange={onSearchBarChange}
+            placeholder='search'
           />
-          <button className='search-bar__cleaner' onClick={cleanSearchBar}>
-            <img
-              src={search_bar__cleaner}
-              alt='clean search'
-              className='search-bar__cleaner-img'
-            />
-          </button>
+          {searchQuery && (
+            <button className='search-bar__cleaner' onClick={cleanSearchBar}>
+              <img
+                className='search-bar__cleaner-img'
+                src={search_bar__cleaner}
+                alt='clean search'
+              />
+            </button>
+          )}
         </form>
       </section>
     </Link>
