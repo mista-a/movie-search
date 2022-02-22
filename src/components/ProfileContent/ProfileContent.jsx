@@ -1,4 +1,4 @@
-import Watchlist from './ProfileContentCard/Watchlist/Watchlist'
+import Watchlist from './Watchlist/Watchlist'
 
 //fix Ничего не найдено
 

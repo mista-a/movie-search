@@ -1,7 +1,7 @@
 import Content from '../components/ProfileContent/Content/Content'
 
-const SearchBar = () => {
+const SearchPage = () => {
   return <Content />
 }
 
-export default SearchBar
+export default SearchPage

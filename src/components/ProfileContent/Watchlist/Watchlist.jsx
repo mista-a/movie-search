@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
-import { AccountContext } from '../../../../contexts/AccountContext'
-import ProfileContentCard from '../ProfileContentCard'
+import { AccountContext } from '../../../contexts/AccountContext'
+import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
 
 //fix переделай методы в use effect
 
@@ -16,7 +16,7 @@ const Watchlist = ({ searchQuery }) => {
     const filtredTitles = defaultWatchList.results.filter(
       (title) =>
         title.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        title.original_title.toLowerCase().includes(searchQuery.toLowerCase()),
+        title.original_title.toLowerCase().includes(searchQuery.toLowerCase())
     )
 
     const filteredDefaultWatchList = { ...defaultWatchList.results }

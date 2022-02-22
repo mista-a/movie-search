@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useContext } from 'react'
 import { profileAPI } from '../../../API/API'
-import { AccountContext } from '../../../contexts/AccountContext'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
 
@@ -13,7 +12,6 @@ const Content = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const { language } = useContext(LanguageContext)
-  const { accountUsername } = useContext(AccountContext)
 
   const observer = useRef()
 
@@ -27,7 +25,7 @@ const Content = ({ searchQuery }) => {
       })
       if (element) observer.current.observe(element)
     },
-    [content],
+    [content]
   )
 
   const filterContent = (content) => {
@@ -54,7 +52,7 @@ const Content = ({ searchQuery }) => {
         const newContent = await profileAPI.getContent(
           searchQuery,
           currentPage,
-          language,
+          language
         )
         if (newContent.total_pages !== totalPages) {
           setTotalPages(newContent.total_pages)
@@ -76,7 +74,7 @@ const Content = ({ searchQuery }) => {
         const newContent = await profileAPI.getContent(
           searchQuery,
           currentPage,
-          language,
+          language
         )
         const filtedNewContent = filterContent([
           ...content,

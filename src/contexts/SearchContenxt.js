@@ -1,1 +1,13 @@
-//fix delete
+import { createContext, useContext, useEffect, useState } from 'react'
+
+export const SearchContext = createContext()
+
+export const SearchProvider = ({ children }) => {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  return (
+    <SearchContext.Provider value={{ searchQuery, setSearchQuery }}>
+      {children}
+    </SearchContext.Provider>
+  )
+}

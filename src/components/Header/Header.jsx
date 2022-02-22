@@ -18,9 +18,10 @@ const Header = () => {
   const [accountDetails, setAccountDetails] = useState({
     avatar: { tmdb: { avatar_path: null } },
   })
+  const [delayMessage, setDelayMessage] = useState('')
 
   const { sessionId, deleteLocalStorageSessionId } = useContext(
-    AuthenticationContext,
+    AuthenticationContext
   )
 
   const redirectToRegistration = () => {
@@ -52,7 +53,7 @@ const Header = () => {
       <Link to='profile' className='logo'>
         <img src={logo} alt='logo' className='logo__image' />
       </Link>
-      <MemoSearchBar />
+      <MemoSearchBar setDelayMessage={setDelayMessage} />
       <div className='user-controller'>
         {sessionId ? (
           <>
