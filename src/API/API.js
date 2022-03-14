@@ -6,11 +6,15 @@ const themoviedb = axios.create({
 
 const APIKey = '91728d8f7faa03ab1aa227e642da7984'
 
+const logError = (error) => {
+  console.log(error.response.data)
+}
+
 export const authenticationAPI = {
   async getNewToken() {
     const response = await themoviedb
       .get(`authentication/token/new?api_key=${APIKey}`)
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data.request_token
   },
 
@@ -21,7 +25,7 @@ export const authenticationAPI = {
         password,
         request_token,
       })
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
   },
 
   async createNewSession(request_token) {
@@ -29,89 +33,114 @@ export const authenticationAPI = {
       .post(`authentication/session/new?api_key=${APIKey}`, {
         request_token,
       })
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data.session_id
   },
 }
 
 export const languageAPI = {
   async getGeo() {
-    const response = await axios
-      .get('https://ipapi.co/json/')
-      .catch((error) => console.log(error.response.data))
+    const response = await axios.get('https://ipapi.co/json/').catch(logError)
     return response.data
   },
 
   async getTranslations() {
     const response = await themoviedb
       .get(`configuration/primary_translations?api_key=${APIKey}`)
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
   },
 }
 
-export const profileAPI = {
+export const searchAPI = {
   async getContent(keyword, currentPage, language = 'en', adult = 'false') {
     const response = await themoviedb
       .get(
         `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`,
       )
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
+  },
+
+  async getTopTitles(page, language = 'en') {
+    const movieResponse = await themoviedb
+      .get(
+        `movie/top_rated?api_key=${APIKey}&language=${language}&page=${page}`,
+      )
+      .catch(logError)
+    movieResponse.data.results.forEach((result) => {
+      result.media_type = 'movie'
+    })
+
+    const tvResponse = await themoviedb
+      .get(`tv/top_rated?api_key=${APIKey}&language=${language}&page=${page}`)
+      .catch(logError)
+    tvResponse.data.results.forEach((result) => {
+      result.media_type = 'tv'
+    })
+
+    const response = {}
+    response.page = page
+    response.results = [
+      ...movieResponse.data.results,
+      ...tvResponse.data.results,
+    ]
+    response.total_pages =
+      movieResponse.data.total_pages + tvResponse.data.total_pages
+    response.total_results =
+      movieResponse.data.total_results + tvResponse.data.total_results
+    return response
   },
 }
 
 export const titleAPI = {
-  async getDescription(type, titleId, language) {
+  async getDescription(titleType, titleId, language) {
     const response = await themoviedb
-      .get(`${type}/${titleId}?api_key=${APIKey}&language=${language}`)
-      .catch((error) => console.log(error.response.data))
+      .get(`${titleType}/${titleId}?api_key=${APIKey}&language=${language}`)
+      .catch(logError)
     return response.data
   },
 
-  async getMovieAgeLimit(titleId) {
+  async getAgeLimit(titleType, titleId) {
     const response = await themoviedb
-      .get(`movie/${titleId}/release_dates?api_key=${APIKey}`)
-      .catch((error) => console.log(error.response.data))
+      .get(`${titleType}/${titleId}/release_dates?api_key=${APIKey}`)
+      .catch(logError)
     return response.data
   },
 
-  async getTvAgeLimit(titleId) {
+  async getCredits(titleType, titleId, language) {
     const response = await themoviedb
-      .get(`tv/${titleId}/release_dates?api_key=${APIKey}`)
-      .catch((error) => console.log(error.response.data))
+      .get(
+        `${titleType}/${titleId}/credits?api_key=${APIKey}&language=${language}`,
+      )
+      .catch(logError)
     return response.data
   },
 
-  async getCredits(type, titleId, language) {
-    const response = await themoviedb
-      .get(`${type}/${titleId}/credits?api_key=${APIKey}&language=${language}`)
-      .catch((error) => console.log(error.response.data))
-    return response.data
-  },
-
-  async getTrailer(type, titleId, language) {
+  async getTrailers(titleType, titleId, language) {
     let response = await themoviedb
-      .get(`${type}/${titleId}/videos?api_key=${APIKey}&language=${language}`)
-      .catch((error) => console.log(error.response.data))
+      .get(
+        `${titleType}/${titleId}/videos?api_key=${APIKey}&language=${language}`,
+      )
+      .catch(logError)
     if (response.data.results.length > 0) {
       return response.data
     } else {
       response = await themoviedb
-        .get(`${type}/${titleId}/videos?api_key=${APIKey}&language=en`)
-        .catch((error) => console.log(error.response.data))
+        .get(`${titleType}/${titleId}/videos?api_key=${APIKey}&language=en`)
+        .catch(logError)
       return response.data
     }
   },
 
-  async postRating(titleId, value) {
+  async postRating(titleType, titleId, value) {
     await themoviedb
       .post(
-        `movie/${titleId}/rating?api_key=${APIKey}`,
+        `${titleType}/${titleId}/rating?api_key=${APIKey}`,
         { value },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
   },
 }
 
@@ -127,7 +156,7 @@ export const listsAPI = {
         },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
   },
 
   async getWatchList(accountId, sessionId, language, page) {
@@ -135,7 +164,7 @@ export const listsAPI = {
       .get(
         `account/${accountId}/watchlist/movies?api_key=${APIKey}&language=${language}&session_id=${sessionId}&page=${page}`,
       )
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
 
     return response.data
   },
@@ -145,7 +174,7 @@ export const personAPI = {
   async getPersonDescribe(personId, language = 'en') {
     const response = await themoviedb
       .get(`person/${personId}?api_key=${APIKey}&language=${language}`)
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
   },
 
@@ -154,7 +183,7 @@ export const personAPI = {
       .get(
         `person/${personId}/combined_credits?api_key=${APIKey}&language=${language}`,
       )
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
   },
 }
@@ -163,7 +192,7 @@ export const accountAPI = {
   async getAccountDetails(sessionId) {
     const response = await themoviedb
       .get(`account?api_key=${APIKey}&session_id=${sessionId}`)
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
   },
 }
@@ -172,7 +201,7 @@ export const genersAPI = {
   async getGeners(language) {
     const response = await themoviedb
       .get(`genre/movie/list?api_key=${APIKey}&language=${language}`)
-      .catch((error) => console.log(error.response.data))
+      .catch(logError)
     return response.data
   },
 }

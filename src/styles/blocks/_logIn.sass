@@ -1,0 +1,74 @@
+//fix переименовать файл
+
+.logIn
+  height: 420px
+  width: 570px
+  background-color: var(--secondBackgroundColor)
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 60px
+  flex-direction: column
+  &-header
+    &__text
+      font-weight: 300
+      font-size: 24px
+      line-height: 28px
+      margin-bottom: 10px
+  &-label
+    display: flex
+    flex-direction: column
+    &__text
+      margin-bottom: 5px
+      font-size: 18px
+      line-height: 21px
+  &-input
+    background-color: var(--backgroundColor)
+    border-radius: 10px
+    height: 35px
+    width: 300px
+    border: 1px solid var(--color)
+    &_error
+      border-color: var(--error)
+  &-password
+    &__label
+      margin-top: 15px
+  &-error
+    &__text
+      color: var(--error)
+      font-weight: 300
+      font-size: 14px
+      line-height: 16px
+  &__submit
+    cursor: pointer
+  &__error
+    height: 40px
+  &-submit
+    height: 40px
+    display: flex
+    justify-content: center
+    &__input
+      border-radius: 15px
+      padding: 0
+      background-color: var(--grey)
+      font-weight: 300
+      font-size: 18px
+      line-height: 21px
+      width: 170px
+      height: 100%
+      cursor: pointer
+      &_invalid
+        background-color: var(--grey)
+.label-username
+  margin-bottom: 15px
+.password-reset
+  display: flex
+  flex-direction: column
+  &__button
+    align-self: self-end
+  &__text
+    margin-top: 0
+    margin-bottom: 15px
+    font-weight: 300
+    font-size: 14px
+    line-height: 16px

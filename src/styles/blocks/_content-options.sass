@@ -1,0 +1,33 @@
+.content-options
+  position: absolute
+  bottom: 3px
+  right: 3px
+  z-index: 1
+  opacity: 0
+  transition: opacity .5s
+  &__options
+    position: absolute
+    border: 1px solid
+    opacity: 0
+    bottom: 30px
+    left: -100px
+    animation: opacity0-1 0.4s 1
+    background-color: var(--backgroundColor)
+    border-radius: 5px
+    &_show
+      opacity: 1
+    &_hide
+      animation: opacity1-0 0.4s 1
+  &__options-button
+    transition: transform .5s
+    width: 25px
+    height: 25px
+    padding: 0
+    &_active
+      transition: transform .5s
+      transform: rotateZ(45deg)
+.content-option
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: center

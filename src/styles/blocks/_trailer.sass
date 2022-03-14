@@ -1,0 +1,39 @@
+.trailer
+  width: 1200px
+  height: 675px
+  border: none
+.trailer-button
+  height: 60px
+  width: 100%
+  background-color: var(--lightGrey)
+  border: none
+  border-radius: 10px
+  cursor: pointer
+  display: flex
+  justify-content: center
+  align-items: center
+  transition: .6s
+  &:hover
+    background-color: var(--white)
+  &__disabled
+    height: 60px
+    width: 100%
+    background-color: var(--lightGrey)
+    border: none
+    border-radius: 10px
+    cursor: not-allowed
+    display: flex
+    justify-content: center
+    align-items: center
+  &__play-image
+    margin-right: 8px
+  &__text
+    color: var(--backgroundColor)
+    font-weight: 500
+    font-size: 18px
+    line-height: 21px
+  &-subscribe
+    font-size: 14px
+    line-height: 16px
+    text-align: center
+    margin: 4px auto

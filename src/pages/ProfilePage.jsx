@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { MemoSearchBar } from '../components/SearchBar/SearchBar'
+import SearchBar from '../components/SearchBar/SearchBar'
 import { MemoUser } from '../components/User/User'
 import ProfileContent from '../components/ProfileContent/ProfileContent'
+
+//fix onClickLinkTo так се решение вроде
 
 const Profile = () => {
   return (
     <div className='profile'>
       <MemoUser />
-      {/* <MemoSearchBar setDelayMessage={setDelayMessage} /> */}
-      {/* <ProfileContent searchQuery={delayMessage} /> */}
+      <SearchBar onClickLinkTo={''} />
+      <ProfileContent />
     </div>
   )
 }

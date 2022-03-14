@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { personAPI } from '../API/API'
 import placeholder_image_100x135 from '../assets/img/placeholder-image-100x135.svg'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { themoviedb } from '../links'
 
 //fix уменьшить размер фотак
 //fix добавить crew не забудь
@@ -11,8 +12,7 @@ const Person = () => {
   const { personId } = useParams()
   const [personState, setPersonState] = useState({
     describe: {
-      profile_path:
-        'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/271xabIyKpp8R0mjRRD6eZkfqjn.jpg',
+      profile_path: `${themoviedb}/t/p/w600_and_h900_bestv2/271xabIyKpp8R0mjRRD6eZkfqjn.jpg`,
       biography: '',
       birthday: 0,
     },
@@ -41,7 +41,7 @@ const Person = () => {
         <div className='left-description'>
           <div className='person-poster'>
             <img
-              src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${personState.describe.profile_path}`}
+              src={`${themoviedb}/t/p/w600_and_h900_bestv2${personState.describe.profile_path}`}
               alt=''
               className='person-poster__image'
             />
@@ -62,7 +62,7 @@ const Person = () => {
                   <img
                     src={
                       title.poster_path
-                        ? `https://www.themoviedb.org/t/p/w150_and_h225_bestv2${title.poster_path}`
+                        ? `${themoviedb}/t/p/w150_and_h225_bestv2${title.poster_path}`
                         : placeholder_image_100x135
                     }
                     className='title__image'

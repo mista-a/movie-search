@@ -16,7 +16,7 @@ const Watchlist = ({ searchQuery }) => {
     const filtredTitles = defaultWatchList.results.filter(
       (title) =>
         title.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        title.original_title.toLowerCase().includes(searchQuery.toLowerCase())
+        title.original_title.toLowerCase().includes(searchQuery.toLowerCase()),
     )
 
     const filteredDefaultWatchList = { ...defaultWatchList.results }

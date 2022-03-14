@@ -6,6 +6,8 @@ import translateDate from '../../../utils/translateDate'
 import ContentDescription from './ContentDescription/ContentDescription'
 import ContentOptions from './ContentOptions/ContentOptions'
 import useHideAnimation from '../../../hooks/useHideAnimation'
+import useObserver from '../../../hooks/useObserver'
+import { themoviedb } from '../../../links'
 
 //fix переделать дату в описании
 //fix переделать пустой жанр
@@ -28,6 +30,11 @@ const ProfileContentCard = forwardRef(
   ) => {
     const [showDescription, setShowDescription] = useState(false)
     const [mouseEnter, setMouseEnter] = useState(false)
+    const [card, setCard] = useState(false)
+    const [posterLoaded, setPosterloaded] = useState(false)
+
+    const posterRef = useRef()
+    const cardRef = useRef()
 
     const hideDescriptionAnimation = useHideAnimation(
       showDescription,
@@ -54,21 +61,18 @@ const ProfileContentCard = forwardRef(
       hideDescriptionAnimation.hide()
     }
 
-    const posterRef = useRef()
+    useObserver(
+      posterRef,
+      (entrie) => {
+        setPosterloaded(true)
+        entrie.target.src = entrie.target.dataset.src
+      },
+      true,
+      [card],
+      { rootMargin: '60px' },
+    )
 
-    useEffect(() => {
-      const imageObserver = new IntersectionObserver(
-        (entries, observer) => {
-          if (entries[0].isIntersecting) {
-            entries[0].target.src = entries[0].target.dataset.src
-
-            observer.unobserve(entries[0].target)
-          }
-        },
-        { rootMargin: '40px' },
-      )
-      if (posterRef.current) imageObserver.observe(posterRef.current)
-    }, [])
+    useObserver(cardRef, () => setCard(true), true, [])
 
     if (overview) overview = cutText(overview, 20)
 
@@ -79,23 +83,31 @@ const ProfileContentCard = forwardRef(
         className='content__wrapper'
         onMouseEnter={() => setMouseEnter(true)}
         onMouseLeave={() => setMouseEnter(false)}
-        ref={lastElementRef ? lastElementRef : null}
+        ref={cardRef}
       >
-        <div className='content-card'>
-          <Link to={`/${titleType}/${titleId}`}>
-            <img
-              ref={posterRef}
-              className='content__card'
-              data-src={`https://www.themoviedb.org/t/p/w185_and_h278_multi_faces${poster}`}
-              src={image_placeholder}
-              alt='card'
+        <div
+          className={card ? 'content-card_show' : 'content-card'}
+          ref={lastElementRef ? lastElementRef : null}
+        >
+          <>
+            <Link to={`/${titleType}/${titleId}`}>
+              <img
+                ref={posterRef}
+                className='content__card'
+                data-src={`${themoviedb}/t/p/w185_and_h278_multi_faces${poster}`}
+                src={image_placeholder}
+                alt='card'
+              />
+              {!posterLoaded && (
+                <div style={{ position: 'absolute' }}>{name}</div>
+              )}
+            </Link>
+            <ContentOptions
+              watchList={watchList}
+              titleType={titleType}
+              titleId={titleId}
             />
-          </Link>
-          <ContentOptions
-            watchList={watchList}
-            titleType={titleType}
-            titleId={titleId}
-          />
+          </>
         </div>
         {showDescription && (
           <div

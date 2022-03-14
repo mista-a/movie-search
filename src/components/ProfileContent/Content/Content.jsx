@@ -1,112 +1,151 @@
-import { useState, useEffect, useRef, useCallback, useContext } from 'react'
-import { profileAPI } from '../../../API/API'
+import { useState, useEffect, useRef, useContext } from 'react'
+import { searchAPI } from '../../../API/API'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 import { SearchContext } from '../../../contexts/SearchContext'
 import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
+import Preloader from '../../common/Preloader/Preloader'
+import useObserver from '../../../hooks/useObserver'
+import { FiltresContext } from '../../../contexts/FiltresContext'
 
-//fix 'Ничего не найдено' вылазит нахуй, когда не надо
 //fix убрать тайтлы которые уже есть в watchlist
 
 const Content = () => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
+  const [loading, setLoading] = useState(false)
 
   const { language } = useContext(LanguageContext)
-  const { searchQuery } = useContext(SearchContext)
+  const { delaySearchQuery } = useContext(SearchContext)
+  const { filters, filterByType } = useContext(FiltresContext)
 
-  const observer = useRef()
+  const lastTitleRef = useRef()
 
-  const lastElementRef = useCallback(
-    (element) => {
-      if (observer.current) observer.current.disconnect()
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && currentPage < totalPages) {
-          setCurrentPage(currentPage + 1)
-        }
-      })
-      if (element) observer.current.observe(element)
-    },
+  useObserver(
+    lastTitleRef,
+    () => setCurrentPage(currentPage + 1),
+    currentPage < totalPages,
     [content],
   )
 
   const filterContent = (content) => {
     const newItemIds = []
-    return content.filter((item) => {
+    let filteredContent = content.filter((title) => {
       if (
-        !newItemIds.includes(item.id) &&
-        item.poster_path !== null &&
-        item.media_type !== 'person'
+        !newItemIds.includes(title.id) &&
+        title.poster_path &&
+        title.media_type !== 'person'
       ) {
-        newItemIds.push(item.id)
+        newItemIds.push(title.id)
         return true
-      } else {
-        return false
       }
     })
+
+    filteredContent = filteredContent.filter((title) =>
+      filterByType(title.media_type, filters.type),
+    )
+
+    return filteredContent
+  }
+
+  const changeContent = (content, totalPages) => {
+    if (content.total_pages !== totalPages) {
+      setTotalPages(content.total_pages)
+    }
+    const filtedNewContent = filterContent(content.results)
+    setContent(filtedNewContent)
   }
 
   useEffect(() => {
-    const changeNewContent = async (searchQuery, currentPage, language) => {
-      if (searchQuery) {
-        if (currentPage !== 1) setCurrentPage(1)
+    if (currentPage !== 1) setCurrentPage(1)
 
-        const newContent = await profileAPI.getContent(
-          searchQuery,
-          currentPage,
-          language,
-        )
-        if (newContent.total_pages !== totalPages) {
-          setTotalPages(newContent.total_pages)
-        }
-
-        const filtedNewContent = filterContent(newContent.results)
-        setContent(filtedNewContent)
-      } else if (content.length) {
-        setContent([])
-      }
+    const changeNewContent = async (delaySearchQuery, language) => {
+      const newContent = await searchAPI.getContent(
+        delaySearchQuery,
+        1,
+        language,
+      )
+      changeContent(newContent, totalPages)
     }
 
-    changeNewContent(searchQuery, currentPage, language)
-  }, [searchQuery])
+    const changeTopTitles = async (currentPage, language) => {
+      const newTopTitles = await searchAPI.getTopTitles(currentPage, language)
+      changeContent(newTopTitles, totalPages)
+    }
+
+    //fix titles? content? я незнаю (замени одно на другое или другое на одно ВО ВСЕМ ПРОЕКТЕ!!!)
+
+    if (delaySearchQuery) {
+      changeNewContent(delaySearchQuery, 1, language)
+    } else {
+      changeTopTitles(1, language)
+    }
+  }, [delaySearchQuery, filters])
 
   useEffect(() => {
-    const addNewContent = async (searchQuery, currentPage, language) => {
+    const addNewContent = async (delaySearchQuery, currentPage, language) => {
+      setLoading(true)
       if (currentPage !== 1) {
-        const newContent = await profileAPI.getContent(
-          searchQuery,
+        const newContent = await searchAPI.getContent(
+          delaySearchQuery,
           currentPage,
           language,
         )
-        const filtedNewContent = filterContent([
+        let filtedNewContent = filterContent([
           ...content,
           ...newContent.results,
         ])
         setContent(filtedNewContent)
       }
+      setLoading(false)
     }
 
-    addNewContent(searchQuery, currentPage, language)
+    const getTopTitles = async (currentPage, language) => {
+      setLoading(true)
+      if (currentPage !== 1) {
+        const newTopTitles = await searchAPI.getTopTitles(currentPage, language)
+        const filtedTopTitles = filterContent([
+          ...content,
+          ...newTopTitles.results,
+        ])
+        setContent(filtedTopTitles)
+      }
+      setLoading(false)
+    }
+
+    if (delaySearchQuery) {
+      addNewContent(delaySearchQuery, currentPage, language)
+    } else {
+      getTopTitles(currentPage, language)
+    }
   }, [currentPage])
 
-  return content.map((item, index) => {
-    return (
-      <ProfileContentCard
-        key={item.id}
-        titleId={item.id}
-        poster={item.poster_path}
-        titleType={item.media_type}
-        name={item.name ? item.name : item.title}
-        overview={item.overview}
-        releaseDate={
-          item.first_air_date ? item.first_air_date : item.release_date
-        }
-        genersIds={item.genre_ids}
-        rating={item.vote_average}
-        ref={index === content.length - 1 ? lastElementRef : null}
-      />
-    )
-  })
+  return (
+    <div className='content'>
+      {content.map((item, index) => {
+        return (
+          <ProfileContentCard
+            key={item.id}
+            titleType={item.media_type}
+            titleId={item.id}
+            poster={item.poster_path}
+            name={item.name ? item.name : item.title}
+            overview={item.overview}
+            releaseDate={
+              item.first_air_date ? item.first_air_date : item.release_date
+            }
+            genersIds={item.genre_ids}
+            rating={item.vote_average}
+            ref={index === content.length - 1 ? lastTitleRef : null}
+          />
+        )
+      })}
+      {loading && <Preloader preloaderClass='content__preloader' />}
+      {totalPages === 0 && content.length === 0 && (
+        <span className='content__not-found'>Ничего не найдено</span>
+      )}
+    </div>
+  )
 }
 
 export default Content

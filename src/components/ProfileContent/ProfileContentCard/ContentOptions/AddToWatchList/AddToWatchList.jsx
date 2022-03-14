@@ -16,7 +16,7 @@ const AddToWatchList = ({ titleType, titleId }) => {
   }
 
   useEffect(() => {
-    console.log(showOption(watchList.results, titleId))
+    showOption(watchList.results, titleId)
     setShowAddToWatchList(showOption(watchList.results, titleId))
   }, [watchList])
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import AddToWatchList from './AddToWatchList/AddToWatchList'
 import AddToWishList from './AddToWishList/AddToWishList'
 import useHideAnimation from '../../../../hooks/useHideAnimation'
-import content_options_img from '../../../../assets/img/content-options.svg'
+import content_options_img from '../../../../assets/img/content-options.png'
 
 const ContentOptions = ({ titleType, titleId }) => {
   const [showOptions, setShowOptions] = useState(false)
@@ -24,13 +24,17 @@ const ContentOptions = ({ titleType, titleId }) => {
   return (
     <div className='content-options'>
       <button
-        className='content-options__options-button'
+        className={
+          showOptions && !hideOptionsAnimation.hideAnimation
+            ? 'content-options__options-button content-options__options-button_active'
+            : 'content-options__options-button'
+        }
         onClick={switchShowOptions}
       >
         <img
+          className='content-options__img'
           src={content_options_img}
           alt='добавить'
-          className='content-options__img'
         />
       </button>
       {showOptions && (

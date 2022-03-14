@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './sass/style.sass'
+import './styles/style.sass'
+import './styles/variables.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 

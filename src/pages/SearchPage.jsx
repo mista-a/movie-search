@@ -1,11 +1,7 @@
 import Content from '../components/ProfileContent/Content/Content'
 
 const SearchPage = () => {
-  return (
-    <div className='content'>
-      <Content />
-    </div>
-  )
+  return <Content />
 }
 
 export default SearchPage

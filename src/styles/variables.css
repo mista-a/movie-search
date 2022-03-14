@@ -1,0 +1,31 @@
+html[data-theme='dark'] {
+  /* theme */
+  --color: #ffffff;
+  --backgroundColor: #111111;
+  --secondBackgroundColor: #222222;
+  --scrollBarColor: #222222;
+  --activeScrollBar: #333333;
+
+  /* common */
+  --active: #84baf7;
+  --error: #ff5353;
+  --grey: #717171;
+  --lightGrey: #e0e0e0;
+  --white: white;
+}
+
+html[data-theme='light'] {
+  /* theme */
+  --color: black;
+  --backgroundColor: #ffffff;
+  --secondBackgroundColor: #e7e7e7;
+  --scrollBarColor: #d6d6d6;
+  --activeScrollBar: #adadad;
+
+  /* common */
+  --active: #84baf7;
+  --error: #ff5353;
+  --grey: #717171;
+  --lightGrey: #e0e0e0;
+  --white: white;
+}

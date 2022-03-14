@@ -1,0 +1,35 @@
+.slider-container
+  min-width: 830px
+  position: relative
+  &__button
+    top: 50%
+    width: 34px
+    height: 34px
+    position: absolute
+    border: 10px
+    border-radius: 20px
+    padding: 0
+    background-color: var(--color)
+    transition: transform 0.5s
+    z-index: 1
+    transform: translateY(-50%)
+    animation: opacity0-1 0.4s
+    &:active
+      background-color: var(--color)
+    &_hide
+      animation: opacity1-0 0.4s
+    &_prev
+      left: -15px
+      &:hover
+        transform: translateY(-50%) translateX(-6px)
+    &_next
+      right: -15px
+      &:hover
+        transform: translateY(-50%) translateX(6px)
+  &__img
+    display: block
+    margin: auto
+    &_left
+      margin-left: 5px
+    &_right
+      margin-right: 5px

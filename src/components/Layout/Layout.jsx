@@ -1,19 +1,18 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Footer from '../Footer/Footer'
 import { MemoHeader } from '../Header/Header'
 
 const Layout = () => {
   return (
-    <>
-      <div className='wrapper'>
-        <div className='margin-fix'></div>
-        <div className='container'>
-          <MemoHeader />
+    <div className='wrapper'>
+      <div className='container'>
+        <MemoHeader />
+        <div className='main'>
           <Outlet />
-          {/* <Footer /> */}
         </div>
+        <Footer />
       </div>
-    </>
+    </div>
   )
 }
 
