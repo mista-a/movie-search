@@ -1,23 +1,14 @@
 import search_bar__cleaner from '../../assets/img/search-cleaner.svg'
 import { useRef, memo, useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { SearchContext } from '../../contexts/SearchContext'
 
-const SearchBar = memo(({ onClickLinkTo }) => {
+const SearchBar = memo(({ onInputClick }) => {
   const [searchBarInFocus, setSearchBarInFocus] = useState(false)
   const [searchBarWasInFocus, setSearchBarWasInFocus] = useState(false)
 
   const { searchQuery, setSearchQuery } = useContext(SearchContext)
 
   const inputRef = useRef()
-
-  const navigate = useNavigate()
-
-  //fix
-  const changeRouteToSearch = () => {
-    const path = onClickLinkTo
-    navigate(path)
-  }
 
   const onSearchBarInputFocus = () => {
     setSearchBarInFocus(true)
@@ -49,7 +40,7 @@ const SearchBar = memo(({ onClickLinkTo }) => {
       <form className='search-bar__action'>
         <input
           className='search-bar__input'
-          onClick={changeRouteToSearch}
+          onClick={onInputClick}
           onFocus={onSearchBarInputFocus}
           onBlur={onSearchBarInputBlur}
           onChange={onSearchBarChange}

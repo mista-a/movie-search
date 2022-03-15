@@ -53,10 +53,11 @@ export const languageAPI = {
 }
 
 export const searchAPI = {
-  async getContent(keyword, currentPage, language = 'en', adult = 'false') {
+  // adult
+  async getContent(keyword, currentPage, language = 'en') {
     const response = await themoviedb
       .get(
-        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=${adult}`,
+        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=false`,
       )
       .catch(logError)
     return response.data

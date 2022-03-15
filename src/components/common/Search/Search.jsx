@@ -3,10 +3,10 @@ import SearchBar from '../../SearchBar/SearchBar'
 
 //fix onClickLinkTo={'/search'}
 
-const Search = () => {
+const Search = ({ onInputClick }) => {
   return (
     <div className='search'>
-      <SearchBar onClickLinkTo={'/search'} />
+      <SearchBar onInputClick={onInputClick} />
       <SearchFiltres />
     </div>
   )

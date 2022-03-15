@@ -17,7 +17,7 @@ const Content = () => {
 
   const { language } = useContext(LanguageContext)
   const { delaySearchQuery } = useContext(SearchContext)
-  const { filters, filterByType } = useContext(FiltresContext)
+  const { filters, filterByType, filterByAdult } = useContext(FiltresContext)
 
   const lastTitleRef = useRef()
 
@@ -44,6 +44,10 @@ const Content = () => {
     filteredContent = filteredContent.filter((title) =>
       filterByType(title.media_type, filters.type),
     )
+
+    // filteredContent = filteredContent.filter((title) =>
+    //   filterByAdult(title.adult, filters.adult),
+    // )
 
     return filteredContent
   }
