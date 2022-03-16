@@ -5,9 +5,10 @@ import { SearchContext } from '../../../contexts/SearchContext'
 import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
 import Preloader from '../../common/Preloader/Preloader'
 import useObserver from '../../../hooks/useObserver'
-import { FiltresContext } from '../../../contexts/FiltresContext'
+import { FiltersContext } from '../../../contexts/FiltersContext'
 
 //fix убрать тайтлы которые уже есть в watchlist
+//fix переделать подгрузку
 
 const Content = () => {
   const [content, setContent] = useState([])
@@ -18,7 +19,7 @@ const Content = () => {
   const { language } = useContext(LanguageContext)
   const { delaySearchQuery } = useContext(SearchContext)
   const { filters, filterByType, filterByReleaseDate } =
-    useContext(FiltresContext)
+    useContext(FiltersContext)
 
   const lastTitleRef = useRef()
 
@@ -46,10 +47,11 @@ const Content = () => {
       filterByType(title.media_type, filters.type),
     )
 
-    //fix сделать фильтр и для сериалов
     filteredContent = filteredContent.filter((title) =>
       filterByReleaseDate(
-        title.release_date.substring(0, 4),
+        title.release_date
+          ? title.release_date.substring(0, 4)
+          : title.first_air_date.substring(0, 4),
         filters.startReleaseDate,
         filters.endReleaseDate,
       ),

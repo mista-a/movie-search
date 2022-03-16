@@ -1,4 +1,4 @@
-const RealeaseDateFilter = ({ localfiltres, changeReleaseDate }) => {
+const RealeaseDateFilter = ({ localfilters, changeReleaseDate }) => {
   const changeStartReleaseDate = (e) => {
     if (e.target.value >= 0 && e.target.value.length <= 4) {
       changeReleaseDate('startReleaseDate', e.target.value)
@@ -19,7 +19,7 @@ const RealeaseDateFilter = ({ localfiltres, changeReleaseDate }) => {
         <input
           className='release-date-filter-input start-release-date-input'
           type='number'
-          value={localfiltres.startReleaseDate}
+          value={localfilters.startReleaseDate}
           onChange={changeStartReleaseDate}
         />
         <span className='release-date-filter-start__year-text'>г.</span>
@@ -31,7 +31,7 @@ const RealeaseDateFilter = ({ localfiltres, changeReleaseDate }) => {
         <input
           className='release-date-filter-input release-date-filter-end__input'
           type='number'
-          value={localfiltres.endReleaseDate}
+          value={localfilters.endReleaseDate}
           onChange={changeEndReleaseDate}
         />
         <span className='release-date-filter-end__year-text'>г.</span>

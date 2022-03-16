@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react'
 
-export const FiltresContext = createContext()
+export const FiltersContext = createContext()
 
-export const FiltresProvider = ({ children }) => {
+export const FiltersProvider = ({ children }) => {
   const [filters, setFilters] = useState({
     type: 'multi',
     startReleaseDate: 1,
@@ -31,10 +31,10 @@ export const FiltresProvider = ({ children }) => {
   console.log(filters)
 
   return (
-    <FiltresContext.Provider
+    <FiltersContext.Provider
       value={{ filters, setFilters, filterByType, filterByReleaseDate }}
     >
       {children}
-    </FiltresContext.Provider>
+    </FiltersContext.Provider>
   )
 }

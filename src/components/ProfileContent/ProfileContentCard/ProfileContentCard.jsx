@@ -78,6 +78,8 @@ const ProfileContentCard = forwardRef(
 
     if (releaseDate) releaseDate = translateDate(releaseDate)
 
+    //fix posterLoaded style
+
     return (
       <div
         className='content__wrapper'
@@ -86,14 +88,14 @@ const ProfileContentCard = forwardRef(
         ref={cardRef}
       >
         <div
-          className={card ? 'content-card_show' : 'content-card'}
+          className={card ? 'content-card content-card_show' : 'content-card'}
           ref={lastElementRef ? lastElementRef : null}
         >
           <>
             <Link to={`/${titleType}/${titleId}`}>
               <img
+                className='content-card__img'
                 ref={posterRef}
-                className='content__card'
                 data-src={`${themoviedb}/t/p/w185_and_h278_multi_faces${poster}`}
                 src={image_placeholder}
                 alt='card'

@@ -1,3 +1,5 @@
+//fix modal-wrapper разбить hide
+
 .modal-wrapper
     animation: show-modal-wrapper .5s
     background-color: rgba(0, 0, 0, 0.4)
@@ -6,16 +8,17 @@
     position: fixed
     top: 0
     left: 0
-    z-index: 100
+    z-index: var(--modalZIndex)
     &_hide
         top: 0
         left: 0
-        z-index: 100
+        z-index: var(--modalZIndex)
         width: 100vw
         height: 100vh
         position: fixed
         animation: hide-modal-wrapper .5s
         background-color: rgba(0, 0, 0, 0)
+
 .modal
     width: 100vw
     height: 100vh

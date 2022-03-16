@@ -2,7 +2,7 @@
   position: absolute
   bottom: 3px
   right: 3px
-  z-index: 1
+  z-index: var(--contentOptionZIndex)
   opacity: 0
   transition: opacity .5s
   &__options
@@ -26,6 +26,7 @@
     &_active
       transition: transform .5s
       transform: rotateZ(45deg)
+
 .content-option
   width: 100%
   display: flex

@@ -1,6 +1,6 @@
 import { AccountProvider } from './AccountContext'
 import { AuthenticationProvider } from './AuthenticationContext'
-import { FiltresProvider } from './FiltresContext'
+import { FiltersProvider } from './FiltersContext'
 import { GenersProvider } from './GenersContext'
 import { LanguageProvider } from './LanguageContext'
 import { SearchProvider } from './SearchContext'
@@ -13,9 +13,9 @@ export const ContextProvider = ({ children }) => {
         <LanguageProvider>
           <AccountProvider>
             <GenersProvider>
-              <FiltresProvider>
+              <FiltersProvider>
                 <SearchProvider>{children}</SearchProvider>
-              </FiltresProvider>
+              </FiltersProvider>
             </GenersProvider>
           </AccountProvider>
         </LanguageProvider>

@@ -1,3 +1,5 @@
+/* //fix сделать избавиться от common */
+
 html[data-theme='dark'] {
   /* theme */
   --color: #ffffff;
@@ -12,6 +14,14 @@ html[data-theme='dark'] {
   --grey: #717171;
   --lightGrey: #e0e0e0;
   --white: white;
+
+  /* z-indexes */
+  --modalZIndex: 3;
+  --headerZIndex: 2;
+  --languageSwitcherZIndex: 2;
+  --sliderZIndex: 1;
+  --contentDescriptionZIndex: 1;
+  --contentOptionZIndex: 1;
 }
 
 html[data-theme='light'] {
@@ -28,4 +38,12 @@ html[data-theme='light'] {
   --grey: #717171;
   --lightGrey: #e0e0e0;
   --white: white;
+
+  /* z-indexes */
+  --modalZIndex: 3;
+  --headerZIndex: 2;
+  --languageSwitcherZIndex: 2;
+  --sliderZIndex: 1;
+  --contentDescriptionZIndex: 1;
+  --contentOptionZIndex: 1;
 }

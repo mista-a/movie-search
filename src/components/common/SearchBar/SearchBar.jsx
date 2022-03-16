@@ -1,6 +1,6 @@
-import search_bar__cleaner from '../../assets/img/search-cleaner.svg'
+import search_bar__cleaner from '../../../assets/img/search-cleaner.svg'
 import { useRef, memo, useState, useContext } from 'react'
-import { SearchContext } from '../../contexts/SearchContext'
+import { SearchContext } from '../../../contexts/SearchContext'
 
 const SearchBar = memo(({ onInputClick }) => {
   const [searchBarInFocus, setSearchBarInFocus] = useState(false)
