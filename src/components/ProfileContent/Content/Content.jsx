@@ -17,7 +17,8 @@ const Content = () => {
 
   const { language } = useContext(LanguageContext)
   const { delaySearchQuery } = useContext(SearchContext)
-  const { filters, filterByType, filterByAdult } = useContext(FiltresContext)
+  const { filters, filterByType, filterByReleaseDate } =
+    useContext(FiltresContext)
 
   const lastTitleRef = useRef()
 
@@ -45,9 +46,14 @@ const Content = () => {
       filterByType(title.media_type, filters.type),
     )
 
-    // filteredContent = filteredContent.filter((title) =>
-    //   filterByAdult(title.adult, filters.adult),
-    // )
+    //fix сделать фильтр и для сериалов
+    filteredContent = filteredContent.filter((title) =>
+      filterByReleaseDate(
+        title.release_date.substring(0, 4),
+        filters.startReleaseDate,
+        filters.endReleaseDate,
+      ),
+    )
 
     return filteredContent
   }

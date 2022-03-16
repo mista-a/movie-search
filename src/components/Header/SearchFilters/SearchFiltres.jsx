@@ -8,11 +8,9 @@ const SearchFiltres = () => {
   const [searchFiltresModal, setSearchFiltresModal] = useState(false)
   const [localfiltres, setLocalFilters] = useState({
     type: 'multi',
-    startReleaseDate: '0',
-    endReleaseDate: '',
+    startReleaseDate: 1,
+    endReleaseDate: 2022,
   })
-
-  console.log(localfiltres)
 
   const toggleSearchFiltresModal = () => {
     setSearchFiltresModal(!searchFiltresModal)
