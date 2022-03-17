@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AddToWatchList from './AddToWatchList/AddToWatchList'
 import AddToWishList from './AddToWishList/AddToWishList'
-import useHideAnimation from '../../../../hooks/useHideAnimation'
-import content_options_img from '../../../../assets/img/content-options.png'
+import useHideAnimation from '../../../hooks/useHideAnimation'
+import content_options_img from '../../../assets/img/content-options.png'
 
 const ContentOptions = ({ titleType, titleId }) => {
   const [showOptions, setShowOptions] = useState(false)

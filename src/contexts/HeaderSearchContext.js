@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react'
 
-export const SearchContext = createContext()
+export const HeaderSearchContext = createContext()
 
-export const SearchProvider = ({ children }) => {
+export const HeaderSearchProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [delaySearchQuery, setDelaySearchQuery] = useState('')
 
@@ -14,10 +14,10 @@ export const SearchProvider = ({ children }) => {
   }, [searchQuery])
 
   return (
-    <SearchContext.Provider
+    <HeaderSearchContext.Provider
       value={{ searchQuery, setSearchQuery, delaySearchQuery }}
     >
       {children}
-    </SearchContext.Provider>
+    </HeaderSearchContext.Provider>
   )
 }

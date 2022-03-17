@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { titleAPI } from '../API/API'
-import { LanguageContext } from '../contexts/LanguageContext'
-import TitlePageLeftDescription from '../components/TitlePageComponents/TitlePageLeftDescription/TitlePageLeftDescription'
-import TitlePageRightDescription from '../components/TitlePageComponents/TitlePageRightDescription/TitlePageRightDescription'
-import MainDescription from '../components/TitlePageComponents/MainDescription/MainDescription'
+import { titleAPI } from '../../API/API'
+import { LanguageContext } from '../../contexts/LanguageContext'
+import TitlePageLeftDescription from '../../components/TitlePageComponents/TitlePageLeftDescription/TitlePageLeftDescription'
+import TitlePageRightDescription from '../../components/TitlePageComponents/TitlePageRightDescription/TitlePageRightDescription'
+import MainDescription from '../../components/TitlePageComponents/MainDescription/MainDescription'
 
 //fix попробуй треллер норм выбрать (official, #1)
 //fix для credits сделать context ?

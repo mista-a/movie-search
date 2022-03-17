@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { personAPI } from '../API/API'
-import placeholder_image_100x135 from '../assets/img/placeholder-image-100x135.svg'
-import { LanguageContext } from '../contexts/LanguageContext'
-import { themoviedb } from '../links'
+import { personAPI } from '../../API/API'
+import placeholder_image_100x135 from '../../assets/img/placeholder-image-100x135.svg'
+import { LanguageContext } from '../../contexts/LanguageContext'
+import { themoviedb } from '../../links'
 
 //fix уменьшить размер фотак
 //fix добавить crew не забудь

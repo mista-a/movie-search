@@ -1,13 +1,13 @@
-import image_placeholder from '../../../assets/img/image-placeholder.png'
+import image_placeholder from '../../assets/img/image-placeholder.png'
 import { forwardRef, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import cutText from '../../../utils/cutText'
-import translateDate from '../../../utils/translateDate'
+import cutText from '../../utils/cutText'
+import translateDate from '../../utils/translateDate'
 import ContentDescription from './ContentDescription/ContentDescription'
 import ContentOptions from './ContentOptions/ContentOptions'
-import useHideAnimation from '../../../hooks/useHideAnimation'
-import useObserver from '../../../hooks/useObserver'
-import { themoviedb } from '../../../links'
+import useHideAnimation from '../../hooks/useHideAnimation'
+import useObserver from '../../hooks/useObserver'
+import { themoviedb } from '../../links'
 
 //fix переделать дату в описании
 //fix переделать пустой жанр
@@ -26,7 +26,7 @@ const ProfileContentCard = forwardRef(
       rating,
       watchList,
     },
-    lastElementRef
+    lastElementRef,
   ) => {
     const [showDescription, setShowDescription] = useState(false)
     const [mouseEnter, setMouseEnter] = useState(false)
@@ -38,7 +38,7 @@ const ProfileContentCard = forwardRef(
     const hideDescriptionAnimation = useHideAnimation(
       showDescription,
       setShowDescription,
-      400
+      400,
     )
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const ProfileContentCard = forwardRef(
       },
       true,
       [card],
-      { rootMargin: '60px' }
+      { rootMargin: '60px' },
     )
 
     useObserver(cardRef, () => setCard(true), true, [])
@@ -125,7 +125,7 @@ const ProfileContentCard = forwardRef(
         )}
       </div>
     )
-  }
+  },
 )
 
 export default ProfileContentCard

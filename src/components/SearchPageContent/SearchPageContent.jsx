@@ -1,23 +1,23 @@
 import { useState, useEffect, useRef, useContext } from 'react'
-import { searchAPI } from '../../../API/API'
-import { LanguageContext } from '../../../contexts/LanguageContext'
-import { SearchContext } from '../../../contexts/SearchContext'
-import ProfileContentCard from '../ProfileContentCard/ProfileContentCard'
-import Preloader from '../../common/Preloader/Preloader'
-import useObserver from '../../../hooks/useObserver'
-import { FiltersContext } from '../../../contexts/FiltersContext'
+import { searchAPI } from '../../API/API'
+import { LanguageContext } from '../../contexts/LanguageContext'
+import { HeaderSearchContext } from '../../contexts/HeaderSearchContext'
+import ContentCard from '../ContentCard/ContentCard'
+import Preloader from '../common/Preloader/Preloader'
+import useObserver from '../../hooks/useObserver'
+import { FiltersContext } from '../../contexts/FiltersContext'
 
 //fix убрать тайтлы которые уже есть в watchlist
 //fix переделать подгрузку
 
-const Content = () => {
+const SearchPageContent = () => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const [loading, setLoading] = useState(false)
 
   const { language } = useContext(LanguageContext)
-  const { delaySearchQuery } = useContext(SearchContext)
+  const { delaySearchQuery } = useContext(HeaderSearchContext)
   const { filters, filterByType, filterByReleaseDate } =
     useContext(FiltersContext)
 
@@ -92,7 +92,7 @@ const Content = () => {
     } else {
       changeTopTitles(1, language)
     }
-  }, [delaySearchQuery, filters])
+  }, [delaySearchQuery, filters, language])
 
   useEffect(() => {
     const addNewContent = async (delaySearchQuery, currentPage, language) => {
@@ -136,7 +136,7 @@ const Content = () => {
     <div className='content'>
       {content.map((item, index) => {
         return (
-          <ProfileContentCard
+          <ContentCard
             key={item.id}
             titleType={item.media_type}
             titleId={item.id}
@@ -160,4 +160,4 @@ const Content = () => {
   )
 }
 
-export default Content
+export default SearchPageContent

@@ -1,10 +1,10 @@
-import ProfilePage from './pages/ProfilePage'
 import { Routes, BrowserRouter, Route } from 'react-router-dom'
-import Layout from './components/Layout/Layout'
-import SearchPage from './pages/SearchPage'
-import TitlePage from './pages/TitlePage'
-import PersonPage from './pages/PersonPage'
 import { ContextProvider } from './contexts/ContextProvider'
+import Layout from './components/Layout/Layout'
+import SearchPage from './pages/SearchPage/SearchPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
+import TitlePage from './pages/TitlePage/TitlePage'
+import PersonPage from './pages/PersonPage/PersonPage'
 
 //fix язык сам по себе меняется
 

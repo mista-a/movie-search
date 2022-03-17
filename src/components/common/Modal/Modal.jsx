@@ -8,7 +8,7 @@ const Modal = ({ active, setActive, children }) => {
       <div
         className={
           hideModalAnimation.hideAnimation
-            ? 'modal-wrapper_hide'
+            ? 'modal-wrapper modal-wrapper_hide'
             : 'modal-wrapper'
         }
       >

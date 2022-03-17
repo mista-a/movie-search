@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState, useLayoutEffect } from 'react'
 import { languageAPI } from '../API/API'
 
 export const LanguageContext = createContext()

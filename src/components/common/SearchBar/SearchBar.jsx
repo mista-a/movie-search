@@ -1,12 +1,9 @@
 import search_bar__cleaner from '../../../assets/img/search-cleaner.svg'
-import { useRef, memo, useState, useContext } from 'react'
-import { SearchContext } from '../../../contexts/SearchContext'
+import { useRef, memo, useState } from 'react'
 
-const SearchBar = memo(({ onInputClick }) => {
+const SearchBar = memo(({ setValue, value, onInputClick }) => {
   const [searchBarInFocus, setSearchBarInFocus] = useState(false)
   const [searchBarWasInFocus, setSearchBarWasInFocus] = useState(false)
-
-  const { searchQuery, setSearchQuery } = useContext(SearchContext)
 
   const inputRef = useRef()
 
@@ -19,10 +16,10 @@ const SearchBar = memo(({ onInputClick }) => {
     if (searchBarWasInFocus) setSearchBarInFocus(false)
   }
 
-  const onSearchBarChange = (e) => setSearchQuery(e.target.value)
+  const onSearchBarChange = (e) => setValue(e.target.value)
 
   const cleanSearchBar = (e) => {
-    setSearchQuery('')
+    setValue('')
     e.preventDefault()
     inputRef.current.focus()
   }
@@ -45,11 +42,11 @@ const SearchBar = memo(({ onInputClick }) => {
           onBlur={onSearchBarInputBlur}
           onChange={onSearchBarChange}
           ref={inputRef}
-          value={searchQuery}
+          value={value}
           type='text'
           placeholder='поиск'
         />
-        {searchQuery && (
+        {value && (
           <button className='search-bar__cleaner' onClick={cleanSearchBar}>
             <img
               className='search-bar__cleaner-img'

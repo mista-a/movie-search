@@ -1,11 +1,15 @@
+//fix попробывать разные bc для header
+
 .header
   display: flex
   align-items: center
   justify-content: space-between
-  height: 32px
+  height: 50px
   position: fixed
   z-index: var(--headerZIndex)
-  width: 100%
+  width: 97%
+  background-color: var(--backgroundColor)
+  opacity: .98
 
 .logo
   width: 100px
@@ -15,17 +19,13 @@
   align-items: center
   display: flex
   justify-content: space-between
+  gap: 15px
 
 .user-avatar
   width: 32px
   height: 32px
   &__image
-    margin-left: 5px
     border-radius: 15px
-
-.logout-button
-  &__text
-    margin-left: 5px
 
 .sign-in
   &__button

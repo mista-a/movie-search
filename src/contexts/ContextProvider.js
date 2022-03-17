@@ -1,10 +1,10 @@
+import { ThemeProvider } from './ThemeContext'
 import { AccountProvider } from './AccountContext'
 import { AuthenticationProvider } from './AuthenticationContext'
 import { FiltersProvider } from './FiltersContext'
 import { GenersProvider } from './GenersContext'
 import { LanguageProvider } from './LanguageContext'
-import { SearchProvider } from './SearchContext'
-import { ThemeProvider } from './ThemeContext'
+import { HeaderSearchProvider } from './HeaderSearchContext'
 
 export const ContextProvider = ({ children }) => {
   return (
@@ -14,7 +14,7 @@ export const ContextProvider = ({ children }) => {
           <AccountProvider>
             <GenersProvider>
               <FiltersProvider>
-                <SearchProvider>{children}</SearchProvider>
+                <HeaderSearchProvider>{children}</HeaderSearchProvider>
               </FiltersProvider>
             </GenersProvider>
           </AccountProvider>

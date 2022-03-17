@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { listsAPI } from '../../../../../API/API'
-import { AuthenticationContext } from '../../../../../contexts/AuthenticationContext'
+import { listsAPI } from '../../../../API/API'
+import { AuthenticationContext } from '../../../../contexts/AuthenticationContext'
 
 const AddToWishList = ({ titleType, titleId }) => {
   const { sessionId } = useContext(AuthenticationContext)

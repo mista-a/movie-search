@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { GenersContext } from '../../../../contexts/GenersContext'
-import useHideAnimation from '../../../../hooks/useHideAnimation'
+import { GenersContext } from '../../../contexts/GenersContext'
+import useHideAnimation from '../../../hooks/useHideAnimation'
 
 const ContentDescription = ({
   showDescription,

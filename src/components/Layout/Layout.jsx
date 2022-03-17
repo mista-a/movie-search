@@ -5,8 +5,8 @@ import { MemoHeader } from '../Header/Header'
 const Layout = () => {
   return (
     <div className='wrapper'>
+      <MemoHeader />
       <div className='container'>
-        <MemoHeader />
         <div className='main'>
           <Outlet />
         </div>

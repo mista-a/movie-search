@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
-import { listsAPI } from '../../../../../API/API'
-import { AccountContext } from '../../../../../contexts/AccountContext'
-import { AuthenticationContext } from '../../../../../contexts/AuthenticationContext'
-import showOption from '../../../../../utils/showOption'
+import { listsAPI } from '../../../../API/API'
+import { AccountContext } from '../../../../contexts/AccountContext'
+import { AuthenticationContext } from '../../../../contexts/AuthenticationContext'
+import showOption from '../../../../utils/showOption'
 
 const AddToWatchList = ({ titleType, titleId }) => {
   const [showAddToWatchList, setShowAddToWatchList] = useState(false)
