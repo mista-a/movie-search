@@ -26,12 +26,11 @@ const ProfileContentCard = forwardRef(
       rating,
       watchList,
     },
-    lastElementRef,
+    lastElementRef
   ) => {
     const [showDescription, setShowDescription] = useState(false)
     const [mouseEnter, setMouseEnter] = useState(false)
     const [card, setCard] = useState(false)
-    const [posterLoaded, setPosterloaded] = useState(false)
 
     const posterRef = useRef()
     const cardRef = useRef()
@@ -39,7 +38,7 @@ const ProfileContentCard = forwardRef(
     const hideDescriptionAnimation = useHideAnimation(
       showDescription,
       setShowDescription,
-      400,
+      400
     )
 
     useEffect(() => {
@@ -64,12 +63,11 @@ const ProfileContentCard = forwardRef(
     useObserver(
       posterRef,
       (entrie) => {
-        setPosterloaded(true)
         entrie.target.src = entrie.target.dataset.src
       },
       true,
       [card],
-      { rootMargin: '60px' },
+      { rootMargin: '60px' }
     )
 
     useObserver(cardRef, () => setCard(true), true, [])
@@ -77,8 +75,6 @@ const ProfileContentCard = forwardRef(
     if (overview) overview = cutText(overview, 20)
 
     if (releaseDate) releaseDate = translateDate(releaseDate)
-
-    //fix posterLoaded style
 
     return (
       <div
@@ -100,9 +96,6 @@ const ProfileContentCard = forwardRef(
                 src={image_placeholder}
                 alt='card'
               />
-              {!posterLoaded && (
-                <div style={{ position: 'absolute' }}>{name}</div>
-              )}
             </Link>
             <ContentOptions
               watchList={watchList}
@@ -132,7 +125,7 @@ const ProfileContentCard = forwardRef(
         )}
       </div>
     )
-  },
+  }
 )
 
 export default ProfileContentCard
