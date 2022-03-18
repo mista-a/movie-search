@@ -18,7 +18,7 @@ export const FiltersProvider = ({ children }) => {
   const filterByReleaseDate = (
     contentReleaseDate,
     startReleaseDate,
-    endReleaseDate,
+    endReleaseDate
   ) => {
     if (
       contentReleaseDate > startReleaseDate &&
@@ -27,8 +27,6 @@ export const FiltersProvider = ({ children }) => {
       return true
     }
   }
-
-  console.log(filters)
 
   return (
     <FiltersContext.Provider

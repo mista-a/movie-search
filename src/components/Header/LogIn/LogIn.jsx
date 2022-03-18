@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
+import hidePassword from '../../../assets/img/hide-password.png'
 
 const LogIn = () => {
   const { setLocalStorageSessionId } = useContext(AuthenticationContext)
+  const [showPassword, setShowPassword] = useState(false)
 
   const {
     register,
@@ -45,7 +47,7 @@ const LogIn = () => {
           <label className='logIn-label logIn-password__label'>
             <span className='logIn-label__text'>Пароль</span>
             <input
-              type='password'
+              type={showPassword ? 'password' : 'text'}
               className={
                 errors?.password
                   ? 'logIn-input logIn-input_error logIn-password__input '
@@ -54,18 +56,28 @@ const LogIn = () => {
               {...register('password', { required: 'обязательное поле' })}
             />
           </label>
-        </div>
-        <div className='logIn-error'>
-          {errors?.password && (
-            <span className='logIn-error__text'>
-              {errors?.password?.message}
-            </span>
-          )}
-        </div>
-        <div className='password-reset'>
-          <button className='password-reset__button'>
-            <p className='password-reset__text'>забыли пароль?</p>
-          </button>
+          <div className='logIn-error'>
+            {errors?.password && (
+              <span className='logIn-error__text'>
+                {errors?.password?.message}
+              </span>
+            )}
+          </div>
+          <div className='password-options'>
+            <div className='show-password'>
+              <input
+                {...register('showPassword')}
+                type='checkbox'
+                onChange={() => setShowPassword(!showPassword)}
+                className='show-password__input'
+              />
+            </div>
+            <div className='password-reset'>
+              <button className='password-reset__button'>
+                <p className='password-reset__text'>забыли пароль?</p>
+              </button>
+            </div>
+          </div>
         </div>
         <div className='logIn-submit'>
           <input
