@@ -9,8 +9,6 @@ import useHideAnimation from '../../hooks/useHideAnimation'
 import useObserver from '../../hooks/useObserver'
 import { themoviedb } from '../../links'
 
-//fix переделать дату в описании
-//fix переделать пустой жанр
 //fix сделать анимацию на исчезновения description либо удалить ее к хуям
 
 const ProfileContentCard = forwardRef(

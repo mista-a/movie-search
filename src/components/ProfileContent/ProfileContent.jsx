@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import { AccountContext } from '../../contexts/AccountContext'
+import useDebounce from '../../hooks/useDebounce'
 import ContentCard from '../ContentCard/ContentCard'
 
 //fix переделай методы в use effect
 
-const ProfileContent = ({ searchQuery, setSearchQuery }) => {
+const ProfileContent = ({ searchQuery }) => {
   const [filteredWatchList, setFilteredWatchList] = useState({ results: [] })
 
   const { watchList } = useContext(AccountContext)
@@ -25,9 +26,13 @@ const ProfileContent = ({ searchQuery, setSearchQuery }) => {
     return filteredDefaultWatchList
   }
 
+  const debouncedSearchQuery = useDebounce(filterWatchList, 500)
+
+  console.log(debouncedSearchQuery(watchList, searchQuery))
+
   useEffect(() => {
     if (watchList) {
-      setFilteredWatchList(filterWatchList(watchList, searchQuery))
+      setFilteredWatchList(debouncedSearchQuery(watchList, searchQuery))
     }
   }, [searchQuery, watchList])
 

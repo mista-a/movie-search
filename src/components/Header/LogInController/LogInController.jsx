@@ -38,7 +38,7 @@ const LogInController = () => {
 
   const logout = () => {
     deleteLocalStorageSessionId()
-    showModalActive()
+    setLoginModalActive(false)
   }
 
   return sessionId ? (

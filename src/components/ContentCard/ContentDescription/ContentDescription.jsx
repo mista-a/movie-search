@@ -35,12 +35,14 @@ const ContentDescription = ({
     geners = getGeners(genersList, genersIds)
   }
 
+  console.log(geners)
+
   return (
     <>
       <div className='content-description__arrow'></div>
       <div className='content-description__description'>
         <h4 className='content-description__name'>{name}</h4>
-        <p className='content-description__release-date'>{releaseDate} г.</p>
+        <p className='content-description__release-date'>{releaseDate}</p>
         <p className='content-description__overview'>{overview}</p>
         {geners.length ? (
           <div className='content-description__geners'>

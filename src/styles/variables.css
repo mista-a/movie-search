@@ -1,13 +1,4 @@
-/* //fix сделать избавиться от common */
-
-html[data-theme='dark'] {
-  /* theme */
-  --color: #ffffff;
-  --backgroundColor: #111111;
-  --secondBackgroundColor: #222222;
-  --scrollBarColor: #222222;
-  --activeScrollBar: #333333;
-
+html {
   /* common */
   --active: #84baf7;
   --error: #ff5353;
@@ -24,26 +15,22 @@ html[data-theme='dark'] {
   --contentOptionZIndex: 1;
 }
 
+html[data-theme='dark'] {
+  /* theme */
+  --color: #ffffff;
+  --backgroundColor: #111111;
+  --secondBackgroundColor: #222222;
+  --scrollBarColor: #222222;
+  --activeScrollBar: #333333;
+  --headerBackgroundColor: #181818;
+}
+
 html[data-theme='light'] {
   /* theme */
   --color: black;
-  --backgroundColor: #ffffff;
+  --backgroundColor: #f7f7f7;
   --secondBackgroundColor: #e7e7e7;
   --scrollBarColor: #d6d6d6;
   --activeScrollBar: #adadad;
-
-  /* common */
-  --active: #84baf7;
-  --error: #ff5353;
-  --grey: #717171;
-  --lightGrey: #e0e0e0;
-  --white: white;
-
-  /* z-indexes */
-  --modalZIndex: 3;
-  --headerZIndex: 2;
-  --languageSwitcherZIndex: 2;
-  --sliderZIndex: 1;
-  --contentDescriptionZIndex: 1;
-  --contentOptionZIndex: 1;
+  --headerBackgroundColor: #ffffff;
 }

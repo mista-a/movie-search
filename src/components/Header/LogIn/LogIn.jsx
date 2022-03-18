@@ -1,11 +1,21 @@
 import { useForm } from 'react-hook-form'
-import { useContext, useState } from 'react'
+import { useContext, useState, useRef } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 import hidePassword from '../../../assets/img/hide-password.png'
+
+//fix переписать библиотеку на свое решение
 
 const LogIn = () => {
   const { setLocalStorageSessionId } = useContext(AuthenticationContext)
   const [showPassword, setShowPassword] = useState(false)
+
+  const passwordInputRef = useRef()
+
+  const toggleShowPassword = (e) => {
+    e.preventDefault()
+    setShowPassword(!showPassword)
+    passwordInputRef.current.focus()
+  }
 
   const {
     register,
@@ -46,15 +56,30 @@ const LogIn = () => {
         <div className='logIn-password'>
           <label className='logIn-label logIn-password__label'>
             <span className='logIn-label__text'>Пароль</span>
-            <input
-              type={showPassword ? 'password' : 'text'}
-              className={
-                errors?.password
-                  ? 'logIn-input logIn-input_error logIn-password__input '
-                  : 'logIn-input logIn-password__input'
-              }
-              {...register('password', { required: 'обязательное поле' })}
-            />
+            <div className='logIn-input'>
+              <input
+                className={
+                  errors?.password
+                    ? 'logIn-input__input logIn-input_error logIn-password__input '
+                    : 'logIn-input__input logIn-password__input'
+                }
+                type={showPassword ? 'text' : 'password'}
+                ref={passwordInputRef}
+                {...register('password', { required: 'обязательное поле' })}
+              />
+              <div className='show-password'>
+                <button
+                  className='show-password__button'
+                  onClick={toggleShowPassword}
+                >
+                  <img
+                    className='show-password__img'
+                    src={hidePassword}
+                    alt='show password'
+                  />
+                </button>
+              </div>
+            </div>
           </label>
           <div className='logIn-error'>
             {errors?.password && (
@@ -64,14 +89,6 @@ const LogIn = () => {
             )}
           </div>
           <div className='password-options'>
-            <div className='show-password'>
-              <input
-                {...register('showPassword')}
-                type='checkbox'
-                onChange={() => setShowPassword(!showPassword)}
-                className='show-password__input'
-              />
-            </div>
             <div className='password-reset'>
               <button className='password-reset__button'>
                 <p className='password-reset__text'>забыли пароль?</p>
