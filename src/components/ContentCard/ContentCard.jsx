@@ -8,6 +8,7 @@ import ContentOptions from './ContentOptions/ContentOptions'
 import useHideAnimation from '../../hooks/useHideAnimation'
 import useObserver from '../../hooks/useObserver'
 import { themoviedb } from '../../links'
+import RateModal from './RateModal/RateModal'
 
 //fix сделать анимацию на исчезновения description либо удалить ее к хуям
 
@@ -29,6 +30,7 @@ const ProfileContentCard = forwardRef(
     const [showDescription, setShowDescription] = useState(false)
     const [mouseEnter, setMouseEnter] = useState(false)
     const [card, setCard] = useState(false)
+    const [rateModal, setRateModal] = useState(false)
 
     const posterRef = useRef()
     const cardRef = useRef()
@@ -38,6 +40,10 @@ const ProfileContentCard = forwardRef(
       setShowDescription,
       400,
     )
+
+    const showRateModal = () => {
+      setRateModal(true)
+    }
 
     useEffect(() => {
       setTimeout(() => {
@@ -99,6 +105,7 @@ const ProfileContentCard = forwardRef(
               watchList={watchList}
               titleType={titleType}
               titleId={titleId}
+              showRateModal={showRateModal}
             />
           </>
         </div>
@@ -113,6 +120,7 @@ const ProfileContentCard = forwardRef(
             <ContentDescription
               showDescription={showDescription}
               setShowDescription={setShowDescription}
+              showRateModal={showRateModal}
               name={name}
               releaseDate={releaseDate}
               overview={overview}
@@ -121,6 +129,7 @@ const ProfileContentCard = forwardRef(
             />
           </div>
         )}
+        <RateModal rateModal={rateModal} setRateModal={setRateModal} />
       </div>
     )
   },

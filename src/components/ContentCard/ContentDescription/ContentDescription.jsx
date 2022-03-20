@@ -35,8 +35,6 @@ const ContentDescription = ({
     geners = getGeners(genersList, genersIds)
   }
 
-  console.log(geners)
-
   return (
     <>
       <div className='content-description__arrow'></div>

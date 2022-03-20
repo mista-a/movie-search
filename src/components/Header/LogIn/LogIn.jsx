@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useController, useForm } from 'react-hook-form'
 import { useContext, useState, useRef } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 import hidePassword from '../../../assets/img/hide-password.png'
@@ -11,17 +11,32 @@ const LogIn = () => {
 
   const passwordInputRef = useRef()
 
-  const toggleShowPassword = (e) => {
-    e.preventDefault()
-    setShowPassword(!showPassword)
-    passwordInputRef.current.focus()
-  }
-
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    control,
+    setFocus,
   } = useForm({ mode: 'onChange' })
+
+  const { field, fieldState } = useController(
+    { name: 'passwordInput' },
+    { rules: { required: true } },
+    { defaultValue: '' },
+  )
+
+  const toggleShowPassword = (e) => {
+    console.log(e)
+    e.preventDefault()
+    setShowPassword(!showPassword)
+    setFocus('password')
+    // e.setSelectionRange(e.value.length, e.value.length)
+  }
+
+  const setCursorInEnd = (e) => {
+    console.log(1)
+    console.log(e.target)
+  }
 
   const onSubmit = async ({ username, password }) => {
     setLocalStorageSessionId(username, password)
@@ -63,8 +78,9 @@ const LogIn = () => {
                     ? 'logIn-input__input logIn-input_error logIn-password__input '
                     : 'logIn-input__input logIn-password__input'
                 }
+                onChange={setCursorInEnd}
                 type={showPassword ? 'text' : 'password'}
-                ref={passwordInputRef}
+                autoComplete='off'
                 {...register('password', { required: 'обязательное поле' })}
               />
               <div className='show-password'>

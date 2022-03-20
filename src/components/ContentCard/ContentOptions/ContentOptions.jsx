@@ -3,8 +3,9 @@ import AddToWatchList from './AddToWatchList/AddToWatchList'
 import AddToWishList from './AddToWishList/AddToWishList'
 import useHideAnimation from '../../../hooks/useHideAnimation'
 import content_options_img from '../../../assets/img/content-options.png'
+import RateTitle from './RateTitle/RateTitle'
 
-const ContentOptions = ({ titleType, titleId }) => {
+const ContentOptions = ({ titleType, titleId, showRateModal }) => {
   const [showOptions, setShowOptions] = useState(false)
 
   const switchShowOptions = () => {
@@ -45,13 +46,13 @@ const ContentOptions = ({ titleType, titleId }) => {
               : 'content-options__options content-options__options_show'
           }
         >
-          <AddToWatchList titleType={titleType} titleId={titleId} />
+          <AddToWatchList
+            titleType={titleType}
+            titleId={titleId}
+            showRateModal={showRateModal}
+          />
           <AddToWishList titleType={titleType} titleId={titleId} />
-          <div className='content-option content-options__rate'>
-            <button className='content-options__button'>
-              <span className='content-options__text'>оценить</span>
-            </button>
-          </div>
+          <RateTitle />
         </div>
       )}
     </div>

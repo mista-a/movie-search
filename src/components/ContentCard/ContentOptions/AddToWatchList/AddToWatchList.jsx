@@ -4,7 +4,7 @@ import { AccountContext } from '../../../../contexts/AccountContext'
 import { AuthenticationContext } from '../../../../contexts/AuthenticationContext'
 import showOption from '../../../../utils/showOption'
 
-const AddToWatchList = ({ titleType, titleId }) => {
+const AddToWatchList = ({ titleType, titleId, showRateModal }) => {
   const [showAddToWatchList, setShowAddToWatchList] = useState(false)
 
   const { watchList, updateWatchlist } = useContext(AccountContext)
@@ -23,7 +23,7 @@ const AddToWatchList = ({ titleType, titleId }) => {
   return (
     showAddToWatchList && (
       <div className='content-option content-options__watched'>
-        <button className='content-options__button' onClick={addToWatchList}>
+        <button className='content-options__button' onClick={showRateModal}>
           <span className='content-options__text'>просмотренно</span>
         </button>
       </div>

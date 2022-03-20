@@ -4,6 +4,7 @@ import useDebounce from '../../hooks/useDebounce'
 import ContentCard from '../ContentCard/ContentCard'
 
 //fix переделай методы в use effect
+//fix добавить debounce
 
 const ProfileContent = ({ searchQuery }) => {
   const [filteredWatchList, setFilteredWatchList] = useState({ results: [] })
@@ -26,13 +27,9 @@ const ProfileContent = ({ searchQuery }) => {
     return filteredDefaultWatchList
   }
 
-  const debouncedSearchQuery = useDebounce(filterWatchList, 500)
-
-  console.log(debouncedSearchQuery(watchList, searchQuery))
-
   useEffect(() => {
     if (watchList) {
-      setFilteredWatchList(debouncedSearchQuery(watchList, searchQuery))
+      setFilteredWatchList(filterWatchList(watchList, searchQuery))
     }
   }, [searchQuery, watchList])
 
