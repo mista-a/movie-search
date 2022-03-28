@@ -1,26 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AddToWatchList from './AddToWatchList/AddToWatchList'
 import AddToWishList from './AddToWishList/AddToWishList'
 import useHideAnimation from '../../../hooks/useHideAnimation'
 import content_options_img from '../../../assets/img/content-options.png'
 import RateTitle from './RateTitle/RateTitle'
 
-const ContentOptions = ({ titleType, titleId, showRateModal }) => {
+const ContentOptions = ({
+  titleType,
+  titleId,
+  showRateModal,
+  mouseCardEntered,
+}) => {
   const [showOptions, setShowOptions] = useState(false)
-
-  const switchShowOptions = () => {
-    if (showOptions) {
-      hideOptionsAnimation.hide()
-    } else {
-      setShowOptions(true)
-    }
-  }
 
   const hideOptionsAnimation = useHideAnimation(
     showOptions,
     setShowOptions,
     400,
   )
+
+  useEffect(() => {
+    if (!mouseCardEntered) hideOptionsAnimation.hide()
+  }, [mouseCardEntered])
+
+  const switchShowOptions = () => {
+    showOptions ? hideOptionsAnimation.hide() : setShowOptions(true)
+  }
 
   return (
     <div className='content-options'>

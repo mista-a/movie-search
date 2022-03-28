@@ -13,6 +13,7 @@ html {
   --sliderZIndex: 1;
   --contentDescriptionZIndex: 1;
   --contentOptionZIndex: 1;
+  --themeSwitcherToggler: 1;
 }
 
 html[data-theme='dark'] {
@@ -28,7 +29,7 @@ html[data-theme='dark'] {
 html[data-theme='light'] {
   /* theme */
   --color: black;
-  --backgroundColor: #f7f7f7;
+  --backgroundColor: #f4f4f4;
   --secondBackgroundColor: #e7e7e7;
   --scrollBarColor: #d6d6d6;
   --activeScrollBar: #adadad;

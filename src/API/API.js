@@ -134,10 +134,12 @@ export const titleAPI = {
     }
   },
 
-  async postRating(titleType, titleId, value) {
+  //fix Zобеденить postRating и addToWatchList в один раздел
+
+  async postRating(titleType, titleId, value, sessionId) {
     await themoviedb
       .post(
-        `${titleType}/${titleId}/rating?api_key=${APIKey}`,
+        `${titleType}/${titleId}/rating?api_key=${APIKey}&session_id=${sessionId}`,
         { value },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
@@ -146,14 +148,14 @@ export const titleAPI = {
 }
 
 export const listsAPI = {
-  async addToWatchList(type, titleId, sessionId, watchlist) {
+  async addToWatchList(type, titleId, sessionId) {
     await themoviedb
       .post(
         `account/{account_id}/watchlist?api_key=${APIKey}&session_id=${sessionId}`,
         {
           media_type: type,
           media_id: titleId,
-          watchlist: watchlist,
+          watchlist: true,
         },
         { 'Content-Type': 'application/json;charset=utf-8' },
       )
@@ -168,6 +170,12 @@ export const listsAPI = {
       .catch(logError)
 
     return response.data
+  },
+
+  async rateTitle(titleType, titleId, rate) {
+    await themoviedb.post(`${titleType}/${titleId}/rating?api_key=${APIKey}`, {
+      value: rate,
+    })
   },
 }
 

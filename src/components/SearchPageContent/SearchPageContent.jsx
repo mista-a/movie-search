@@ -7,7 +7,6 @@ import Preloader from '../common/Preloader/Preloader'
 import useObserver from '../../hooks/useObserver'
 import { FiltersContext } from '../../contexts/FiltersContext'
 
-//fix убрать тайтлы которые уже есть в watchlist
 //fix переделать подгрузку
 
 const SearchPageContent = () => {
@@ -34,9 +33,11 @@ const SearchPageContent = () => {
     const newItemIds = []
     let filteredContent = content.filter((title) => {
       if (
-        !newItemIds.includes(title.id) &&
-        title.poster_path &&
-        title.media_type !== 'person'
+        (!newItemIds.includes(title.id) &&
+          title.poster_path &&
+          title.media_type !== 'person' &&
+          title.release_date) ||
+        title.first_air_date
       ) {
         newItemIds.push(title.id)
         return true

@@ -6,7 +6,8 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 import TitlePage from './pages/TitlePage/TitlePage'
 import PersonPage from './pages/PersonPage/PersonPage'
 
-//fix язык сам по себе меняется
+//fix язык сам по себе меняется ?
+//fix оптимизировать работу
 
 function App() {
   return (

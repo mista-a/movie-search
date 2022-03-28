@@ -1,64 +1,60 @@
-import { useController, useForm } from 'react-hook-form'
-import { useContext, useState, useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { useContext, useState } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
-import hidePassword from '../../../assets/img/hide-password.png'
+import Preloader from '../../common/Preloader/Preloader'
+import hidePasswordImg from '../../../assets/img/open-eye.png'
+import showPasswordImg from '../../../assets/img/light-open-eye.png'
 
-//fix переписать библиотеку на свое решение
+//fix сделать норм иконки
+//fix цвет прыгает на ошибке при фокусе
+//fix валидэйшн
 
 const LogIn = () => {
-  const { setLocalStorageSessionId } = useContext(AuthenticationContext)
+  const { setLocalStorageSessionId, authenticationFetching, logInError } =
+    useContext(AuthenticationContext)
   const [showPassword, setShowPassword] = useState(false)
 
-  const passwordInputRef = useRef()
+  console.log(logInError)
 
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    control,
-    setFocus,
   } = useForm({ mode: 'onChange' })
 
-  const { field, fieldState } = useController(
-    { name: 'passwordInput' },
-    { rules: { required: true } },
-    { defaultValue: '' },
-  )
-
   const toggleShowPassword = (e) => {
-    console.log(e)
     e.preventDefault()
     setShowPassword(!showPassword)
-    setFocus('password')
-    // e.setSelectionRange(e.value.length, e.value.length)
   }
 
-  const setCursorInEnd = (e) => {
-    console.log(1)
-    console.log(e.target)
-  }
-
-  const onSubmit = async ({ username, password }) => {
+  const onSubmit = ({ username, password }) => {
     setLocalStorageSessionId(username, password)
   }
+
+  const { ref, ...passwordInput } = register('password')
 
   return (
     <div className='logIn'>
       <div className='logIn-header'>
         <h1 className='logIn-header__text'>Войти</h1>
+        {logInError && (
+          <p className='logIn-error__text'>Логин или пароль неверен</p>
+        )}
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='logIn__form'>
         <div className='logIn-username'>
           <label className='logIn-label logIn-username__label'>
             <span className='logIn-label__text '>Имя пользователя</span>
-            <input
-              className={
-                errors?.username
-                  ? 'logIn-input logIn-input_error logIn-username__input '
-                  : 'logIn-input logIn-username__input'
-              }
-              {...register('username', { required: 'обязательное поле' })}
-            />
+            <div className='logIn-input'>
+              <input
+                className={
+                  errors?.username
+                    ? 'logIn-input__input logIn-input_error logIn-username__input '
+                    : 'logIn-input__input logIn-username__input'
+                }
+                {...register('username', { required: 'обязательное поле' })}
+              />
+            </div>
           </label>
         </div>
         <div className='logIn-error'>
@@ -78,10 +74,13 @@ const LogIn = () => {
                     ? 'logIn-input__input logIn-input_error logIn-password__input '
                     : 'logIn-input__input logIn-password__input'
                 }
-                onChange={setCursorInEnd}
                 type={showPassword ? 'text' : 'password'}
                 autoComplete='off'
-                {...register('password', { required: 'обязательное поле' })}
+                {...passwordInput}
+                name='passwordInput'
+                {...register('password', {
+                  required: 'обязательное поле',
+                })}
               />
               <div className='show-password'>
                 <button
@@ -90,7 +89,7 @@ const LogIn = () => {
                 >
                   <img
                     className='show-password__img'
-                    src={hidePassword}
+                    src={showPassword ? hidePasswordImg : showPasswordImg}
                     alt='show password'
                   />
                 </button>
@@ -112,17 +111,21 @@ const LogIn = () => {
             </div>
           </div>
         </div>
-        <div className='logIn-submit'>
-          <input
-            className={
-              isValid
-                ? 'logIn-submit__input '
-                : 'logIn-submit__input logIn-submit__input_invalide'
-            }
-            type='submit'
-            value='Войти'
-            disabled={!isValid}
-          />
+        <div className={'logIn-submit'}>
+          {!authenticationFetching ? (
+            <input
+              className={
+                isValid
+                  ? 'logIn-submit__input logIn-submit__input_valid'
+                  : 'logIn-submit__input logIn-submit__input_invalid'
+              }
+              type='submit'
+              value='Войти'
+              disabled={!isValid}
+            />
+          ) : (
+            <Preloader />
+          )}
         </div>
       </form>
     </div>

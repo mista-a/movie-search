@@ -1,0 +1,33 @@
+.rate-button
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 30px
+  height: 30px
+  border-radius: 30px
+  background: var(--secondBackgroundColor)
+  color: var(--color)
+  // border: 1px solid #ffffff
+  text-align: center
+  cursor: pointer
+  transform: scale(1) translate3d(0, 0, 0)
+  transition: all 0.4s
+.rate-bar
+  display: flex
+  &__input
+    position: absolute
+    top: 0
+    left: 0
+    width: 1px
+    height: 1px
+    overflow: hidden
+    opacity: 0
+    pointer-events: none
+    z-index: -1
+    &:checked + .rate-button
+      background-color: var(--active)
+      transform: scale(1.2)
+  &__label
+    position: relative
+    display: inline-block
+    margin: 0 6px 0 0

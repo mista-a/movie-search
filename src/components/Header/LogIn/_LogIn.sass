@@ -8,11 +8,12 @@
   border-radius: 60px
   flex-direction: column
   &-header
+    margin-bottom: 10px
     &__text
       font-weight: 300
       font-size: 24px
       line-height: 28px
-      margin-bottom: 10px
+      text-align: center
   &-label
     display: flex
     flex-direction: column
@@ -21,15 +22,15 @@
       font-size: 18px
       line-height: 21px
   &-input
+    width: 350px
     display: flex
-    border: 1px solid var(--color)
+    // border: 1px solid var(--color)
     border-radius: 10px
     background-color: var(--backgroundColor)
-    align-items: center
     padding: 5px
     &__input
+      width: 100%
       background-color: inherit
-      width: 300px
       outline: none
       margin-right: 5px
       &_error
@@ -51,18 +52,32 @@
     height: 40px
     display: flex
     justify-content: center
+    border-radius: 15px
+    border: 1px solid var(--grey)
+    width: 170px
+    overflow: hidden
+    margin: 0 auto
     &__input
-      border-radius: 15px
       padding: 0
-      background-color: var(--grey)
-      font-weight: 300
+      font-weight: 400
       font-size: 18px
       line-height: 21px
-      width: 170px
-      height: 100%
-      cursor: pointer
+      width: 100%
+      background-color: var(--grey)
+      box-shadow: none
+      transition: all .6s
+      &_valid
+        cursor: pointer
+        color: var(--color)
+        background-color: var(--active)
       &_invalid
-        background-color: var(--grey)
+        cursor: not-allowed
+        color: #29292c
+
+.logIn-error
+  font-weight: 300
+  font-size: 14px
+  line-height: 16px
 
 .show-password
   width: 24px
@@ -70,15 +85,14 @@
   &__button
     padding: 0
   &__img
-    width: 24px
-    height: 24px
+    width: 20px
+    height: 20px
 
 .label-username
   margin-bottom: 15px
 
 .password-options
   display: flex
-  align-items: center
   justify-content: space-between
   margin-bottom: 15px
   margin-top: 5px

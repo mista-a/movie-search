@@ -1,4 +1,6 @@
-import moon_icon from '../../../assets/img/moon-icon.png'
+import { useRef } from 'react'
+import moonIcon from '../../../assets/img/moon.png'
+import sunIcon from '../../../assets/img/sun.png'
 import useTheme from '../../../hooks/useTheme'
 
 const ThemeSwitcher = () => {
@@ -6,13 +8,32 @@ const ThemeSwitcher = () => {
 
   return (
     <div className='theme-switcher'>
-      <button className='theme-switcher__button' onClick={toggleTheme}>
-        <img
-          className='theme-switcher__img'
-          src={moon_icon}
-          alt='switch theme'
+      <label className='theme-switcher__label'>
+        <input
+          className={'theme-switcher__input'}
+          type='checkbox'
+          onClick={toggleTheme}
         />
-      </button>
+        <div className='theme-switcher__toggler'>
+          <div
+            className={
+              theme === 'light'
+                ? 'theme-switcher__toggle-button theme-switcher__toggle-button_light'
+                : 'theme-switcher__toggle-button theme-switcher__toggle-button_dark'
+            }
+          ></div>
+          <img
+            className='theme-switcher__img theme-switcher__moon-img'
+            src={moonIcon}
+            alt='dark theme'
+          />
+          <img
+            className='theme-switcher__img theme-switcher__sun-img'
+            src={sunIcon}
+            alt='light theme'
+          />
+        </div>
+      </label>
     </div>
   )
 }

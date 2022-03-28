@@ -10,8 +10,6 @@ import useObserver from '../../hooks/useObserver'
 import { themoviedb } from '../../links'
 import RateModal from './RateModal/RateModal'
 
-//fix сделать анимацию на исчезновения description либо удалить ее к хуям
-
 const ProfileContentCard = forwardRef(
   (
     {
@@ -38,7 +36,7 @@ const ProfileContentCard = forwardRef(
     const hideDescriptionAnimation = useHideAnimation(
       showDescription,
       setShowDescription,
-      400,
+      300,
     )
 
     const showRateModal = () => {
@@ -46,11 +44,12 @@ const ProfileContentCard = forwardRef(
     }
 
     useEffect(() => {
+      mouseEnter ? showDescriptionOnMouseEnter() : hideDescriptionOnMouseLeave()
       setTimeout(() => {
         if (mouseEnter) {
           showDescriptionOnMouseEnter()
         }
-      }, 400)
+      }, 300)
       if (!mouseEnter) {
         hideDescriptionOnMouseLeave()
       }
@@ -71,7 +70,6 @@ const ProfileContentCard = forwardRef(
       },
       true,
       [card],
-      { rootMargin: '60px' },
     )
 
     useObserver(cardRef, () => setCard(true), true, [])
@@ -81,17 +79,14 @@ const ProfileContentCard = forwardRef(
     if (releaseDate) releaseDate = translateDate(releaseDate)
 
     return (
-      <div
-        className='content__wrapper'
-        onMouseEnter={() => setMouseEnter(true)}
-        onMouseLeave={() => setMouseEnter(false)}
-        ref={cardRef}
-      >
-        <div
-          className={card ? 'content-card content-card_show' : 'content-card'}
-          ref={lastElementRef ? lastElementRef : null}
-        >
-          <>
+      <>
+        <div className='content__wrapper' ref={cardRef}>
+          <div
+            className={card ? 'content-card content-card_show' : 'content-card'}
+            ref={lastElementRef ? lastElementRef : null}
+            onMouseOver={() => setMouseEnter(true)}
+            onMouseLeave={() => setMouseEnter(false)}
+          >
             <Link to={`/${titleType}/${titleId}`}>
               <img
                 className='content-card__img'
@@ -106,31 +101,27 @@ const ProfileContentCard = forwardRef(
               titleType={titleType}
               titleId={titleId}
               showRateModal={showRateModal}
-            />
-          </>
-        </div>
-        {showDescription && (
-          <div
-            className={
-              hideDescriptionAnimation.hideAnimation
-                ? 'content-description content-description_hide'
-                : 'content-description content-description_show'
-            }
-          >
-            <ContentDescription
-              showDescription={showDescription}
-              setShowDescription={setShowDescription}
-              showRateModal={showRateModal}
-              name={name}
-              releaseDate={releaseDate}
-              overview={overview}
-              rating={rating}
-              genersIds={genersIds}
+              mouseCardEntered={mouseEnter}
             />
           </div>
-        )}
-        <RateModal rateModal={rateModal} setRateModal={setRateModal} />
-      </div>
+          <ContentDescription
+            hideDescription={hideDescriptionAnimation}
+            showDescription={showDescription}
+            setShowDescription={setShowDescription}
+            name={name}
+            releaseDate={releaseDate}
+            overview={overview}
+            rating={rating}
+            genersIds={genersIds}
+          />
+        </div>
+        <RateModal
+          rateModal={rateModal}
+          setRateModal={setRateModal}
+          titleType={titleType}
+          titleId={titleId}
+        />
+      </>
     )
   },
 )
