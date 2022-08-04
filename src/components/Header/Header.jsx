@@ -22,4 +22,4 @@ const Header = () => {
   )
 }
 
-export const MemoHeader = memo(Header)
+export const MemoHeader = Header
