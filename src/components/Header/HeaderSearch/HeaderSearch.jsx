@@ -4,7 +4,8 @@ import { HeaderSearchContext } from '../../../contexts/HeaderSearchContext'
 import Search from '../../common/Search/Search'
 
 const HeaderSearch = () => {
-  const { searchQuery, setSearchQuery } = useContext(HeaderSearchContext)
+  const { searchQuery, setSearchQuery, searchDescription } =
+    useContext(HeaderSearchContext)
 
   const navigate = useNavigate()
 
@@ -14,11 +15,14 @@ const HeaderSearch = () => {
   }
 
   return (
-    <Search
-      onInputClick={changeRouteToSearchPage}
-      value={searchQuery}
-      setValue={setSearchQuery}
-    />
+    <>
+      <Search
+        value={searchQuery}
+        setValue={setSearchQuery}
+        description={searchDescription}
+        onInputClick={changeRouteToSearchPage}
+      />
+    </>
   )
 }
 

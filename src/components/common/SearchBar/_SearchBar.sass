@@ -1,13 +1,13 @@
 .search-bar
-  width: 282px
-  height: 26px
+  height: 30px
+  width: 100%
   background-color: var(--secondBackgroundColor)
   border-radius: 6px
   cursor: default
   transition: box-shadow .3s ease-out
+  font-size: 18px
   &:hover
-    transition: box-shadow .2s ease-out
-    box-shadow: 2px 2px 8px 2px rgba(109, 109, 116, 0.15)
+    box-shadow: 2px 2px 8px 2px rgba(109, 109, 116, 0.08)
   &_focus
     background-image: linear-gradient(to right, var(--active), var(--active))
     background-position: 0 100%
@@ -32,11 +32,10 @@
     height: 100%
     padding-top: 4px
   &__cleaner
-    margin-top: 5px
-    margin-right: 5px
+    margin: 6px
     padding: 0
-    width: 12px
-    height: 12px
+    width: 15px
+    height: 15px
 
 @keyframes focusInput
   0%
