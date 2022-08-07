@@ -27,7 +27,7 @@ const Trailer = () => {
     }
 
     getTrailers(titleType, titleId, language.language)
-  }, [language])
+  }, [language, titleId, titleType])
 
   return (
     <div className='trailer'>
@@ -40,21 +40,21 @@ const Trailer = () => {
         onClick={toggleModalActive}
       >
         <img
-          src={play_image}
-          alt='play image'
           className='trailer-button__play-image'
+          src={play_image}
+          alt='play'
         />
-        <span className='trailer-button__text'>Смотреть трейллер</span>
+        <span className='trailer-button__text'>Смотреть трейлер</span>
       </button>
-      )
       {trailers.results.length && (
         <Modal active={trailerModalActive} setActive={setTrailerModalActive}>
           <iframe
             className='trailer-modal'
+            title='trailer'
             src={`https://www.youtube.com/embed/${trailers.results[0].key}?&autoplay=1`}
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;'
+            allow='accelerometer; autoplay; clipboard-wriАte; encrypted-media; gyroscope;'
             allowFullScreen
-          ></iframe>
+          />
         </Modal>
       )}
       <p className='trailer-button-subscribe'>

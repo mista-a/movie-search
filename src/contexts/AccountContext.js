@@ -22,17 +22,17 @@ export const AccountProvider = ({ children }) => {
     accountDetailsId,
     sessionId,
     language,
-    watchListPage,
+    watchListPage
   ) => {
     const watchList = await listsAPI.getWatchList(
       accountDetailsId,
       sessionId,
       language,
-      watchListPage,
+      watchListPage
     )
 
     watchList.results.forEach((title) =>
-      title.title ? (title.media_type = 'movie') : (title.media_type = 'tv'),
+      title.title ? (title.media_type = 'movie') : (title.media_type = 'tv')
     )
 
     setWatchList(watchList)
@@ -41,7 +41,7 @@ export const AccountProvider = ({ children }) => {
   useEffect(() => {
     if (sessionId && language)
       getWatchList(accountDetails.id, sessionId, language, 1)
-  }, [language, sessionId])
+  }, [language, sessionId, accountDetails.id])
 
   useEffect(() => {
     const getAccountDetails = async (sessionId) => {

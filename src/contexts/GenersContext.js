@@ -16,7 +16,7 @@ export const GenersProvider = ({ children }) => {
     }
 
     if (!genersList) getGeners(language)
-  }, [language])
+  }, [language, genersList])
 
   return (
     <GenersContext.Provider value={{ genersList }}>

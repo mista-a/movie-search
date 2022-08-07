@@ -16,7 +16,7 @@ const useObserver = (ref, callback, doCallback, dependencies, parameters) => {
       observerRef.current = observer
       observerRef.current.observe(ref.current)
     }
-  }, [...dependencies])
+  }, [dependencies, callback, doCallback, parameters, ref])
 }
 
 export default useObserver
