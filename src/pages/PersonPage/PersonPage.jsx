@@ -1,93 +1,117 @@
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { personAPI } from '../../API/API'
-import placeholder_image_100x135 from '../../assets/img/placeholder-image-100x135.svg'
+import Preloader from '../../components/common/Preloader/Preloader'
+// import placeholder_image_100x135 from '../../assets/img/placeholder-image-100x135.svg'
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { themoviedb } from '../../links'
 
-//fix уменьшить размер фотак
-//fix добавить crew не забудь
-
 const Person = () => {
-  const { personId } = useParams()
+  const [loading, setLoading] = useState(false)
   const [personState, setPersonState] = useState({
     describe: {
       profile_path: `${themoviedb}/t/p/w600_and_h900_bestv2/271xabIyKpp8R0mjRRD6eZkfqjn.jpg`,
       biography: '',
-      birthday: 0,
+      birthday: '',
+      name: '',
     },
     credits: {
-      poster_path: '/az478qHIo2nYAzKVms0wj4efdBE.jpg',
       cast: [{ title: '' }],
     },
   })
 
   const { language } = useContext(LanguageContext)
+  const { personId } = useParams()
 
   useEffect(() => {
     const getPersonState = async (personId, language) => {
-      const describe = await personAPI.getPersonDescribe(personId, language)
-      const credits = await personAPI.getPersonCredits(personId, language)
-
-      setPersonState({ ...personState, describe, credits })
+      setLoading(true)
+      let credits = await personAPI.getPersonCredits(personId, language)
+      let describe = await personAPI.getPersonDescribe(personId, language)
+      if (!describe.biography.length) {
+        describe = await personAPI.getPersonDescribe(personId, 'en-Us')
+      }
+      setPersonState((personState) => ({ ...personState, describe, credits }))
+      setLoading(false)
     }
 
     getPersonState(personId, language)
-  }, [language])
+  }, [language, personId])
+
+  if (loading) return <Preloader />
 
   return (
-    <section className='person-page'>
-      <div className='describe-container'>
+    <div className='about-page'>
+      <div className='description-wrapper'>
         <div className='left-description'>
-          <div className='person-poster'>
+          <div className='left-description__poster-about'>
             <img
               src={`${themoviedb}/t/p/w600_and_h900_bestv2${personState.describe.profile_path}`}
-              alt=''
-              className='person-poster__image'
+              alt=' '
+              className='poster-about__image'
             />
           </div>
         </div>
-        <div className='person-describe'>
-          <h2 className='person-name'>{personState.describe.name}</h2>
+        <div className='center-description'>
+          <h1 className='person-name'>{personState.describe.name}</h1>
           <div className='person-describe__subtitle'>
             <span className='person-lifetime'>
-              {personState.describe.birthday}
+              {personState.describe.birthday?.split('-').join('.')}
             </span>
           </div>
-          <p className='person-biography'>{personState.describe.biography}</p>
-          <div className='titles'>
-            {personState.credits.cast.map((title, index) => {
-              return (
-                <div className='title' key={title.credit_id}>
-                  <img
-                    src={
-                      title.poster_path
-                        ? `${themoviedb}/t/p/w150_and_h225_bestv2${title.poster_path}`
-                        : placeholder_image_100x135
-                    }
-                    className='title__image'
-                    alt='poster'
-                  />
-                  <div className='title__description'>
-                    <p className='title__translated-name'>
-                      {personState.credits.cast[index].title}
-                    </p>
-                    <hr className='title-delimiter title-delimiter__top ' />
-                    <p className='title__original-name'>
-                      {personState.credits.cast[index].original_title}
-                    </p>
-                    <hr className='title-delimiter title-delimiter__bottom' />
-                    <p className='title__character-name'>
-                      {personState.credits.cast[index].character}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
+          <div>
+            <h2>Биография</h2>
+            <p className='description-about'>
+              {personState.describe.biography}
+            </p>
+          </div>
+          <div className='person-take-part'>
+            <h2 className='person-take-part__text'>Принимал участие в</h2>
+            <div className='person-titles'>
+              {personState.credits.cast.map(
+                ({
+                  id,
+                  character,
+                  title,
+                  vote_average,
+                  vote_count,
+                  release_date,
+                  media_type,
+                }) =>
+                  title &&
+                  character && (
+                    <Link
+                      className='person-title'
+                      to={`/${media_type}/${id}`}
+                      key={id}
+                    >
+                      <div className='title-header'>
+                        <span className='title-header__name'>{title}</span>
+                        <span className='title-header__date'>
+                          {release_date?.slice(0, 4)}
+                        </span>
+                      </div>
+                      <div className='title-subheader'>
+                        <span className='title-subheader__character'>
+                          {character}
+                        </span>
+                        <div className='title-subheader__rating'>
+                          <span className='title-subheader__rating-mark'>
+                            {vote_average?.toFixed(1)}
+                          </span>
+                          <span className='title-subheader__rating-vote'>
+                            {vote_count}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 

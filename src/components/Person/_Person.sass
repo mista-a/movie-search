@@ -9,29 +9,69 @@
         cursor: pointer
         border-radius: 15px
 
-.person-name
-    display: inline
-
-.titles
-    display: grid
-    grid-template-columns: repeat(3, 1fr)
-
-.title
-    max-width: 268px
+.person-take-part
     display: flex
-    &__image
-        min-width: 100px
-        height: 135px
-        border-radius: 10px
-        margin-bottom: 10px
-        margin-right: 3px
-    &__translated-name
-        margin: 0
-        font-weight: 500
-        font-size: 18px
-        line-height: 21px
+    flex-direction: column
+    gap: 5px
 
-.title-delimiter
-    margin: 10px 0
-    width: 162px
-    border: 1px solid rgba(227, 227, 227, 0.67)
+.person-titles
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr))
+    gap: 20px
+
+.person-title
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    transition: .35s
+    padding: 10px
+    background-color: var(--secondBackgroundColor)
+    border-radius: 10px
+    gap: 10px
+    max-height: 76px
+    &:hover
+        background-color: var(--thirdBackgroundColor)
+
+.title-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    text-overflow: clip
+    gap: 10px
+    font-weight: 600
+    font-size: 16px
+
+.title-header__name
+    white-space: nowrap 
+    overflow: hidden
+    text-overflow: ellipsis
+
+.title-header__date
+    font-weight: 300
+    font-size: 14px
+
+.title-subheader
+    display: flex
+    justify-content: space-between
+    align-items: center
+    gap: 10px
+
+.title-subheader__character
+    color: var(--secondColor)
+    white-space: nowrap 
+    overflow: hidden
+    text-overflow: ellipsis
+
+.title-subheader__rating
+    display: flex
+    align-items: baseline
+    gap: 5px
+
+.title-subheader__rating-mark
+    font-weight: 400
+    font-size: 24px
+
+.title-subheader__rating-vote
+    color: var(--grey)
+    font-weight: 400
+    font-size: 14px
