@@ -5,6 +5,7 @@ export const HeaderSearchContext = createContext()
 export const HeaderSearchProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [delaySearchQuery, setDelaySearchQuery] = useState('')
+  const [searchDescription, setSearchDescription] = useState('')
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -15,7 +16,13 @@ export const HeaderSearchProvider = ({ children }) => {
 
   return (
     <HeaderSearchContext.Provider
-      value={{ searchQuery, setSearchQuery, delaySearchQuery }}
+      value={{
+        searchQuery,
+        setSearchQuery,
+        delaySearchQuery,
+        searchDescription,
+        setSearchDescription,
+      }}
     >
       {children}
     </HeaderSearchContext.Provider>
