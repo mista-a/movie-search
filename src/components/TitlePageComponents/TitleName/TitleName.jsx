@@ -1,7 +1,8 @@
 import AgeLimit from '../AgeLimit/AgeLimit'
-import generPartition from '../../../assets/img/gener-partition.png'
 
 const TitleName = ({ name, releaseDate, genres }) => {
+  releaseDate = releaseDate.split('-').join('.')
+
   return (
     <>
       <div className='title-name'>
@@ -11,16 +12,10 @@ const TitleName = ({ name, releaseDate, genres }) => {
       <div className='subtitle'>
         <span className='release-date'>{releaseDate}</span>
         <div className='geners'>
-          {genres.map((item, index) => (
-            <b key={item.id} className='geners__name'>
-              {index && (
-                <img
-                  src={generPartition}
-                  className='geners__partition'
-                  alt=' '
-                />
-              )}
-              <span>{`${item.name}`}</span>
+          {genres.map(({ id, name }) => (
+            <b className='geners__name' key={id}>
+              &#183;
+              <span> {name} </span>
             </b>
           ))}
         </div>
