@@ -4,23 +4,22 @@ import { titleAPI } from '../../API/API'
 import { LanguageContext } from '../../contexts/LanguageContext'
 import TitlePageLeftDescription from '../../components/TitlePageComponents/TitlePageLeftDescription/TitlePageLeftDescription'
 import TitlePageRightDescription from '../../components/TitlePageComponents/TitlePageRightDescription/TitlePageRightDescription'
-import MainDescription from '../../components/TitlePageComponents/MainDescription/MainDescription'
-
-//fix попробуй треллер норм выбрать (official, #1)
-//fix для credits сделать context ?
-//fix loaded плохо работает
+import Preloader from '../../components/common/Preloader/Preloader'
+import TitlePageCenterDescription from '../../components/TitlePageComponents/MainDescription/TitlePageCenterDescription'
 
 const TitlePage = () => {
+  const [loaded, setLoaded] = useState(false)
   const [titleState, setTitleState] = useState({
     description: {
-      poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',
+      title: '',
       genres: [],
-      release_date: [],
+      overview: '',
       vote_average: 1,
+      release_date: [],
+      poster_path: '/66RvLrRJTm4J8l3uHXWF09AICol.jpg',
     },
     credits: { cast: [], crew: [{ name: '' }] },
   })
-  const [loaded, setLoaded] = useState(false)
 
   const { titleType, titleId } = useParams()
 
@@ -29,16 +28,19 @@ const TitlePage = () => {
   useEffect(() => {
     const getTitleState = async (titleType, titleId, language) => {
       setLoaded(false)
-      const description = await titleAPI.getDescription(
+      let credits = await titleAPI.getCredits(titleType, titleId, language)
+      if (credits.length) {
+        credits = await titleAPI.getCredits(titleType, titleId, 'en-Us')
+      }
+      let description = await titleAPI.getDescription(
         titleType,
         titleId,
-        language,
+        language
       )
-
-      const credits = await titleAPI.getCredits(titleType, titleId, language)
-
+      if (description.length) {
+        description = await titleAPI.getDescription(titleType, titleId, 'en-Us')
+      }
       setTitleState({
-        ...titleState,
         description,
         credits,
       })
@@ -46,26 +48,29 @@ const TitlePage = () => {
     }
 
     getTitleState(titleType, titleId, language.language)
-  }, [language])
+  }, [language, titleType, titleId])
+
+  if (!loaded) return <Preloader />
 
   return (
-    loaded && (
-      <div className='title-page'>
-        <div className='describe-inner'>
-          <TitlePageLeftDescription
-            posterPath={titleState.description.poster_path}
-          />
-          <MainDescription
-            description={titleState.description}
-            credits={titleState.credits}
-          />
-          <TitlePageRightDescription
-            vote_average={titleState.description.vote_average}
-            credits={titleState.credits}
-          />
-        </div>
+    <div className='about-page'>
+      <div className='description-wrapper'>
+        <TitlePageLeftDescription
+          posterPath={titleState.description.poster_path}
+        />
+        <TitlePageCenterDescription
+          credits={titleState.credits}
+          name={titleState.description.title}
+          genres={titleState.description.genres}
+          overview={titleState.description.overview}
+          releaseDate={titleState.description.release_date}
+        />
+        <TitlePageRightDescription
+          voteAverage={titleState.description.vote_average}
+          credits={titleState.credits}
+        />
       </div>
-    )
+    </div>
   )
 }
 
