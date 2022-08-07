@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import cutText from '../../utils/cutText'
 import translateDate from '../../utils/translateDate'
 import ContentDescription from './ContentDescription/ContentDescription'
-import ContentOptions from './ContentOptions/ContentOptions'
+// import ContentOptions from './ContentOptions/ContentOptions'
 import useHideAnimation from '../../hooks/useHideAnimation'
 import useObserver from '../../hooks/useObserver'
 import { themoviedb } from '../../links'
@@ -21,9 +21,8 @@ const ProfileContentCard = forwardRef(
       releaseDate,
       genersIds,
       rating,
-      watchList,
     },
-    lastElementRef,
+    lastElementRef
   ) => {
     const [showDescription, setShowDescription] = useState(false)
     const [mouseEnter, setMouseEnter] = useState(false)
@@ -36,7 +35,7 @@ const ProfileContentCard = forwardRef(
     const hideDescriptionAnimation = useHideAnimation(
       showDescription,
       setShowDescription,
-      300,
+      300
     )
 
     const showRateModal = () => {
@@ -44,6 +43,14 @@ const ProfileContentCard = forwardRef(
     }
 
     useEffect(() => {
+      const showDescriptionOnMouseEnter = () => {
+        setShowDescription(true)
+      }
+
+      const hideDescriptionOnMouseLeave = () => {
+        hideDescriptionAnimation.hide()
+      }
+
       mouseEnter ? showDescriptionOnMouseEnter() : hideDescriptionOnMouseLeave()
       setTimeout(() => {
         if (mouseEnter) {
@@ -55,21 +62,13 @@ const ProfileContentCard = forwardRef(
       }
     }, [mouseEnter])
 
-    const showDescriptionOnMouseEnter = () => {
-      setShowDescription(true)
-    }
-
-    const hideDescriptionOnMouseLeave = () => {
-      hideDescriptionAnimation.hide()
-    }
-
     useObserver(
       posterRef,
       (entrie) => {
         entrie.target.src = entrie.target.dataset.src
       },
       true,
-      [card],
+      [card]
     )
 
     useObserver(cardRef, () => setCard(true), true, [])
@@ -91,39 +90,39 @@ const ProfileContentCard = forwardRef(
               <img
                 className='content-card__img'
                 ref={posterRef}
-                data-src={`${themoviedb}/t/p/w185_and_h278_multi_faces${poster}`}
+                data-src={`${themoviedb}/t/p/w300_and_h450_bestv2/${poster}`}
                 src={image_placeholder}
                 alt='card'
               />
             </Link>
-            <ContentOptions
+            {/* <ContentOptions
               watchList={watchList}
               titleType={titleType}
               titleId={titleId}
               showRateModal={showRateModal}
               mouseCardEntered={mouseEnter}
-            />
+            /> */}
           </div>
           <ContentDescription
+            name={name}
+            rating={rating}
+            overview={overview}
+            genersIds={genersIds}
+            releaseDate={releaseDate}
             hideDescription={hideDescriptionAnimation}
             showDescription={showDescription}
             setShowDescription={setShowDescription}
-            name={name}
-            releaseDate={releaseDate}
-            overview={overview}
-            rating={rating}
-            genersIds={genersIds}
           />
         </div>
         <RateModal
+          titleId={titleId}
+          titleType={titleType}
           rateModal={rateModal}
           setRateModal={setRateModal}
-          titleType={titleType}
-          titleId={titleId}
         />
       </>
     )
-  },
+  }
 )
 
 export default ProfileContentCard

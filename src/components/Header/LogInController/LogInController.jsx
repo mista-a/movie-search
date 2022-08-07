@@ -1,7 +1,7 @@
-import user_avatar__image from '../../../assets/img/user-avatar.png'
+// import user_avatar__image from '../../../assets/img/user-avatar.png'
 import Modal from '../../common/Modal/Modal'
 import LogIn from './../LogIn/LogIn'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 import { accountAPI } from '../../../API/API'
@@ -14,7 +14,7 @@ const LogInController = () => {
   })
 
   const { sessionId, deleteLocalStorageSessionId } = useContext(
-    AuthenticationContext,
+    AuthenticationContext
   )
 
   const redirectToRegistration = () => {
@@ -43,7 +43,7 @@ const LogInController = () => {
 
   return sessionId ? (
     <>
-      <Link className='user-avatar' to='/profile'>
+      {/* <Link className='user-avatar' to='/profile'>
         <img
           className='user-avatar__image'
           src={
@@ -53,7 +53,7 @@ const LogInController = () => {
           }
           alt='user avatar'
         />
-      </Link>
+      </Link> */}
       <button className='logout-button' onClick={logout}>
         <span className='logout-button__text'>выйти</span>
       </button>
@@ -62,7 +62,7 @@ const LogInController = () => {
     <>
       <div className='sign-up'>
         <button className='sign-up__button' onClick={redirectToRegistration}>
-          <span className='sign-up__text'>регистрация</span>
+          <span className='sign-up__text'>Регистрация</span>
         </button>
       </div>
       <div className='sign-in'>

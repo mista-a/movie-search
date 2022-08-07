@@ -14,8 +14,6 @@ const LogIn = () => {
     useContext(AuthenticationContext)
   const [showPassword, setShowPassword] = useState(false)
 
-  console.log(logInError)
-
   const {
     register,
     formState: { errors, isValid },

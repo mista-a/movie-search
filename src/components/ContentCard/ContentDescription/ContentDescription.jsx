@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { GenersContext } from '../../../contexts/GenersContext'
-import useHideAnimation from '../../../hooks/useHideAnimation'
+// import useHideAnimation from '../../../hooks/useHideAnimation'
 import contentDescriptionArrow from '../../../assets/img/content-description-arrow.png'
 
 const ContentDescription = ({

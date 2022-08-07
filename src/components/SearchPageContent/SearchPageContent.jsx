@@ -7,8 +7,6 @@ import Preloader from '../common/Preloader/Preloader'
 import useObserver from '../../hooks/useObserver'
 import { FiltersContext } from '../../contexts/FiltersContext'
 
-//fix переделать подгрузку
-
 const SearchPageContent = () => {
   const [content, setContent] = useState([])
   const [totalPages, setTotalPages] = useState(1)
@@ -26,7 +24,7 @@ const SearchPageContent = () => {
     lastTitleRef,
     () => setCurrentPage(currentPage + 1),
     currentPage < totalPages,
-    [content],
+    [content]
   )
 
   const filterContent = (content) => {
@@ -42,10 +40,11 @@ const SearchPageContent = () => {
         newItemIds.push(title.id)
         return true
       }
+      return false
     })
 
     filteredContent = filteredContent.filter((title) =>
-      filterByType(title.media_type, filters.type),
+      filterByType(title.media_type, filters.type)
     )
 
     filteredContent = filteredContent.filter((title) =>
@@ -54,29 +53,29 @@ const SearchPageContent = () => {
           ? title.release_date.substring(0, 4)
           : title.first_air_date.substring(0, 4),
         filters.startReleaseDate,
-        filters.endReleaseDate,
-      ),
+        filters.endReleaseDate
+      )
     )
 
     return filteredContent
   }
 
-  const changeContent = (content, totalPages) => {
-    if (content.total_pages !== totalPages) {
-      setTotalPages(content.total_pages)
-    }
-    const filtedNewContent = filterContent(content.results)
-    setContent(filtedNewContent)
-  }
-
   useEffect(() => {
     if (currentPage !== 1) setCurrentPage(1)
+
+    const changeContent = (content, totalPages) => {
+      if (content.total_pages !== totalPages) {
+        setTotalPages(content.total_pages)
+      }
+      const filtedNewContent = filterContent(content.results)
+      setContent(filtedNewContent)
+    }
 
     const changeNewContent = async (delaySearchQuery, language) => {
       const newContent = await searchAPI.getContent(
         delaySearchQuery,
         1,
-        language,
+        language
       )
       changeContent(newContent, totalPages)
     }
@@ -85,8 +84,6 @@ const SearchPageContent = () => {
       const newTopTitles = await searchAPI.getTopTitles(currentPage, language)
       changeContent(newTopTitles, totalPages)
     }
-
-    //fix titles? content? я незнаю (замени одно на другое или другое на одно ВО ВСЕМ ПРОЕКТЕ!!!)
 
     if (delaySearchQuery) {
       changeNewContent(delaySearchQuery, 1, language)
@@ -102,7 +99,7 @@ const SearchPageContent = () => {
         const newContent = await searchAPI.getContent(
           delaySearchQuery,
           currentPage,
-          language,
+          language
         )
         let filtedNewContent = filterContent([
           ...content,

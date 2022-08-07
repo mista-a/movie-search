@@ -10,10 +10,10 @@ const AddToWatchList = ({ titleType, titleId, showRateModal }) => {
   const { watchList, updateWatchlist } = useContext(AccountContext)
   const { sessionId } = useContext(AuthenticationContext)
 
-  const addToWatchList = async () => {
-    await listsAPI.addToWatchList(titleType, titleId, sessionId, true)
-    updateWatchlist()
-  }
+  // const addToWatchList = async () => {
+  //   await listsAPI.addToWatchList(titleType, titleId, sessionId, true)
+  //   updateWatchlist()
+  // }
 
   useEffect(() => {
     showOption(watchList.results, titleId)
