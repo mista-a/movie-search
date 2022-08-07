@@ -1,9 +1,9 @@
 import enable_rating_star from '../../../assets/img/enable-rating-star.png'
 import disable_rating_star from '../../../assets/img/disable-rating-star.svg'
 
-//fix доделать звездочки
+const TitlePageRightDescription = ({ voteAverage, credits }) => {
+  voteAverage = voteAverage.toFixed(1)
 
-const TitlePageRightDescription = ({ vote_average, credits }) => {
   const showStarsRating = (starsCounter) => {
     const enableStarsCounter = Math.floor(starsCounter / 2)
     return (
@@ -45,9 +45,9 @@ const TitlePageRightDescription = ({ vote_average, credits }) => {
   return (
     <div className='right-description'>
       <div className='rating'>
-        <span className='rating__rating-mark'>{vote_average}</span>
+        <span className='rating__rating-mark'>{voteAverage}</span>
         <span className='rating__max-rating'>/10</span>
-        {showStarsRating(vote_average)}
+        {showStarsRating(voteAverage)}
       </div>
       <div className='right-description__director'>
         <p className='director'>Режиссер</p>
