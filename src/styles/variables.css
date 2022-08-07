@@ -5,9 +5,12 @@ html {
   --grey: #717171;
   --lightGrey: #e0e0e0;
   --white: white;
+  --scrollWidth: 13px;
+  --headerHeight: 55px;
 
   /* z-indexes */
   --modalZIndex: 3;
+  --indexPageInstructionsZIndex: 3;
   --headerZIndex: 2;
   --languageSwitcherZIndex: 2;
   --sliderZIndex: 1;
@@ -19,8 +22,10 @@ html {
 html[data-theme='dark'] {
   /* theme */
   --color: #ffffff;
+  --secondColor: #b9b9b9;
   --backgroundColor: #111111;
   --secondBackgroundColor: #222222;
+  --thirdBackgroundColor: #3d3d3d;
   --scrollBarColor: #222222;
   --activeScrollBar: #333333;
   --headerBackgroundColor: #181818;
@@ -29,8 +34,10 @@ html[data-theme='dark'] {
 html[data-theme='light'] {
   /* theme */
   --color: black;
+  --secondColor: #4b4b4b;
   --backgroundColor: #f4f4f4;
   --secondBackgroundColor: #e7e7e7;
+  --thirdBackgroundColor: #3d3d3d;
   --scrollBarColor: #d6d6d6;
   --activeScrollBar: #adadad;
   --headerBackgroundColor: #ffffff;
