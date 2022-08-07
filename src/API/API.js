@@ -57,7 +57,7 @@ export const searchAPI = {
   async getContent(keyword, currentPage, language = 'en') {
     const response = await themoviedb
       .get(
-        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=false`,
+        `search/multi?api_key=${APIKey}&language=${language}&query=${keyword}&page=${currentPage}&include_adult=false`
       )
       .catch(logError)
     return response.data
@@ -66,7 +66,7 @@ export const searchAPI = {
   async getTopTitles(page, language = 'en') {
     const movieResponse = await themoviedb
       .get(
-        `movie/top_rated?api_key=${APIKey}&language=${language}&page=${page}`,
+        `movie/top_rated?api_key=${APIKey}&language=${language}&page=${page}`
       )
       .catch(logError)
     movieResponse.data.results.forEach((result) => {
@@ -103,16 +103,16 @@ export const titleAPI = {
   },
 
   async getAgeLimit(titleType, titleId) {
-    const response = await themoviedb
+    const { data } = await themoviedb
       .get(`${titleType}/${titleId}/release_dates?api_key=${APIKey}`)
       .catch(logError)
-    return response.data
+    return data
   },
 
   async getCredits(titleType, titleId, language) {
     const response = await themoviedb
       .get(
-        `${titleType}/${titleId}/credits?api_key=${APIKey}&language=${language}`,
+        `${titleType}/${titleId}/credits?api_key=${APIKey}&language=${language}`
       )
       .catch(logError)
     return response.data
@@ -121,7 +121,7 @@ export const titleAPI = {
   async getTrailers(titleType, titleId, language) {
     let response = await themoviedb
       .get(
-        `${titleType}/${titleId}/videos?api_key=${APIKey}&language=${language}`,
+        `${titleType}/${titleId}/videos?api_key=${APIKey}&language=${language}`
       )
       .catch(logError)
     if (response.data.results.length > 0) {
@@ -134,14 +134,12 @@ export const titleAPI = {
     }
   },
 
-  //fix Zобеденить postRating и addToWatchList в один раздел
-
   async postRating(titleType, titleId, value, sessionId) {
     await themoviedb
       .post(
         `${titleType}/${titleId}/rating?api_key=${APIKey}&session_id=${sessionId}`,
         { value },
-        { 'Content-Type': 'application/json;charset=utf-8' },
+        { 'Content-Type': 'application/json;charset=utf-8' }
       )
       .catch(logError)
   },
@@ -157,7 +155,7 @@ export const listsAPI = {
           media_id: titleId,
           watchlist: true,
         },
-        { 'Content-Type': 'application/json;charset=utf-8' },
+        { 'Content-Type': 'application/json;charset=utf-8' }
       )
       .catch(logError)
   },
@@ -165,7 +163,7 @@ export const listsAPI = {
   async getWatchList(accountId, sessionId, language, page) {
     const response = await themoviedb
       .get(
-        `account/${accountId}/watchlist/movies?api_key=${APIKey}&language=${language}&session_id=${sessionId}&page=${page}`,
+        `account/${accountId}/watchlist/movies?api_key=${APIKey}&language=${language}&session_id=${sessionId}&page=${page}`
       )
       .catch(logError)
 
@@ -190,7 +188,7 @@ export const personAPI = {
   async getPersonCredits(personId, language = 'en') {
     const response = await themoviedb
       .get(
-        `person/${personId}/combined_credits?api_key=${APIKey}&language=${language}`,
+        `person/${personId}/combined_credits?api_key=${APIKey}&language=${language}`
       )
       .catch(logError)
     return response.data
