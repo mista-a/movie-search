@@ -1,9 +1,9 @@
-import preloader from './../../../assets/img/preloader.svg'
+import preloaderIcon from './../../../assets/img/preloader.svg'
 
-const Preloader = ({ preloaderClass, preloader__imgClass }) => {
+const Preloader = ({ preloaderClass, preloaderImgClass }) => {
   return (
     <div className={preloaderClass}>
-      <img className={preloader__imgClass} src={preloader} alt='loading...' />
+      <img className={preloaderImgClass} src={preloaderIcon} alt='loading...' />
     </div>
   )
 }
