@@ -3,41 +3,33 @@ import { useParams } from 'react-router-dom'
 import { titleAPI } from '../../../API/API'
 
 const AgeLimit = () => {
-  const { titleType, titleId } = useParams()
-
   const [ageLimit, setAgeLimit] = useState({
     id: 0,
     results: [{ release_dates: [{ certification: '0' }] }],
   })
 
+  const { titleType, titleId } = useParams()
+
   useEffect(() => {
     const getAgeLimit = async () => {
-      if (titleType === 'moive') {
-        const ageLimit = await titleAPI.getAgeLimit(titleId)
-        setAgeLimit(ageLimit)
-      } else if (titleType === 'tv') {
-        const ageLimit = await titleAPI.getAgeLimit(titleId)
-        setAgeLimit(ageLimit)
-      }
+      const ageLimit = await titleAPI.getAgeLimit(titleType, titleId)
+      setAgeLimit(ageLimit)
     }
 
     getAgeLimit()
-  }, [])
+  }, [titleId, titleType])
 
-  if (ageLimit) {
-    return (
-      ageLimit &&
-      ageLimit.results[0].release_dates[0].certification && (
-        <div className='age-limit-container'>
-          <b className='age-limit-container__text'>
-            {ageLimit.results[0].release_dates[0].certification}
-          </b>
-        </div>
-      )
+  if (!ageLimit.id) return <></>
+
+  return (
+    ageLimit.results[0].release_dates[0].certification && (
+      <div className='age-limit-container'>
+        <b className='age-limit-container__text'>
+          {ageLimit.results[0].release_dates[0].certification}+
+        </b>
+      </div>
     )
-  } else {
-    return ''
-  }
+  )
 }
 
 export default AgeLimit
