@@ -20,14 +20,15 @@ const Trailer = () => {
 
   useEffect(() => {
     const getTrailers = async (titleType, titleId, language) => {
-      //   setLoaded(false)
       const trailers = await titleAPI.getTrailers(titleType, titleId, language)
       setTrailers(trailers)
-      //   setLoaded(true)
     }
 
     getTrailers(titleType, titleId, language.language)
   }, [language, titleId, titleType])
+
+  if (!trailers.results.length)
+    return <p className='trailer-undefiend'>Трейлер отсутсвует =(</p>
 
   return (
     <div className='trailer'>
@@ -57,9 +58,6 @@ const Trailer = () => {
           />
         </Modal>
       )}
-      <p className='trailer-button-subscribe'>
-        *трейлер может отсутствовать :(
-      </p>
     </div>
   )
 }
