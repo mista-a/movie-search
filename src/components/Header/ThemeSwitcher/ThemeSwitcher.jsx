@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import moonIcon from '../../../assets/img/moon.png'
 import sunIcon from '../../../assets/img/sun.png'
 import useTheme from '../../../hooks/useTheme'

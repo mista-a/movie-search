@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { listsAPI, titleAPI } from '../../../API/API'
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 import Modal from '../../common/Modal/Modal'
