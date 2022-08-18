@@ -5,6 +5,9 @@ import Preloader from '../../components/common/Preloader/Preloader'
 // import placeholder_image_100x135 from '../../assets/img/placeholder-image-100x135.svg'
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { themoviedb } from '../../links'
+import { useMediaQuery } from 'react-responsive'
+import PersonFacts from '../../components/Person/PersonFacts'
+import PersonTakePart from '../../components/Person/PersonTakePart'
 
 const Person = () => {
   const [loading, setLoading] = useState(false)
@@ -14,11 +17,14 @@ const Person = () => {
       biography: '',
       birthday: '',
       name: '',
+      place_of_birth: '',
     },
     credits: {
       cast: [{ title: '' }],
     },
   })
+
+  const tabletMQ = useMediaQuery({ query: '(max-width: 600px)' })
 
   const { language } = useContext(LanguageContext)
   const { personId } = useParams()
@@ -40,7 +46,30 @@ const Person = () => {
 
   if (loading) return <Preloader />
 
-  return (
+  return tabletMQ ? (
+    <>
+      <div className='person-main-information'>
+        <div className='left-description__poster-about'>
+          <img
+            src={`${themoviedb}/t/p/w600_and_h900_bestv2${personState.describe.profile_path}`}
+            alt=' '
+            className='poster-about__image'
+          />
+        </div>
+        <PersonFacts
+          place_of_birth={personState.describe.place_of_birth}
+          geneder={personState.describe.geneder}
+          birthday={personState.describe.birthday}
+          deathday={personState.describe.deathday}
+        />
+      </div>
+      <div className='center-description'>
+        <h1 className='person-name'>{personState.describe.name}</h1>
+        <p className='description-about'>{personState.describe.biography}</p>
+        <PersonTakePart cast={personState.credits.cast} />
+      </div>
+    </>
+  ) : (
     <div className='about-page'>
       <div className='description-wrapper'>
         <div className='left-description'>
@@ -51,64 +80,17 @@ const Person = () => {
               className='poster-about__image'
             />
           </div>
+          <PersonFacts
+            place_of_birth={personState.describe.place_of_birth}
+            geneder={personState.describe.geneder}
+            birthday={personState.describe.birthday}
+            deathday={personState.describe.deathday}
+          />
         </div>
         <div className='center-description'>
           <h1 className='person-name'>{personState.describe.name}</h1>
-          <div className='person-describe__subtitle'>
-            <span className='person-lifetime'>
-              {personState.describe.birthday?.split('-').join('.')}
-            </span>
-          </div>
-          <div>
-            <h2>Биография</h2>
-            <p className='description-about'>
-              {personState.describe.biography}
-            </p>
-          </div>
-          <div className='person-take-part'>
-            <h2 className='person-take-part__text'>Принимал участие в</h2>
-            <div className='person-titles'>
-              {personState.credits.cast.map(
-                ({
-                  id,
-                  character,
-                  title,
-                  vote_average,
-                  vote_count,
-                  release_date,
-                  media_type,
-                }) =>
-                  title &&
-                  character && (
-                    <Link
-                      className='person-title'
-                      to={`/${media_type}/${id}`}
-                      key={id}
-                    >
-                      <div className='title-header'>
-                        <span className='title-header__name'>{title}</span>
-                        <span className='title-header__date'>
-                          {release_date?.slice(0, 4)}
-                        </span>
-                      </div>
-                      <div className='title-subheader'>
-                        <span className='title-subheader__character'>
-                          {character}
-                        </span>
-                        <div className='title-subheader__rating'>
-                          <span className='title-subheader__rating-mark'>
-                            {vote_average?.toFixed(1)}
-                          </span>
-                          <span className='title-subheader__rating-vote'>
-                            {vote_count}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  )
-              )}
-            </div>
-          </div>
+          <p className='description-about'>{personState.describe.biography}</p>
+          <PersonTakePart cast={personState.credits.cast} />
         </div>
       </div>
     </div>

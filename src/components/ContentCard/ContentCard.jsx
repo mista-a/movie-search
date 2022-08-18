@@ -38,9 +38,9 @@ const ProfileContentCard = forwardRef(
       300
     )
 
-    const showRateModal = () => {
-      setRateModal(true)
-    }
+    // const showRateModal = () => {
+    //   setRateModal(true)
+    // }
 
     useEffect(() => {
       const showDescriptionOnMouseEnter = () => {

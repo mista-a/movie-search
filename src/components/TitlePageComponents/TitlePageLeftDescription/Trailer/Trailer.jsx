@@ -27,8 +27,9 @@ const Trailer = () => {
     getTrailers(titleType, titleId, language.language)
   }, [language, titleId, titleType])
 
-  if (!trailers.results.length)
+  if (!trailers.results.length) {
     return <p className='trailer-undefiend'>Трейлер отсутсвует =(</p>
+  }
 
   return (
     <div className='trailer'>

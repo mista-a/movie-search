@@ -39,17 +39,19 @@ const ContentDescription = ({
   return (
     showDescription && (
       <div
-        className={
-          hideDescription.hideAnimation
-            ? 'content-description content-description_hide'
-            : 'content-description content-description_show'
-        }
+        className={`content-description
+          ${
+            hideDescription.hideAnimation
+              ? 'content-description_hide'
+              : 'content-description_show'
+          }
+            `}
       >
-        <img
+        {/* <img
           className='content-description__arrow'
           src={contentDescriptionArrow}
           alt=''
-        />
+        /> */}
         <div className='content-description__description'>
           <h4 className='content-description__name'>{name}</h4>
           <p className='content-description__release-date'>{releaseDate}</p>

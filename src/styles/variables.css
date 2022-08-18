@@ -22,6 +22,7 @@ html {
 html[data-theme='dark'] {
   /* theme */
   --color: #ffffff;
+  --invertColor: black;
   --secondColor: #b9b9b9;
   --backgroundColor: #111111;
   --secondBackgroundColor: #222222;
@@ -34,10 +35,11 @@ html[data-theme='dark'] {
 html[data-theme='light'] {
   /* theme */
   --color: black;
+  --invertColor: #ffffff;
   --secondColor: #4b4b4b;
   --backgroundColor: #f4f4f4;
   --secondBackgroundColor: #e7e7e7;
-  --thirdBackgroundColor: #3d3d3d;
+  --thirdBackgroundColor: #a1a1a1;
   --scrollBarColor: #d6d6d6;
   --activeScrollBar: #adadad;
   --headerBackgroundColor: #ffffff;
